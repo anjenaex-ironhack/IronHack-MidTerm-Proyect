@@ -26,7 +26,7 @@ public class Address {
     public Address(String address, int postalCode, com.ironhack.Midtem.Project.enums.City city, Country country) {
         this.address = address;
         this.postalCode = postalCode;
-        City = city;
+        this.City = city;
         this.country = country;
     }
 
