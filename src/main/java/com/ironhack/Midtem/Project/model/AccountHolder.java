@@ -1,0 +1,45 @@
+package com.ironhack.Midtem.Project.model;
+
+import com.ironhack.Midtem.Project.enums.Role;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+@PrimaryKeyJoinColumn(name = "id")
+class AccountHolder extends User {
+
+    private LocalDate birth;
+    private String mailingAddress;
+
+
+    public AccountHolder() {
+    }
+
+    public AccountHolder(LocalDate birth, String mailingAddress) {
+        this.birth = birth;
+        this.mailingAddress = mailingAddress;
+    }
+
+    public AccountHolder(String name, Role role, LocalDate birth, String mailingAddress) {
+        super(name, role);
+        this.birth = birth;
+        this.mailingAddress = mailingAddress;
+    }
+
+    public LocalDate getBirth() {
+        return birth;
+    }
+
+    public void setBirth(LocalDate birth) {
+        this.birth = birth;
+    }
+
+    public String getMailingAddress() {
+        return mailingAddress;
+    }
+
+    public void setMailingAddress(String mailingAddress) {
+        this.mailingAddress = mailingAddress;
+    }
+}
