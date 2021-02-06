@@ -90,6 +90,17 @@ primary key (id),
 foreign key (id) references user(id)
 );
 
+create table money (
+id bigint,
+USD varchar(255),
+DEFAULT_ROUNDING varchar(255),
+currency varchar(255),
+amoung decimal,
+account_id bigint,
+PRIMARY KEY(id),
+FOREIGN KEY(account_id) REFERENCES account (id) 
+);
+
 
 
 
