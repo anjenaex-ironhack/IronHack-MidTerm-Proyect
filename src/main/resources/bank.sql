@@ -27,9 +27,11 @@ foreign key (id) references user(id)
 create table account_holder (
 id bigint,
 birth date,
+address bigint,
 mailingAdress varchar(255),
 primary key (id),
-foreign key (id) references user(id)
+foreign key (id) references user(id),
+foreign key (address) references address(id)
 );
 
 create table third_party (
@@ -71,19 +73,23 @@ id bigint,
 secret_key varchar (255),
 minimum_balance bigint,
 monthly_maintenance_fee bigint,
+credit_card bigint,
 status varchar(255),
 primary key (id),
 foreign key (id) references account(id),
 foreign key (minimum_balance) references money(id),
-foreign key (monthly_maintenance_fee) references money(id)
+foreign key (monthly_maintenance_fee) references money(id),
+foreign key (credit_card) references credit_card(id)
 );
 
 create table student_checking (
 id bigint,
 secret_key varchar (255),
 status varchar(255),
+credit_card bigint,
 primary key (id),
-foreign key (id) references account(id)
+foreign key (id) references account(id),
+foreign key (credit_card) references credit_card(id)
 );
 
 create table saving (
@@ -91,20 +97,11 @@ id bigint,
 secret_key varchar (255),
 interest_rate decimal,
 status varchar(255),
+credit_card bigint,
 primary key (id),
-foreign key (id) references account(id)
+foreign key (id) references account(id),
+foreign key (credit_card) references credit_card(id)
 );
-
-
-
-
--- create table account_money (
--- account_id bigint,
--- money_id bigint,
--- primary key(account_id, money_id),
--- foreign key(account_id) references account(id),
--- foreign key(money_id) references money(id)
--- );
 
 create table account_account_holder (
 account_id bigint,
