@@ -19,8 +19,8 @@ public class Money {
     private final Currency currency;
     private BigDecimal amount;
 
-//    @OneToOne(mappedBy = "balance")
-//    private Account account;
+    @OneToOne(mappedBy = "balance")
+    private Account account;
 
     /**
      * Class constructor specifying amount, currency, and rounding
