@@ -14,12 +14,12 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-//  Muchas cuentas para un usuario
+//  Many accounts for an user
     @ManyToOne
     @JoinColumn(name = "primary_owner")
     private AccountHolder primaryOwner;
 
-//  Muchas cuentas para un segundo usuario opcional
+//  Many accounts for a secundary user
     @ManyToOne
     @JoinColumn(name = "secondary_owner")
     private AccountHolder secondaryOwner;

@@ -22,6 +22,15 @@ public class Money {
     @OneToOne(mappedBy = "balance")
     private Account account;
 
+    @OneToOne(mappedBy = "minimumBalance")
+    private Checking minimumBalance;
+
+    @OneToOne(mappedBy = "monthlyMaintenanceFee")
+    private Checking monthlyMaintenanceFee;
+
+    @OneToOne(mappedBy = "creditLimit")
+    private CreditCard creditLimit;
+
     /**
      * Class constructor specifying amount, currency, and rounding
      **/
