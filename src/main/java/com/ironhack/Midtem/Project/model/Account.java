@@ -10,6 +10,15 @@ public class Account {
     @Transient
     private static final Money PENALTY_FEE= new Money(new BigDecimal("40"));
 
+//    id BIGINT,
+//    balance bigint,
+//    primary_owner bigint,
+//    secondary_owner bigint,
+//    PRIMARY KEY(id),
+//    foreign key(balance) references money(id),
+//    foreign key(primary_owner) references account_holder(id),
+//    foreign key(secondary_owner) references account_holder(id)
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -19,7 +28,7 @@ public class Account {
     @JoinColumn(name = "primary_owner")
     private AccountHolder primaryOwner;
 
-//  Many accounts for a secundary user
+//  Many accounts for a secondary user
     @ManyToOne
     @JoinColumn(name = "secondary_owner")
     private AccountHolder secondaryOwner;
