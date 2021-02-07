@@ -8,18 +8,18 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
-public class thirdParty extends User{
+public class ThirdParty extends User{
 
     private String hashedKey;
 
-    public thirdParty() {
+    public ThirdParty() {
     }
 
-    public thirdParty(String hashedKey) {
+    public ThirdParty(String hashedKey) {
         this.hashedKey = hashedKey;
     }
 
-    public thirdParty(String name, Role role, String hashedKey) {
+    public ThirdParty(String name, Role role, String hashedKey) {
         super(name, role);
         this.hashedKey = hashedKey;
     }

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
-class AccountHolder extends User {
+public class AccountHolder extends User {
 
     private LocalDate birth;
     private String mailingAddress;
