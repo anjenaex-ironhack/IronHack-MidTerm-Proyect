@@ -1,16 +1,24 @@
-package com.ironhack.Midtem.Project.utils;
+package com.ironhack.Midtem.Project.model;
 
+import javax.persistence.*;
 import java.math.RoundingMode;
 import java.math.BigDecimal;
 import java.util.Currency;
 
+@Entity
 public class Money {
 
     private static final Currency USD = Currency.getInstance("USD");
     private static final RoundingMode DEFAULT_ROUNDING = RoundingMode.HALF_EVEN;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private final Currency currency;
     private BigDecimal amount;
+
+    @OneToOne(mappedBy = "balance")
+    private Account account;
 
     /**
      * Class constructor specifying amount, currency, and rounding

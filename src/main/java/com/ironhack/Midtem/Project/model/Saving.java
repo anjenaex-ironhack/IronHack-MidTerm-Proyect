@@ -1,7 +1,6 @@
 package com.ironhack.Midtem.Project.model;
 
 import com.ironhack.Midtem.Project.enums.Status;
-import com.ironhack.Midtem.Project.utils.Money;
 
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;

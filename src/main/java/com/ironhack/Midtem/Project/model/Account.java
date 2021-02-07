@@ -1,22 +1,23 @@
 package com.ironhack.Midtem.Project.model;
 
-import com.ironhack.Midtem.Project.utils.Money;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Entity
 public class Account {
 
+    private static final Money PENALTY_FEE= new Money(new BigDecimal("40"));
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private Money balance;
     private AccountHolder primaryOwner;
     private Optional<AccountHolder> secondaryOwner;
+
+    @OneToOne
+    @JoinColumn(name = "balance")
+    private Money balance;
 
     public Account() {
     }

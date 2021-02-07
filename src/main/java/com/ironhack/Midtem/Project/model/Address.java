@@ -3,10 +3,8 @@ package com.ironhack.Midtem.Project.model;
 import com.ironhack.Midtem.Project.enums.City;
 import com.ironhack.Midtem.Project.enums.Country;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Address {
@@ -19,6 +17,14 @@ public class Address {
     //My idea here should be, in the frontend first choose a Country in a menu, and then get a new list of cities.
     private City City;
     private Country country;
+
+    @ManyToMany
+    @JoinTable(
+            name = "account_holder_address",
+            joinColumns = { @JoinColumn(name = "account_holder_id") },
+            inverseJoinColumns = { @JoinColumn(name = "address_id") }
+    )
+    private List<AccountHolder> accountHolders;
 
     public Address() {
     }

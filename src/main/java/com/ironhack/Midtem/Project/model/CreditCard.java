@@ -1,7 +1,5 @@
 package com.ironhack.Midtem.Project.model;
 
-import com.ironhack.Midtem.Project.utils.Money;
-
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import java.math.BigDecimal;
