@@ -15,8 +15,8 @@ public class Account {
     private AccountHolder primaryOwner;
     private Optional<AccountHolder> secondaryOwner;
 
-    @OneToOne
-    @JoinColumn(name = "balance")
+//    @OneToOne
+//    @JoinColumn(name = "balance")
     private Money balance;
 
     public Account() {

@@ -4,6 +4,7 @@ import com.ironhack.Midtem.Project.enums.Role;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
@@ -12,6 +13,8 @@ class AccountHolder extends User {
     private LocalDate birth;
     private String mailingAddress;
 
+    @ManyToMany(mappedBy = "accountHolderList")
+    private List<Address> addressList;
 
     public AccountHolder() {
     }

@@ -8,7 +8,9 @@ import java.util.Currency;
 @Entity
 public class Money {
 
+    @Transient
     private static final Currency USD = Currency.getInstance("USD");
+    @Transient
     private static final RoundingMode DEFAULT_ROUNDING = RoundingMode.HALF_EVEN;
 
     @Id
@@ -17,8 +19,8 @@ public class Money {
     private final Currency currency;
     private BigDecimal amount;
 
-    @OneToOne(mappedBy = "balance")
-    private Account account;
+//    @OneToOne(mappedBy = "balance")
+//    private Account account;
 
     /**
      * Class constructor specifying amount, currency, and rounding

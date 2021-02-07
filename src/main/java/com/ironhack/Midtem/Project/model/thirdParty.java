@@ -12,6 +12,9 @@ public class thirdParty extends User{
 
     private String hashedKey;
 
+    public thirdParty() {
+    }
+
     public thirdParty(String hashedKey) {
         this.hashedKey = hashedKey;
     }

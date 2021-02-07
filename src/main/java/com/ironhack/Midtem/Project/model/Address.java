@@ -21,10 +21,10 @@ public class Address {
     @ManyToMany
     @JoinTable(
             name = "account_holder_address",
-            joinColumns = { @JoinColumn(name = "account_holder_id") },
-            inverseJoinColumns = { @JoinColumn(name = "address_id") }
+            joinColumns = { @JoinColumn(name = "address_id") },
+            inverseJoinColumns = { @JoinColumn(name = "account_holder_id") }
     )
-    private List<AccountHolder> accountHolders;
+    private List<AccountHolder> accountHolderList;
 
     public Address() {
     }
