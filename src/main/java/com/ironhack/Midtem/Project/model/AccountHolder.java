@@ -16,13 +16,13 @@ class AccountHolder extends User {
     @ManyToMany(mappedBy = "accountHolderList")
     private List<Address> addressList;
 
-//    Un AccountHolder para muchas cuentas
-    @OneToMany(mappedBy = "primaryOwner")
-    private List<Account> primaryAccountList;
-
-//    Un Account holder secudario, para muchas cuentas
-    @OneToMany(mappedBy = "secondaryOwner")
-    private List<Account> secondaryAccountList;
+////    Un AccountHolder para muchas cuentas
+//    @OneToMany(mappedBy = "primaryOwner")
+//    private List<Account> primaryAccountList;
+//
+////    Un Account holder secudario, para muchas cuentas
+//    @OneToMany(mappedBy = "secondaryOwner")
+//    private List<Account> secondaryAccountList;
 
     public AccountHolder() {
     }

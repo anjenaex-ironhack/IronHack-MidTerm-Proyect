@@ -2,18 +2,17 @@ package com.ironhack.Midtem.Project.model;
 
 import com.ironhack.Midtem.Project.enums.Role;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     public User() {

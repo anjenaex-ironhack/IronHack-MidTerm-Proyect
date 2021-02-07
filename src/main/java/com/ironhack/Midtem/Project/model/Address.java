@@ -15,7 +15,9 @@ public class Address {
     private String address;
     private int postalCode;
     //My idea here should be, in the frontend first choose a Country in a menu, and then get a new list of cities.
+    @Enumerated(EnumType.STRING)
     private City City;
+    @Enumerated(EnumType.STRING)
     private Country country;
 
     @ManyToMany
