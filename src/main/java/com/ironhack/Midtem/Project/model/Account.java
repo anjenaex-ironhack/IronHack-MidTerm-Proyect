@@ -5,19 +5,11 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Account {
 
     @Transient
     private static final Money PENALTY_FEE= new Money(new BigDecimal("40"));
-
-//    id BIGINT,
-//    balance bigint,
-//    primary_owner bigint,
-//    secondary_owner bigint,
-//    PRIMARY KEY(id),
-//    foreign key(balance) references money(id),
-//    foreign key(primary_owner) references account_holder(id),
-//    foreign key(secondary_owner) references account_holder(id)
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
