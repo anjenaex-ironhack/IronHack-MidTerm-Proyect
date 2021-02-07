@@ -2,121 +2,117 @@ DROP SCHEMA bank;
 CREATE SCHEMA bank;
 USE bank;
 
-create table address (
-id bigint,
-address varchar(255),
-postalcode int,
-city varchar (255),
-country varchar(255),
-primary key (id)
+CREATE TABLE address (
+id BIGINT,
+address VARCHAR(255),
+postal_code INT,
+city VARCHAR(255),
+country VARCHAR(255),
+PRIMARY KEY (id)
 );
 
-create table user (
-id bigint,
-name varchar(255),
-role varchar(255),
-primary key (id)
+CREATE TABLE user (
+id BIGINT,
+name VARCHAR(255),
+role VARCHAR(255),
+PRIMARY KEY (id)
 );
 
-create table admin (
-id bigint,
-primary key (id),
-foreign key (id) references user(id)
+CREATE TABLE admin (
+id BIGINT,
+PRIMARY KEY (id),
+FOREIGN KEY (id) REFERENCES user(id)
 );
 
-create table account_holder (
-id bigint,
-birth date,
-address bigint,
-mailingAdress varchar(255),
-primary key (id),
-foreign key (id) references user(id),
-foreign key (address) references address(id)
+CREATE TABLE account_holder (
+id BIGINT,
+birth DATE,
+address BIGINT,
+mailing_address VARCHAR(255),
+PRIMARY KEY (id),
+FOREIGN KEY (id) REFERENCES user(id),
+FOREIGN KEY (address) REFERENCES address(id)
+);
+drop table account_holder;
+
+CREATE TABLE third_party (
+id BIGINT,
+hashed_key VARCHAR(255),
+PRIMARY KEY (id),
+FOREIGN KEY (id) REFERENCES user(id)
 );
 
-create table third_party (
-id bigint,
-hashed_key varchar(255),
-primary key (id),
-foreign key (id) references user(id)
-);
-
-create table money (
-id bigint,
-currency varchar(255),
-amoung decimal,
+CREATE TABLE money (
+id BIGINT,
+currency VARCHAR(255),
+amount DECIMAL,
 PRIMARY KEY(id)
 );
+drop table money;
 
 CREATE TABLE account (
 id BIGINT,
-balance bigint,
-primary_owner bigint,
-secondary_owner bigint,
+balance BIGINT,
+primary_owner BIGINT,
+secondary_owner BIGINT,
 PRIMARY KEY(id),
-foreign key(balance) references money(id),
-foreign key(primary_owner) references account_holder(id),
-foreign key(secondary_owner) references account_holder(id)
+FOREIGN KEY(balance) REFERENCES money(id),
+FOREIGN KEY(primary_owner) REFERENCES account_holder(id),
+FOREIGN KEY(secondary_owner) REFERENCES account_holder(id)
+);
+drop table account;
+
+CREATE TABLE credit_card (
+id BIGINT,
+credit_limit BIGINT,
+interest_rate DECIMAL,
+PRIMARY KEY (id),
+FOREIGN KEY (id) REFERENCES account(id),
+FOREIGN KEY (credit_limit) REFERENCES money(id)
 );
 
-create table creditCard (
-id bigint,
-credit_limit bigint,
-interest_rate decimal,
-primary key (id),
-foreign key (id) references account(id),
-foreign key (credit_limit) references money(id)
+CREATE TABLE checking (
+id BIGINT,
+secret_key VARCHAR (255),
+minimum_balance BIGINT,
+monthly_maintenance_fee BIGINT,
+credit_card BIGINT,
+status VARCHAR(255),
+PRIMARY KEY (id),
+FOREIGN KEY (id) REFERENCES account(id),
+FOREIGN KEY (minimum_balance) REFERENCES money(id),
+FOREIGN KEY (monthly_maintenance_fee) REFERENCES money(id),
+FOREIGN KEY (credit_card) REFERENCES credit_card(id)
 );
 
-create table checking (
-id bigint,
-secret_key varchar (255),
-minimum_balance bigint,
-monthly_maintenance_fee bigint,
-credit_card bigint,
-status varchar(255),
-primary key (id),
-foreign key (id) references account(id),
-foreign key (minimum_balance) references money(id),
-foreign key (monthly_maintenance_fee) references money(id),
-foreign key (credit_card) references credit_card(id)
+CREATE TABLE student_checking (
+id BIGINT,
+secret_key VARCHAR (255),
+status VARCHAR(255),
+credit_card BIGINT,
+PRIMARY KEY (id),
+FOREIGN KEY (id) REFERENCES account(id),
+FOREIGN KEY (credit_card) REFERENCES credit_card(id)
 );
 
-create table student_checking (
-id bigint,
-secret_key varchar (255),
-status varchar(255),
-credit_card bigint,
-primary key (id),
-foreign key (id) references account(id),
-foreign key (credit_card) references credit_card(id)
+CREATE TABLE saving (
+id BIGINT,
+secret_key VARCHAR (255),
+interest_rate DECIMAL,
+status VARCHAR(255),
+credit_card BIGINT,
+PRIMARY KEY (id),
+FOREIGN KEY (id) REFERENCES account(id),
+FOREIGN KEY (credit_card) REFERENCES credit_card(id)
 );
 
-create table saving (
-id bigint,
-secret_key varchar (255),
-interest_rate decimal,
-status varchar(255),
-credit_card bigint,
-primary key (id),
-foreign key (id) references account(id),
-foreign key (credit_card) references credit_card(id)
-);
 
-create table account_account_holder (
-account_id bigint,
-account_holder_id bigint,
-primary key(account_id, account_holder_id),
-foreign key(account_id) references account(id),
-foreign key(account_holder_id) references account_holder(id)
-);
-
-create table account_holder_address (
-account_holder_id bigint,
-address_id bigint,
-primary key(account_holder_id, address_id),
-foreign key(account_holder_id) references account_holder(id),
-foreign key(address_id) references address(id)
+CREATE TABLE account_holder_address (
+account_holder_id BIGINT,
+address_id BIGINT,
+PRIMARY KEY(account_holder_id, address_id),
+FOREIGN KEY(account_holder_id) REFERENCES account_holder(id),
+FOREIGN KEY(address_id) REFERENCES address(id)
 );
 
 
