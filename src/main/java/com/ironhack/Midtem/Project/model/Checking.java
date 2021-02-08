@@ -27,5 +27,43 @@ public class Checking extends Account{
     public Checking() {
     }
 
+    public Checking(AccountHolder primaryOwner, AccountHolder secondaryOwner, Money balance, String secretKey, Money minimumBalance, Money monthlyMaintenanceFee, Status status) {
+        super(primaryOwner, secondaryOwner, balance);
+        this.secretKey = secretKey;
+        this.minimumBalance = minimumBalance;
+        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
+        this.status = status;
+    }
 
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public Money getMinimumBalance() {
+        return minimumBalance;
+    }
+
+    public void setMinimumBalance(Money minimumBalance) {
+        this.minimumBalance = minimumBalance;
+    }
+
+    public Money getMonthlyMaintenanceFee() {
+        return monthlyMaintenanceFee;
+    }
+
+    public void setMonthlyMaintenanceFee(Money monthlyMaintenanceFee) {
+        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }

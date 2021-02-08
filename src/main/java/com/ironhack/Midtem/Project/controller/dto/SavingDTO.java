@@ -19,7 +19,44 @@ public class SavingDTO {
     private BigDecimal interestRate = new BigDecimal("0.0025");
     private Status status;
 
+    public BigDecimal getBalanceAmount() {
+        return balanceAmount;
+    }
 
+    public void setBalanceAmount(BigDecimal balanceAmount) {
+        this.balanceAmount = balanceAmount;
+    }
 
+    public String getBalanceCurrency() {
+        return balanceCurrency;
+    }
+
+    public void setBalanceCurrency(String balanceCurrency) {
+        this.balanceCurrency = balanceCurrency;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public BigDecimal getInterestRate() {
+        return interestRate;
+    }
+
+    public void setInterestRate(BigDecimal interestRate) {
+        this.interestRate = interestRate;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }
 

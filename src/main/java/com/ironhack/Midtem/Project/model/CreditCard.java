@@ -21,4 +21,25 @@ public class CreditCard extends Account {
     public CreditCard() {
     }
 
+    public CreditCard(AccountHolder primaryOwner, AccountHolder secondaryOwner, Money balance, Money creditLimit, BigDecimal interestRate) {
+        super(primaryOwner, secondaryOwner, balance);
+        this.creditLimit = creditLimit;
+        this.interestRate = interestRate;
+    }
+
+    public Money getCreditLimit() {
+        return creditLimit;
+    }
+
+    public void setCreditLimit(Money creditLimit) {
+        this.creditLimit = creditLimit;
+    }
+
+    public BigDecimal getInterestRate() {
+        return interestRate;
+    }
+
+    public void setInterestRate(BigDecimal interestRate) {
+        this.interestRate = interestRate;
+    }
 }

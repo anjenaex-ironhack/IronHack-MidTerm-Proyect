@@ -4,11 +4,17 @@ import com.ironhack.Midtem.Project.enums.Status;
 
 import com.ironhack.Midtem.Project.Utils.Money;
 
+import javax.validation.constraints.DecimalMin;
+import java.math.BigDecimal;
+
 public class CheckingDTO {
 
     private String secretKey;
-    private Money minimumBalance;
-    private Money monthlyMaintenanceFee;
+    @DecimalMin(value = "250")
+    private BigDecimal minimumBalanceAmount;
+    private String minimumBalanceCurrency;
+    private BigDecimal monthlyMaintenanceFeeAmount = new BigDecimal("12");
+    private String monthlyMaintenanceFeeCurrency;
     private Status status;
 
 
@@ -20,20 +26,36 @@ public class CheckingDTO {
         this.secretKey = secretKey;
     }
 
-    public Money getMinimumBalance() {
-        return minimumBalance;
+    public BigDecimal getMinimumBalanceAmount() {
+        return minimumBalanceAmount;
     }
 
-    public void setMinimumBalance(Money minimumBalance) {
-        this.minimumBalance = minimumBalance;
+    public void setMinimumBalanceAmount(BigDecimal minimumBalanceAmount) {
+        this.minimumBalanceAmount = minimumBalanceAmount;
     }
 
-    public Money getMonthlyMaintenanceFee() {
-        return monthlyMaintenanceFee;
+    public String getMinimumBalanceCurrency() {
+        return minimumBalanceCurrency;
     }
 
-    public void setMonthlyMaintenanceFee(Money monthlyMaintenanceFee) {
-        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
+    public void setMinimumBalanceCurrency(String minimumBalanceCurrency) {
+        this.minimumBalanceCurrency = minimumBalanceCurrency;
+    }
+
+    public BigDecimal getMonthlyMaintenanceFeeAmount() {
+        return monthlyMaintenanceFeeAmount;
+    }
+
+    public void setMonthlyMaintenanceFeeAmount(BigDecimal monthlyMaintenanceFeeAmount) {
+        this.monthlyMaintenanceFeeAmount = monthlyMaintenanceFeeAmount;
+    }
+
+    public String getMonthlyMaintenanceFeeCurrency() {
+        return monthlyMaintenanceFeeCurrency;
+    }
+
+    public void setMonthlyMaintenanceFeeCurrency(String monthlyMaintenanceFeeCurrency) {
+        this.monthlyMaintenanceFeeCurrency = monthlyMaintenanceFeeCurrency;
     }
 
     public Status getStatus() {
@@ -43,5 +65,4 @@ public class CheckingDTO {
     public void setStatus(Status status) {
         this.status = status;
     }
-
 }
