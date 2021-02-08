@@ -1,35 +1,18 @@
-package com.ironhack.Midtem.Project.model;
+package com.ironhack.Midtem.Project.Utils;
 
 import javax.persistence.*;
 import java.math.RoundingMode;
 import java.math.BigDecimal;
 import java.util.Currency;
 
-@Entity
+@Embeddable
 public class Money {
 
-    @Transient
     private static final Currency USD = Currency.getInstance("USD");
-    @Transient
     private static final RoundingMode DEFAULT_ROUNDING = RoundingMode.HALF_EVEN;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
     private final Currency currency;
     private BigDecimal amount;
-
-    @OneToOne(mappedBy = "balance")
-    private Account account;
-
-    @OneToOne(mappedBy = "minimumBalance")
-    private Checking minimumBalance;
-
-    @OneToOne(mappedBy = "monthlyMaintenanceFee")
-    private Checking monthlyMaintenanceFee;
-
-    @OneToOne(mappedBy = "creditLimit")
-    private CreditCard creditLimit;
 
     /**
      * Class constructor specifying amount, currency, and rounding

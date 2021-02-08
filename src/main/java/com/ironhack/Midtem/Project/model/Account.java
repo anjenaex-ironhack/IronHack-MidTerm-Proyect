@@ -1,5 +1,7 @@
 package com.ironhack.Midtem.Project.model;
 
+import com.ironhack.Midtem.Project.Utils.Money;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -14,7 +16,10 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    @Embedded
+    @AttributeOverrides({@AttributeOverride(name = "amount", column = @Column(name = "balance_amount")),
+            @AttributeOverride(name = "currency", column = @Column (name = "balance_currency"))})
+    private Money balance;
 //  Many accounts for an user
     @ManyToOne
     @JoinColumn(name = "primary_owner")
@@ -23,11 +28,9 @@ public class Account {
 //  Many accounts for a secondary user
     @ManyToOne
     @JoinColumn(name = "secondary_owner")
-    private AccountHolder secondaryOwner;
+    private AccountHolder secondaryOwner = null;
 
-    @OneToOne
-    @JoinColumn(name = "balance")
-    private Money balance;
+
 
     public Account() {
     }

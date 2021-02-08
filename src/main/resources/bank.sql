@@ -33,7 +33,7 @@ PRIMARY KEY (id),
 FOREIGN KEY (id) REFERENCES user(id),
 FOREIGN KEY (address) REFERENCES address(id)
 );
-drop table account_holder;
+
 
 CREATE TABLE third_party (
 id BIGINT,
@@ -42,57 +42,46 @@ PRIMARY KEY (id),
 FOREIGN KEY (id) REFERENCES user(id)
 );
 
-CREATE TABLE money (
-id BIGINT,
-currency VARCHAR(255),
-amount DECIMAL,
-PRIMARY KEY(id)
-);
-drop table money;
 
 CREATE TABLE account (
 id BIGINT,
-balance BIGINT,
+balance_amount decimal,
+balance_currency VARCHAR(255),
 primary_owner BIGINT,
 secondary_owner BIGINT,
 PRIMARY KEY(id),
-FOREIGN KEY(balance) REFERENCES money(id),
 FOREIGN KEY(primary_owner) REFERENCES account_holder(id),
 FOREIGN KEY(secondary_owner) REFERENCES account_holder(id)
 );
-drop table account;
+
 
 CREATE TABLE credit_card (
 id BIGINT,
-credit_limit BIGINT,
+credit_limit_amount decimal,
+credit_limit_currency varchar(255),
 interest_rate DECIMAL,
 PRIMARY KEY (id),
-FOREIGN KEY (id) REFERENCES account(id),
-FOREIGN KEY (credit_limit) REFERENCES money(id)
+FOREIGN KEY (id) REFERENCES account(id)
 );
 
 CREATE TABLE checking (
 id BIGINT,
 secret_key VARCHAR (255),
-minimum_balance BIGINT,
-monthly_maintenance_fee BIGINT,
-credit_card BIGINT,
+minimum_balance_amount decimal,
+minimum_balance_currency varchar(255),
+monthly_maintenance_fee_amount decimal,
+monthly_maintenance_fee_currency varchar(255),
 status VARCHAR(255),
 PRIMARY KEY (id),
-FOREIGN KEY (id) REFERENCES account(id),
-FOREIGN KEY (minimum_balance) REFERENCES money(id),
-FOREIGN KEY (monthly_maintenance_fee) REFERENCES money(id),
-FOREIGN KEY (credit_card) REFERENCES credit_card(id)
+FOREIGN KEY (id) REFERENCES account(id)
 );
 
 CREATE TABLE student_checking (
 id BIGINT,
 secret_key VARCHAR (255),
 status VARCHAR(255),
-credit_card BIGINT,
 PRIMARY KEY (id),
-FOREIGN KEY (id) REFERENCES account(id),
-FOREIGN KEY (credit_card) REFERENCES credit_card(id)
+FOREIGN KEY (id) REFERENCES account(id)
 );
 
 CREATE TABLE saving (
@@ -100,10 +89,8 @@ id BIGINT,
 secret_key VARCHAR (255),
 interest_rate DECIMAL,
 status VARCHAR(255),
-credit_card BIGINT,
 PRIMARY KEY (id),
-FOREIGN KEY (id) REFERENCES account(id),
-FOREIGN KEY (credit_card) REFERENCES credit_card(id)
+FOREIGN KEY (id) REFERENCES account(id)
 );
 
 
