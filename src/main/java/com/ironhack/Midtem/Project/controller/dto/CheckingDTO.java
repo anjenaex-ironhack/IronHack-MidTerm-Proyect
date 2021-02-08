@@ -3,18 +3,20 @@ package com.ironhack.Midtem.Project.controller.dto;
 import com.ironhack.Midtem.Project.enums.Status;
 
 import com.ironhack.Midtem.Project.Utils.Money;
+import com.ironhack.Midtem.Project.model.Account;
 
 import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
+import java.util.Currency;
 
-public class CheckingDTO {
+public class CheckingDTO extends AccountDTO {
 
     private String secretKey;
     @DecimalMin(value = "250")
     private BigDecimal minimumBalanceAmount;
-    private String minimumBalanceCurrency;
+    private Currency minimumBalanceCurrency;
     private BigDecimal monthlyMaintenanceFeeAmount = new BigDecimal("12");
-    private String monthlyMaintenanceFeeCurrency;
+    private Currency monthlyMaintenanceFeeCurrency;
     private Status status;
 
 
@@ -34,11 +36,11 @@ public class CheckingDTO {
         this.minimumBalanceAmount = minimumBalanceAmount;
     }
 
-    public String getMinimumBalanceCurrency() {
+    public Currency getMinimumBalanceCurrency() {
         return minimumBalanceCurrency;
     }
 
-    public void setMinimumBalanceCurrency(String minimumBalanceCurrency) {
+    public void setMinimumBalanceCurrency(Currency minimumBalanceCurrency) {
         this.minimumBalanceCurrency = minimumBalanceCurrency;
     }
 
@@ -50,11 +52,11 @@ public class CheckingDTO {
         this.monthlyMaintenanceFeeAmount = monthlyMaintenanceFeeAmount;
     }
 
-    public String getMonthlyMaintenanceFeeCurrency() {
+    public Currency getMonthlyMaintenanceFeeCurrency() {
         return monthlyMaintenanceFeeCurrency;
     }
 
-    public void setMonthlyMaintenanceFeeCurrency(String monthlyMaintenanceFeeCurrency) {
+    public void setMonthlyMaintenanceFeeCurrency(Currency monthlyMaintenanceFeeCurrency) {
         this.monthlyMaintenanceFeeCurrency = monthlyMaintenanceFeeCurrency;
     }
 

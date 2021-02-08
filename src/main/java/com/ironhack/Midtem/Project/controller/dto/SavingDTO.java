@@ -2,6 +2,7 @@ package com.ironhack.Midtem.Project.controller.dto;
 
 import com.ironhack.Midtem.Project.Utils.Money;
 import com.ironhack.Midtem.Project.enums.Status;
+import com.ironhack.Midtem.Project.model.Account;
 
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 
-public class SavingDTO {
+public class SavingDTO extends AccountDTO {
 
     @DecimalMin(value = "100", message = "the minimum balance is 100")
     private BigDecimal balanceAmount = new BigDecimal(1000);

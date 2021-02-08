@@ -27,6 +27,8 @@ public class Checking extends Account{
     public Checking() {
     }
 
+
+
     public Checking(AccountHolder primaryOwner, AccountHolder secondaryOwner, Money balance, String secretKey, Money minimumBalance, Money monthlyMaintenanceFee, Status status) {
         super(primaryOwner, secondaryOwner, balance);
         this.secretKey = secretKey;
