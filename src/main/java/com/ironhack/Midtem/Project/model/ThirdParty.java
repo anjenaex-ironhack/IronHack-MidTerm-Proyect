@@ -1,7 +1,5 @@
 package com.ironhack.Midtem.Project.model;
 
-import com.ironhack.Midtem.Project.enums.Role;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -19,8 +17,8 @@ public class ThirdParty extends User{
         this.hashedKey = hashedKey;
     }
 
-    public ThirdParty(String name, Role role, String hashedKey) {
-        super(name, role);
+    public ThirdParty(String name, String hashedKey) {
+        super(name);
         this.hashedKey = hashedKey;
     }
 

@@ -17,6 +17,20 @@ public class AccountDTO {
     private AccountHolder primaryOwner;
     private AccountHolder secondaryOwner = null;
 
+    public AccountDTO() {
+    }
+
+    public AccountDTO(Money balance, @NotEmpty AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+        this.balance = balance;
+        this.primaryOwner = primaryOwner;
+        this.secondaryOwner = secondaryOwner;
+    }
+
+    public AccountDTO(Money balance, @NotEmpty AccountHolder primaryOwner) {
+        this.balance = balance;
+        this.primaryOwner = primaryOwner;
+    }
+
     public static Money getPenaltyFee() {
         return PENALTY_FEE;
     }

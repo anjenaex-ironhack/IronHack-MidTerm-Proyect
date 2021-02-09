@@ -1,6 +1,7 @@
 package com.ironhack.Midtem.Project.controller.dto;
 
-import com.ironhack.Midtem.Project.enums.Role;
+
+import com.ironhack.Midtem.Project.model.Role;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;

@@ -1,7 +1,5 @@
 package com.ironhack.Midtem.Project.model;
 
-import com.ironhack.Midtem.Project.enums.Role;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -32,8 +30,7 @@ public class AccountHolder extends User {
         this.mailingAddress = mailingAddress;
     }
 
-    public AccountHolder(String name, Role role, LocalDate birth, String mailingAddress) {
-        super(name, role);
+    public AccountHolder(String name, LocalDate birth, String mailingAddress) {
         this.birth = birth;
         this.mailingAddress = mailingAddress;
     }

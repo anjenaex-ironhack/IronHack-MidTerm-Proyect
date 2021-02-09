@@ -20,6 +20,8 @@ public class CheckingDTO extends AccountDTO {
     private Status status;
 
 
+
+
     public String getSecretKey() {
         return secretKey;
     }
