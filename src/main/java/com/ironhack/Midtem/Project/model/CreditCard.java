@@ -4,6 +4,7 @@ import com.ironhack.Midtem.Project.Utils.Money;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Entity
@@ -21,8 +22,14 @@ public class CreditCard extends Account {
     public CreditCard() {
     }
 
-    public CreditCard(AccountHolder primaryOwner, AccountHolder secondaryOwner, Money balance, Money creditLimit, BigDecimal interestRate) {
-        super(primaryOwner, secondaryOwner, balance);
+    public CreditCard(LocalDate creationDate, Money balance, AccountHolder primaryOwner, Money creditLimit, BigDecimal interestRate) {
+        super(creationDate, balance, primaryOwner);
+        this.creditLimit = creditLimit;
+        this.interestRate = interestRate;
+    }
+
+    public CreditCard(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money creditLimit, BigDecimal interestRate) {
+        super(creationDate, balance, primaryOwner, secondaryOwner);
         this.creditLimit = creditLimit;
         this.interestRate = interestRate;
     }

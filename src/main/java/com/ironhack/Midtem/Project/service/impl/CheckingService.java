@@ -28,8 +28,7 @@ public class CheckingService implements ICheckingService {
         Money minimumBalance = new Money (checkingDTO.getMinimumBalanceAmount(), checkingDTO.getMinimumBalanceCurrency());
         Money monthlyMaintenanceFee = new Money(checkingDTO.getMonthlyMaintenanceFeeAmount(), checkingDTO.getMonthlyMaintenanceFeeCurrency());
 
-        Checking checking = new Checking(checkingDTO.getPrimaryOwner(), checkingDTO.getSecondaryOwner(), balance,
-                checkingDTO.getSecretKey(),minimumBalance, monthlyMaintenanceFee, checkingDTO.getStatus());
+        Checking checking = new Checking();
 
 
         return checkingRepository.save(checking);

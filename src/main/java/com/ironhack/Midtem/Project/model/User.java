@@ -1,5 +1,6 @@
 package com.ironhack.Midtem.Project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ironhack.Midtem.Project.model.Role;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    @ManyToMany(mappedBy = "userList")
+    @OneToMany(mappedBy = "user")
     private List<Role> roleList;
 
     public User() {
@@ -43,6 +44,7 @@ public class User {
         return roleList;
     }
 
+    @JsonIgnore
     public void setRoleList(List<Role> roleList) {
         this.roleList = roleList;
     }

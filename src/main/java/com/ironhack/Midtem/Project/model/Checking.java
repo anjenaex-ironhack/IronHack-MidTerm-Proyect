@@ -6,6 +6,7 @@ import com.ironhack.Midtem.Project.enums.Status;
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
@@ -27,10 +28,23 @@ public class Checking extends Account{
     public Checking() {
     }
 
+    public Checking(String secretKey, Money minimumBalance, Money monthlyMaintenanceFee, Status status) {
+        this.secretKey = secretKey;
+        this.minimumBalance = minimumBalance;
+        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
+        this.status = status;
+    }
 
+    public Checking(LocalDate creationDate, Money balance, AccountHolder primaryOwner, String secretKey, Money minimumBalance, Money monthlyMaintenanceFee, Status status) {
+        super(creationDate, balance, primaryOwner);
+        this.secretKey = secretKey;
+        this.minimumBalance = minimumBalance;
+        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
+        this.status = status;
+    }
 
-    public Checking(AccountHolder primaryOwner, AccountHolder secondaryOwner, Money balance, String secretKey, Money minimumBalance, Money monthlyMaintenanceFee, Status status) {
-        super(primaryOwner, secondaryOwner, balance);
+    public Checking(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, String secretKey, Money minimumBalance, Money monthlyMaintenanceFee, Status status) {
+        super(creationDate, balance, primaryOwner, secondaryOwner);
         this.secretKey = secretKey;
         this.minimumBalance = minimumBalance;
         this.monthlyMaintenanceFee = monthlyMaintenanceFee;

@@ -4,6 +4,7 @@ import com.ironhack.Midtem.Project.Utils.Money;
 import com.ironhack.Midtem.Project.enums.Status;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Entity
@@ -18,8 +19,19 @@ public class StudentChecking extends Account{
     public StudentChecking() {
     }
 
-    public StudentChecking(AccountHolder primaryOwner, AccountHolder secondaryOwner, Money balance, String secretKey, Status status) {
-        super(primaryOwner, secondaryOwner, balance);
+    public StudentChecking(String secretKey, Status status) {
+        this.secretKey = secretKey;
+        this.status = status;
+    }
+
+    public StudentChecking(LocalDate creationDate, Money balance, AccountHolder primaryOwner, String secretKey, Status status) {
+        super(creationDate, balance, primaryOwner);
+        this.secretKey = secretKey;
+        this.status = status;
+    }
+
+    public StudentChecking(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, String secretKey, Status status) {
+        super(creationDate, balance, primaryOwner, secondaryOwner);
         this.secretKey = secretKey;
         this.status = status;
     }

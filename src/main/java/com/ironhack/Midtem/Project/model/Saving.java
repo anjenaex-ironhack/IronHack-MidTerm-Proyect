@@ -5,6 +5,7 @@ import com.ironhack.Midtem.Project.enums.Status;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Entity
@@ -20,8 +21,21 @@ public class Saving extends Account {
     public Saving() {
     }
 
-    public Saving(AccountHolder primaryOwner, AccountHolder secondaryOwner, Money balance, String secretKey, BigDecimal interestRate, Status status) {
-        super(primaryOwner, secondaryOwner, balance);
+    public Saving(String secretKey, BigDecimal interestRate, Status status) {
+        this.secretKey = secretKey;
+        this.interestRate = interestRate;
+        this.status = status;
+    }
+
+    public Saving(LocalDate creationDate, Money balance, AccountHolder primaryOwner, String secretKey, BigDecimal interestRate, Status status) {
+        super(creationDate, balance, primaryOwner);
+        this.secretKey = secretKey;
+        this.interestRate = interestRate;
+        this.status = status;
+    }
+
+    public Saving(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, String secretKey, BigDecimal interestRate, Status status) {
+        super(creationDate, balance, primaryOwner, secondaryOwner);
         this.secretKey = secretKey;
         this.interestRate = interestRate;
         this.status = status;

@@ -4,6 +4,7 @@ import com.ironhack.Midtem.Project.Utils.Money;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Entity
@@ -16,6 +17,7 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private LocalDate creationDate;
     @Embedded
     @AttributeOverrides({@AttributeOverride(name = "amount", column = @Column(name = "balance_amount")),
             @AttributeOverride(name = "currency", column = @Column (name = "balance_currency"))})
@@ -35,10 +37,32 @@ public class Account {
     public Account() {
     }
 
-    public Account(AccountHolder primaryOwner, AccountHolder secondaryOwner, Money balance) {
+    public Account(long id, LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+        this.id = id;
+        this.creationDate = creationDate;
+        this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
+    }
+
+    public Account(long id, LocalDate creationDate, Money balance, AccountHolder primaryOwner) {
+        this.id = id;
+        this.creationDate = creationDate;
         this.balance = balance;
+        this.primaryOwner = primaryOwner;
+    }
+
+    public Account(LocalDate creationDate, Money balance, AccountHolder primaryOwner) {
+        this.creationDate = creationDate;
+        this.balance = balance;
+        this.primaryOwner = primaryOwner;
+    }
+
+    public Account(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+        this.creationDate = creationDate;
+        this.balance = balance;
+        this.primaryOwner = primaryOwner;
+        this.secondaryOwner = secondaryOwner;
     }
 
     public static Money getPenaltyFee() {

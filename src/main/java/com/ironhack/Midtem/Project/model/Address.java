@@ -14,27 +14,24 @@ public class Address {
     private long id;
     private String address;
     private int postalCode;
+    private String city;
+    private String country;
     //My idea here should be, in the frontend first choose a Country in a menu, and then get a new list of cities.
-    @Enumerated(EnumType.STRING)
-    private City City;
-    @Enumerated(EnumType.STRING)
-    private Country country;
+//    @Enumerated(EnumType.STRING)
+//    private City city;
+//    @Enumerated(EnumType.STRING)
+//    private Country country;
 
-    @ManyToMany
-    @JoinTable(
-            name = "account_holder_address",
-            joinColumns = { @JoinColumn(name = "address_id") },
-            inverseJoinColumns = { @JoinColumn(name = "account_holder_id") }
-    )
-    private List<AccountHolder> accountHolderList;
+//    @OneToOne(mappedBy = "address")
+//    private AccountHolder accountHolder;
 
     public Address() {
     }
 
-    public Address(String address, int postalCode, com.ironhack.Midtem.Project.enums.City city, Country country) {
+    public Address(String address, int postalCode, String city, String country) {
         this.address = address;
         this.postalCode = postalCode;
-        this.City = city;
+        this.city = city;
         this.country = country;
     }
 
@@ -62,19 +59,19 @@ public class Address {
         this.postalCode = postalCode;
     }
 
-    public com.ironhack.Midtem.Project.enums.City getCity() {
-        return City;
+    public String getCity() {
+        return city;
     }
 
-    public void setCity(com.ironhack.Midtem.Project.enums.City city) {
-        City = city;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public Country getCountry() {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(Country country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 }

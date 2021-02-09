@@ -9,35 +9,30 @@ public class Role {
     @Id
     private String name;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_role",
-            joinColumns = { @JoinColumn(name = "role_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id") }
-    )
-    private List<User> userList;
+    @ManyToOne
+    private User user;
 
     public Role() {
     }
 
-    public Role(String name, List<User> userList) {
+    public Role(String name, User user) {
         this.name = name;
-        this.userList = userList;
+        this.user = user;
     }
 
     public String getName() {
         return name;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<User> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
     }
 }
