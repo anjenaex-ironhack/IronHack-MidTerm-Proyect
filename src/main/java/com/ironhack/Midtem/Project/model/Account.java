@@ -23,12 +23,12 @@ public class Account {
             @AttributeOverride(name = "currency", column = @Column (name = "balance_currency"))})
     private Money balance;
 //  Many accounts for an user
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "primary_owner")
     private AccountHolder primaryOwner;
 
 //  Many accounts for a secondary user
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "secondary_owner")
     private AccountHolder secondaryOwner = null;
 

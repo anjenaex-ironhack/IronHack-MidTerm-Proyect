@@ -14,8 +14,8 @@ insert into role (name, user_id) values
 ('THIRD_PARTY', 1);
 
 insert into account_holder (id,birth,address, mailing_address) values
-(1,'1988-12-14',1, 'anjenaex@gmail.com'),
-(2,'1987-07-12',1, 'dfasd@dfasd.com');
+(1,'1988-12-14',1, 1),
+(2,'1987-07-12',1, 1);
 
 
 insert into account (creation_date, balance_amount, balance_currency, primary_owner, secondary_owner) values

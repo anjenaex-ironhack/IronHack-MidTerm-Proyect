@@ -54,8 +54,8 @@ class AccountServiceTest {
         Money balance = new Money(new BigDecimal("1000"));
         Address address1 = new Address ("chiclana 1", 2400, "Ubeda", "España");
         addressRepository.save(address1);
-        AccountHolder accountHolder1 = new AccountHolder("Antonio", LocalDate.of(1988, 12, 14), "hola@buenas.es", addressRepository.findAll().get(0));
-        AccountHolder accountHolder2 = new AccountHolder("Jesus", LocalDate.of(1922, 12, 14), "hola2@buenas.es", addressRepository.findAll().get(0));
+        AccountHolder accountHolder1 = new AccountHolder("Antonio", LocalDate.of(1988, 12, 14), addressRepository.findAll().get(0), addressRepository.findAll().get(0));
+        AccountHolder accountHolder2 = new AccountHolder("Jesus", LocalDate.of(1922, 12, 14), addressRepository.findAll().get(0), addressRepository.findAll().get(0));
 
         accountHolderRepository.saveAll(List.of(accountHolder1,accountHolder2));
 
@@ -87,6 +87,7 @@ class AccountServiceTest {
         assertEquals(account1.getPrimaryOwner().getName(), accountService.getAccountById("1").getPrimaryOwner().getName());
         assertEquals(account1.getBalance().toString(), accountService.getAccountById("1").getBalance().toString());
     }
+
 //    public Account getAccountById(String id) {
 //        Optional<Account> account= accountRepository.findById(Long.valueOf(id));
 //        if(account.isPresent()) {

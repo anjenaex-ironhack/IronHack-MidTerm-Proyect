@@ -9,43 +9,35 @@ import java.util.List;
 public class AccountHolder extends User {
 
     private LocalDate birth;
-    private String mailingAddress;
+
+    @OneToOne
+    @JoinColumn (name = "mailing_address")
+    private Address mailingAddress;
 
     @OneToOne
     @JoinColumn(name = "address")
     private Address address;
 
-//  Un AccountHolder para muchas cuentas
-    @OneToMany(mappedBy = "primaryOwner")
-    private List<Account> primaryAccountList;
-
-//  Un Account holder secundario, para muchas cuentas
-    @OneToMany(mappedBy = "secondaryOwner")
-    private List<Account> secondaryAccountList;
+//    @OneToOne(mappedBy = "primaryOwner")
+//    private Account primaryAccount;
+//
+//    @OneToOne(mappedBy = "secondaryOwner")
+//    private Account secondaryAccount;
 
     public AccountHolder() {
     }
 
-
-    public AccountHolder(String name, LocalDate birth, String mailingAddress, Address address, List<Account> primaryAccountList, List<Account> secondaryAccountList) {
-        super(name);
-        this.birth = birth;
-        this.mailingAddress = mailingAddress;
-        this.address = address;
-        this.primaryAccountList = primaryAccountList;
-        this.secondaryAccountList = secondaryAccountList;
-    }
-
-    public AccountHolder(String name, LocalDate birth, String mailingAddress, Address address) {
-        super(name);
+    public AccountHolder(LocalDate birth, Address mailingAddress, Address address) {
         this.birth = birth;
         this.mailingAddress = mailingAddress;
         this.address = address;
     }
 
-    public AccountHolder(LocalDate birth, String mailingAddress) {
+    public AccountHolder(String name, LocalDate birth, Address mailingAddress, Address address) {
+        super(name);
         this.birth = birth;
         this.mailingAddress = mailingAddress;
+        this.address = address;
     }
 
     public LocalDate getBirth() {
@@ -56,11 +48,19 @@ public class AccountHolder extends User {
         this.birth = birth;
     }
 
-    public String getMailingAddress() {
+    public Address getMailingAddress() {
         return mailingAddress;
     }
 
-    public void setMailingAddress(String mailingAddress) {
+    public void setMailingAddress(Address mailingAddress) {
         this.mailingAddress = mailingAddress;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }
