@@ -30,7 +30,7 @@ public class Account {
 //  Many accounts for a secondary user
     @OneToOne
     @JoinColumn(name = "secondary_owner")
-    private Optional<AccountHolder> secondaryOwner = null;
+    private AccountHolder secondaryOwner = null;
 
 
 
@@ -42,8 +42,20 @@ public class Account {
         this.primaryOwner = primaryOwner;
     }
 
+    public Account(LocalDate creationDate, Money balance, AccountHolder primaryOwner) {
+        this.creationDate = creationDate;
+        this.balance = balance;
+        this.primaryOwner = primaryOwner;
+    }
 
-    public Account(Money balance, AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner) {
+    public Account(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+        this.creationDate = creationDate;
+        this.balance = balance;
+        this.primaryOwner = primaryOwner;
+        this.secondaryOwner = secondaryOwner;
+    }
+
+    public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
@@ -69,11 +81,11 @@ public class Account {
         this.primaryOwner = primaryOwner;
     }
 
-    public Optional<AccountHolder> getSecondaryOwner() {
+    public AccountHolder getSecondaryOwner() {
         return secondaryOwner;
     }
 
-    public void setSecondaryOwner(Optional<AccountHolder> secondaryOwner) {
+    public void setSecondaryOwner(AccountHolder secondaryOwner) {
         this.secondaryOwner = secondaryOwner;
     }
 

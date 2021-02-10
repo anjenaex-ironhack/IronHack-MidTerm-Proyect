@@ -3,6 +3,7 @@ package com.ironhack.Midtem.Project.controller.impl;
 import com.ironhack.Midtem.Project.controller.dto.CheckingDTO;
 import com.ironhack.Midtem.Project.controller.interfaces.ICheckingController;
 import com.ironhack.Midtem.Project.model.Checking;
+import com.ironhack.Midtem.Project.repository.CheckingRepository;
 import com.ironhack.Midtem.Project.service.impl.CheckingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,8 @@ import java.util.Optional;
 @RestController
 public class CheckingController{
 
+    @Autowired
+    private CheckingRepository checkingRepository;
     @Autowired
     private CheckingService checkingService;
 
@@ -40,7 +43,7 @@ public class CheckingController{
     @PostMapping("/account/create")
     @ResponseStatus(HttpStatus.CREATED)
     public Checking createCheckingAccount( CheckingDTO checkingAccount) {
-
-        return checkingService.createCheckingAccountService(checkingAccount);
+        Checking checking = checkingService.createCheckingAccountService(checkingAccount);
+        return checkingRepository.save(checkingService.createCheckingAccountService(checkingAccount));
     }
 }

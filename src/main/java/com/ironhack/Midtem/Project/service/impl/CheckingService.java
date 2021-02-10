@@ -25,34 +25,23 @@ public class CheckingService implements ICheckingService {
     @Autowired
     private CheckingRepository checkingRepository;
 
-
+    //TODO: doesn't work
     public Checking createCheckingAccountService(CheckingDTO checkingDTO) {
 
         Money balance = new Money(checkingDTO.getBalance().getAmount(), checkingDTO.getBalance().getCurrency());
         Money minimumBalance = new Money (checkingDTO.getMinimumBalanceAmount(), checkingDTO.getMinimumBalanceCurrency());
         Money monthlyMaintenanceFee = new Money(checkingDTO.getMonthlyMaintenanceFeeAmount(), checkingDTO.getMonthlyMaintenanceFeeCurrency());
 
-        if (checkingDTO.getSecondaryOwner().isEmpty()){
-            Checking checking = new Checking();
-        }else {
+        Checking checking = null;
 
+        if (checkingDTO.getSecondaryOwner().isEmpty()){
+            checking = new Checking(balance, checkingDTO.getPrimaryOwner(), checkingDTO.getSecretKey(),
+                                minimumBalance,monthlyMaintenanceFee,checkingDTO.getStatus());
+        }else {
+            checking = new Checking(balance, checkingDTO.getPrimaryOwner(), checkingDTO.getSecondaryOwner().get(), checkingDTO.getSecretKey(),
+                    minimumBalance,monthlyMaintenanceFee,checkingDTO.getStatus());
         }
 
-        return null;
+        return checking;
     }
 }
-    public Checking( Money balance, AccountHolder primaryOwner, String secretKey, Money minimumBalance, Money monthlyMaintenanceFee, Status status) {
-        super(creationDate, balance, primaryOwner);
-        this.secretKey = secretKey;
-        this.minimumBalance = minimumBalance;
-        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
-        this.status = status;
-    }
-
-    public Checking(Money balance, AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner, String secretKey, Money minimumBalance, Money monthlyMaintenanceFee, Status status) {
-        super(creationDate, balance, primaryOwner, secondaryOwner);
-        this.secretKey = secretKey;
-        this.minimumBalance = minimumBalance;
-        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
-        this.status = status;
-    }

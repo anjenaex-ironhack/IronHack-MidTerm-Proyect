@@ -30,7 +30,7 @@ public class StudentChecking extends Account{
         this.status = status;
     }
 
-    public StudentChecking(LocalDate creationDate, Money balance, AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner, String secretKey, Status status) {
+    public StudentChecking(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, String secretKey, Status status) {
         super(balance, primaryOwner, secondaryOwner);
         this.secretKey = secretKey;
         this.status = status;

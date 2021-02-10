@@ -34,7 +34,7 @@ public class Saving extends Account {
         this.status = status;
     }
 
-    public Saving(Money balance, AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner, String secretKey, BigDecimal interestRate, Status status) {
+    public Saving(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, String secretKey, BigDecimal interestRate, Status status) {
         super(balance, primaryOwner, secondaryOwner);
         this.secretKey = secretKey;
         this.interestRate = interestRate;

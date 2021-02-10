@@ -28,7 +28,7 @@ public class CreditCard extends Account {
         this.interestRate = interestRate;
     }
 
-    public CreditCard(LocalDate creationDate, Money balance, AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner, Money creditLimit, BigDecimal interestRate) {
+    public CreditCard(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money creditLimit, BigDecimal interestRate) {
         super(balance, primaryOwner, secondaryOwner);
         this.creditLimit = creditLimit;
         this.interestRate = interestRate;
