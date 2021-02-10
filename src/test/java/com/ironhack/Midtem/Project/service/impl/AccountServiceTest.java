@@ -15,14 +15,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +54,7 @@ class AccountServiceTest {
         addressRepository.save(address1);
         AccountHolder accountHolder1 = new AccountHolder("Antonio", LocalDate.of(1988, 12, 14), addressRepository.findAll().get(0), addressRepository.findAll().get(0));
         AccountHolder accountHolder2 = new AccountHolder("Jesus", LocalDate.of(1922, 12, 14), addressRepository.findAll().get(0), addressRepository.findAll().get(0));
+        AccountHolder accountHolder3 = new AccountHolder("Juan", LocalDate.of(1976, 12, 14), addressRepository.findAll().get(0), addressRepository.findAll().get(0));
 
         accountHolderRepository.saveAll(List.of(accountHolder1,accountHolder2));
 
@@ -67,8 +66,9 @@ class AccountServiceTest {
 
         Account account1 = new Account(LocalDate.of(2021,2,9), balance, accountHolderRepository.findAll().get(0), accountHolderRepository.findAll().get(1));
         Account account2 = new Account(LocalDate.of(1850,2,9), balance, accountHolderRepository.findAll().get(0));
+        Account account3 = new Account(LocalDate.of(1850,2,9), balance, accountHolderRepository.findAll().get(1), accountHolderRepository.findAll().get(0));
 
-        accountRepository.saveAll(List.of(account1,account2));
+        accountRepository.saveAll(List.of(account1,account2,account3));
 
     }
 
@@ -82,18 +82,72 @@ class AccountServiceTest {
 
     @Test
     void getAccountById_correctId_Account1(){
-        Money balance = new Money(new BigDecimal("1000"));
-        Account account1 = new Account(LocalDate.of(1850,2,9), balance, accountHolderRepository.findAll().get(0));
-        assertEquals(account1.getPrimaryOwner().getName(), accountService.getAccountById("1").getPrimaryOwner().getName());
-        assertEquals(account1.getBalance().toString(), accountService.getAccountById("1").getBalance().toString());
+
+        Long result = accountService.getAccountById("1").getId();
+        Long idToCheck = accountRepository.findAll().get(0).getId();
+        assertEquals(idToCheck, result);
+        assertNotEquals(accountRepository.findAll().get(1).getId(), result);
     }
 
-//    public Account getAccountById(String id) {
-//        Optional<Account> account= accountRepository.findById(Long.valueOf(id));
-//        if(account.isPresent()) {
-//            return accountRepository.findById(Long.valueOf(id)).get();
-//        }else{
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
-//        }
+    @Test
+    void getAccountById_incorrectId_ResponseStatusException(){
+
+        assertThrows(ResponseStatusException.class, () ->accountService.getAccountById("100"));
+
+    }
+    @Test
+    void getAccountById_incorrectId_IllegalArgumentException(){
+        assertThrows(IllegalArgumentException.class, () ->accountService.getAccountById("patata"));
+
+
+    }
+    @Test
+    void getAccountsByPrimaryOwnerAndSecondaryOwner_AntonioAndJesus_account1() {
+        Long result = accountService.getAccountsByPrimaryOwnerAndSecondaryOwner("Antonio","Jesus").get(0).getId();
+        assertEquals(accountRepository.findAll().get(0).getId(), result);
+        assertNotEquals(accountRepository.findAll().get(1).getId(), result);
+    }
+    @Test
+    void getAccountsByPrimaryOwnerAndSecondaryOwner_FakeName_ResponseStatusException(){
+        assertThrows(ResponseStatusException.class, ()->accountService.getAccountsByPrimaryOwnerAndSecondaryOwner("Adolfo Dominguez","Pepe"));
+    }
+
+    @Test
+    void getAccountsByPrimaryOwner_Antonio_account1() {
+        Long result = accountService.getAccountsByPrimaryOwner("Antonio").get(0).getId();
+        assertEquals(accountRepository.findAll().get(0).getId(), result);
+        assertNotEquals(accountRepository.findAll().get(2).getId(), result);
+    }
+    @Test
+    void getAccountsByPrimaryOwner_FakeName_ResponseStatusException(){
+        assertThrows(ResponseStatusException.class, ()->accountService.getAccountsByPrimaryOwner("Adolfo Dominguez"));
+    }
+    @Test
+    void getAccountsBySecondaryOwner_Jesus_account1() {
+        Long result = accountService.getAccountsBySecondaryOwner("Jesus").get(0).getId();
+        assertEquals(accountRepository.findAll().get(0).getId(), result);
+        assertNotEquals(accountRepository.findAll().get(2).getId(), result);
+    }
+    @Test
+    void getAccountsBySecondaryOwner_FakeName_ResponseStatusException(){
+        assertThrows(ResponseStatusException.class, ()->accountService.getAccountsBySecondaryOwner("Adolfo Dominguez"));
+    }
+
+
+//    @Test
+//    void getAccountsByName() {
+//        Money balance = new Money(new BigDecimal("1000"));
+//        Account account1 = new Account(LocalDate.of(1850,2,9), balance, accountHolderRepository.findAll().get(0));
+//        Account account2 = new Account(LocalDate.of(1956,2,9), balance, accountHolderRepository.findAll().get(2), accountHolderRepository.findAll().get(0));
+//        Account account3 = new Account(LocalDate.of(1850,2,9), balance, accountHolderRepository.findAll().get(1));
+//        List<Account> accountList = new ArrayList<>();
+//        accountList.add(account1);
+//        accountList.add(account2);
+//        accountList.add(account3);
+//
+//        System.out.println(accountService.getAccountsByName(Optional.of("Antonio"), Optional.of("sdkjfañsdf")));
+//
+////        assertEquals(accountList.get(0).getPrimaryOwner().getBirth(), accountService.getAccountsByName(Optional.of("Antonio"), null).get(0).getPrimaryOwner().getBirth());
+////        assertEquals(account1.getBalance().toString(), accountService.getAccountById("1").getBalance().toString());
 //    }
 }

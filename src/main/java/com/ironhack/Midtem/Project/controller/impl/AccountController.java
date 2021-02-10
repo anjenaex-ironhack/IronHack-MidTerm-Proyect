@@ -12,16 +12,13 @@ import com.ironhack.Midtem.Project.repository.RoleRepository;
 import com.ironhack.Midtem.Project.service.impl.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class AccountController implements IAccountControler {
+public class AccountController {
 
     @Autowired
     private AccountRepository accountRepository;
@@ -52,6 +49,18 @@ public class AccountController implements IAccountControler {
     @ResponseStatus(HttpStatus.OK)
     public Account getAccountById(@PathVariable String id) {
 
-        return accountService.getAccountById(id);
+        try{
+            return accountService.getAccountById(id);
+        }catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("You need at least one param");
+        }
+
+    }
+    @GetMapping("/accounts/search")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Account> getAccountsByName(@RequestParam Optional<String> primaryOwner, @RequestParam Optional<String> secondaryOwner) {
+
+        return accountService.getAccountsByName(primaryOwner, secondaryOwner);
+
     }
 }

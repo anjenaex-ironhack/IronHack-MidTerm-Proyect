@@ -7,11 +7,13 @@ import com.ironhack.Midtem.Project.repository.AccountHolderRepository;
 import com.ironhack.Midtem.Project.repository.AccountRepository;
 import com.ironhack.Midtem.Project.repository.AddressRepository;
 import com.ironhack.Midtem.Project.repository.RoleRepository;
+import javassist.NotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.MvcResult;
@@ -108,5 +110,17 @@ class AccountControllerTest {
         assertTrue(result.getResponse().getContentAsString().contains("Antonio"));
         assertFalse(result.getResponse().getContentAsString().contains("Jesus"));
     }
+//    @Test
+//    public void getAccountById_whenGetSpecificException_thenBadRequest() throws Exception {
+//        String exceptionParam = "not_found";
+//        List<Account> list = accountRepository.findAll();
+//        Long id = null;
+//        mockMvc.perform(get("/account/id")
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isNotFound())
+//                .andExpect(result -> assertTrue(result.getResolvedException() instanceof Exception))
+//                //.andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException))
+//                .andExpect(result -> assertEquals("Not Found", result.getResolvedException().getMessage()));
+//    }
 
 }
