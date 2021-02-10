@@ -1,11 +1,16 @@
 package com.ironhack.Midtem.Project.controller.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.ironhack.Midtem.Project.enums.Status;
 
 import com.ironhack.Midtem.Project.Utils.Money;
 import com.ironhack.Midtem.Project.model.Account;
 
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Past;
 import java.math.BigDecimal;
 import java.util.Currency;
 

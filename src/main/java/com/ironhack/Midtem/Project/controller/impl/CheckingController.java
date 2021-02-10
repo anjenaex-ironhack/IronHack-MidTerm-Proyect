@@ -7,10 +7,7 @@ import com.ironhack.Midtem.Project.repository.CheckingRepository;
 import com.ironhack.Midtem.Project.service.impl.CheckingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,10 +37,12 @@ public class CheckingController{
     //=============================================================
 
 
-    @PostMapping("/account/create")
+    @PostMapping("/account/create/checking")
     @ResponseStatus(HttpStatus.CREATED)
-    public Checking createCheckingAccount( CheckingDTO checkingAccount) {
+    public Checking createCheckingAccount(@RequestBody CheckingDTO checkingAccount) {
+
         Checking checking = checkingService.createCheckingAccountService(checkingAccount);
         return checkingRepository.save(checkingService.createCheckingAccountService(checkingAccount));
+
     }
 }
