@@ -5,6 +5,8 @@ import com.ironhack.Midtem.Project.model.Account;
 import com.ironhack.Midtem.Project.model.AccountHolder;
 import com.ironhack.Midtem.Project.model.Address;
 import com.ironhack.Midtem.Project.model.Role;
+
+import com.ironhack.Midtem.Project.Utils.Money;
 import com.ironhack.Midtem.Project.repository.AccountHolderRepository;
 import com.ironhack.Midtem.Project.repository.AccountRepository;
 import com.ironhack.Midtem.Project.repository.AddressRepository;
@@ -49,11 +51,7 @@ public class AccountController {
     @ResponseStatus(HttpStatus.OK)
     public Account getAccountById(@PathVariable String id) {
 
-        try{
             return accountService.getAccountById(id);
-        }catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("You need at least one param");
-        }
 
     }
     @GetMapping("/accounts/search")
@@ -62,5 +60,11 @@ public class AccountController {
 
         return accountService.getAccountsByName(primaryOwner, secondaryOwner);
 
+    }
+
+    @GetMapping("/account/balance/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Money getBalanceById(@PathVariable String id) {
+        return accountService.getBalanceById(id);
     }
 }

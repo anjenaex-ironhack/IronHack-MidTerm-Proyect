@@ -1,5 +1,6 @@
 package com.ironhack.Midtem.Project.service.impl;
 
+import com.ironhack.Midtem.Project.Utils.Money;
 import com.ironhack.Midtem.Project.model.Account;
 import com.ironhack.Midtem.Project.repository.AccountRepository;
 import com.ironhack.Midtem.Project.service.interfaces.IAccountService;
@@ -65,6 +66,14 @@ public class AccountService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
         } else{
             return accountRepository.findBySecondaryOwnerName(secondaryOwner);
+        }
+    }
+
+    public Money getBalanceById (String id) {
+        if(accountRepository.findById(Long.valueOf(id)).isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Balance not found");
+        } else{
+            return accountRepository.findById(Long.valueOf(id)).get().getBalance();
         }
     }
 

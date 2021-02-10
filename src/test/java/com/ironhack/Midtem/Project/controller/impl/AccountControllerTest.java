@@ -95,7 +95,7 @@ class AccountControllerTest {
     }
 
     @Test
-    void getAccountById_accountId_AntonioAndJesus() throws Exception {
+    void getAccountById_Account_AntonioAndJesus() throws Exception {
         List<Account> list = accountRepository.findAll();
         Long id = list.get(0).getId();
         MvcResult result = mockMvc.perform(get("/account/id/" + id)).andExpect(status().isOk()).andReturn();
@@ -103,24 +103,24 @@ class AccountControllerTest {
         assertTrue(result.getResponse().getContentAsString().contains("Jesus"));
     }
     @Test
-    void getAccountById_FailAccountId_False() throws Exception {
+    void getAccountById_FailAccount_False() throws Exception {
         List<Account> list = accountRepository.findAll();
         Long id = list.get(1).getId();
         MvcResult result = mockMvc.perform(get("/account/id/" + id)).andExpect(status().isOk()).andReturn();
         assertTrue(result.getResponse().getContentAsString().contains("Antonio"));
         assertFalse(result.getResponse().getContentAsString().contains("Jesus"));
     }
-//    @Test
-//    public void getAccountById_whenGetSpecificException_thenBadRequest() throws Exception {
-//        String exceptionParam = "not_found";
-//        List<Account> list = accountRepository.findAll();
-//        Long id = null;
-//        mockMvc.perform(get("/account/id")
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isNotFound())
-//                .andExpect(result -> assertTrue(result.getResolvedException() instanceof Exception))
-//                //.andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException))
-//                .andExpect(result -> assertEquals("Not Found", result.getResolvedException().getMessage()));
-//    }
+
+    @Test
+    void getBalanceById_Account_1000AndUSD() throws Exception {
+        List<Account> accountList = accountRepository.findAll();
+        Long id = accountList.get(0).getId();
+        MvcResult result = mockMvc.perform(get("/account/balance/" + id)).andExpect(status().isOk()).andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains("1000"));
+        assertTrue(result.getResponse().getContentAsString().contains("USD"));
+        assertFalse(result.getResponse().getContentAsString().contains("EUR"));
+
+    }
+
 
 }

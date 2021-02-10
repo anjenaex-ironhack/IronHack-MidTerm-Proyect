@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface AccountHolderRepository extends JpaRepository<AccountHolder, Long> {
 
+    List<AccountHolder> findByName (String name);
 
 }

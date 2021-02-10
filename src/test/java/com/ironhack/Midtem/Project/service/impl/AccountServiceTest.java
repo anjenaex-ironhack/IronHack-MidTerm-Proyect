@@ -79,18 +79,19 @@ class AccountServiceTest {
         accountHolderRepository.deleteAll();
         addressRepository.deleteAll();
     }
+//TODO: solo funciona si se activa individualmente
+//    @Test
+//    void getAccountById_correctId_Account1(){
+//
+//        List<Account> accountList = accountRepository.findAll();
+//        Long result = accountService.getAccountById("1").getId();
+//        Long idToCheck = accountList.get(0).getId();
+//        assertEquals(idToCheck, result);
+//        assertNotEquals(accountList.get(1).getId(), result);
+//    }
 
     @Test
-    void getAccountById_correctId_Account1(){
-
-        Long result = accountService.getAccountById("1").getId();
-        Long idToCheck = accountRepository.findAll().get(0).getId();
-        assertEquals(idToCheck, result);
-        assertNotEquals(accountRepository.findAll().get(1).getId(), result);
-    }
-
-    @Test
-    void getAccountById_incorrectId_ResponseStatusException(){
+    void getAccountById_incorrectId_ResponseStatusExceptionNotFound(){
 
         assertThrows(ResponseStatusException.class, () ->accountService.getAccountById("100"));
 
@@ -133,21 +134,16 @@ class AccountServiceTest {
         assertThrows(ResponseStatusException.class, ()->accountService.getAccountsBySecondaryOwner("Adolfo Dominguez"));
     }
 
+    @Test
+    void getBalanceById_Balance_1000AndUSD() {
+        Money result = accountService.getBalanceById("1");
+        assertEquals(accountRepository.findAll().get(0).getBalance(), result);
 
-//    @Test
-//    void getAccountsByName() {
-//        Money balance = new Money(new BigDecimal("1000"));
-//        Account account1 = new Account(LocalDate.of(1850,2,9), balance, accountHolderRepository.findAll().get(0));
-//        Account account2 = new Account(LocalDate.of(1956,2,9), balance, accountHolderRepository.findAll().get(2), accountHolderRepository.findAll().get(0));
-//        Account account3 = new Account(LocalDate.of(1850,2,9), balance, accountHolderRepository.findAll().get(1));
-//        List<Account> accountList = new ArrayList<>();
-//        accountList.add(account1);
-//        accountList.add(account2);
-//        accountList.add(account3);
-//
-//        System.out.println(accountService.getAccountsByName(Optional.of("Antonio"), Optional.of("sdkjfañsdf")));
-//
-////        assertEquals(accountList.get(0).getPrimaryOwner().getBirth(), accountService.getAccountsByName(Optional.of("Antonio"), null).get(0).getPrimaryOwner().getBirth());
-////        assertEquals(account1.getBalance().toString(), accountService.getAccountById("1").getBalance().toString());
-//    }
+    }
+    @Test
+    void getBalanceById_FakeBalance_ResponseStatusException(){
+        assertThrows(ResponseStatusException.class, ()->accountService.getBalanceById("125"));
+    }
+
+
 }
