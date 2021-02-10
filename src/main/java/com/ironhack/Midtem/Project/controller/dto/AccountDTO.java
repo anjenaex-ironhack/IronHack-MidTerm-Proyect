@@ -8,27 +8,40 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Optional;
 
 public class AccountDTO {
 
     private static final Money PENALTY_FEE= new Money(new BigDecimal("40"));
+    private LocalDate creationDate;
     private Money balance;
     @NotEmpty
     private AccountHolder primaryOwner;
-    private AccountHolder secondaryOwner = null;
+    private Optional<AccountHolder> secondaryOwner;
 
     public AccountDTO() {
     }
 
-    public AccountDTO(Money balance, @NotEmpty AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+    public AccountDTO(Money balance, @NotEmpty AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner) {
+        setCreationDate();
         this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
     }
 
     public AccountDTO(Money balance, @NotEmpty AccountHolder primaryOwner) {
+        setCreationDate();
         this.balance = balance;
         this.primaryOwner = primaryOwner;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate() {
+        this.creationDate = LocalDate.now();
     }
 
     public static Money getPenaltyFee() {
@@ -51,11 +64,11 @@ public class AccountDTO {
         this.primaryOwner = primaryOwner;
     }
 
-    public AccountHolder getSecondaryOwner() {
+    public Optional<AccountHolder> getSecondaryOwner() {
         return secondaryOwner;
     }
 
-    public void setSecondaryOwner(AccountHolder secondaryOwner) {
+    public void setSecondaryOwnerO(Optional<AccountHolder> secondaryOwner) {
         this.secondaryOwner = secondaryOwner;
     }
 }

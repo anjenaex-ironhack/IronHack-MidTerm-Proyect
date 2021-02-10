@@ -25,13 +25,13 @@ public class StudentChecking extends Account{
     }
 
     public StudentChecking(LocalDate creationDate, Money balance, AccountHolder primaryOwner, String secretKey, Status status) {
-        super(creationDate, balance, primaryOwner);
+        super(balance, primaryOwner);
         this.secretKey = secretKey;
         this.status = status;
     }
 
-    public StudentChecking(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, String secretKey, Status status) {
-        super(creationDate, balance, primaryOwner, secondaryOwner);
+    public StudentChecking(LocalDate creationDate, Money balance, AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner, String secretKey, Status status) {
+        super(balance, primaryOwner, secondaryOwner);
         this.secretKey = secretKey;
         this.status = status;
     }

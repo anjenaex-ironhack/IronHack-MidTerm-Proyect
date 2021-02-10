@@ -27,15 +27,15 @@ public class Saving extends Account {
         this.status = status;
     }
 
-    public Saving(LocalDate creationDate, Money balance, AccountHolder primaryOwner, String secretKey, BigDecimal interestRate, Status status) {
-        super(creationDate, balance, primaryOwner);
+    public Saving(Money balance, AccountHolder primaryOwner, String secretKey, BigDecimal interestRate, Status status) {
+        super(balance, primaryOwner);
         this.secretKey = secretKey;
         this.interestRate = interestRate;
         this.status = status;
     }
 
-    public Saving(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, String secretKey, BigDecimal interestRate, Status status) {
-        super(creationDate, balance, primaryOwner, secondaryOwner);
+    public Saving(Money balance, AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner, String secretKey, BigDecimal interestRate, Status status) {
+        super(balance, primaryOwner, secondaryOwner);
         this.secretKey = secretKey;
         this.interestRate = interestRate;
         this.status = status;

@@ -30,36 +30,20 @@ public class Account {
 //  Many accounts for a secondary user
     @OneToOne
     @JoinColumn(name = "secondary_owner")
-    private AccountHolder secondaryOwner = null;
+    private Optional<AccountHolder> secondaryOwner = null;
 
 
 
     public Account() {
     }
 
-    public Account(long id, LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
-        this.id = id;
-        this.creationDate = creationDate;
-        this.balance = balance;
-        this.primaryOwner = primaryOwner;
-        this.secondaryOwner = secondaryOwner;
-    }
-
-    public Account(long id, LocalDate creationDate, Money balance, AccountHolder primaryOwner) {
-        this.id = id;
-        this.creationDate = creationDate;
+    public Account( Money balance, AccountHolder primaryOwner) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;
     }
 
-    public Account(LocalDate creationDate, Money balance, AccountHolder primaryOwner) {
-        this.creationDate = creationDate;
-        this.balance = balance;
-        this.primaryOwner = primaryOwner;
-    }
 
-    public Account(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
-        this.creationDate = creationDate;
+    public Account(Money balance, AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
@@ -85,11 +69,11 @@ public class Account {
         this.primaryOwner = primaryOwner;
     }
 
-    public AccountHolder getSecondaryOwner() {
+    public Optional<AccountHolder> getSecondaryOwner() {
         return secondaryOwner;
     }
 
-    public void setSecondaryOwner(AccountHolder secondaryOwner) {
+    public void setSecondaryOwner(Optional<AccountHolder> secondaryOwner) {
         this.secondaryOwner = secondaryOwner;
     }
 
@@ -100,4 +84,16 @@ public class Account {
     public void setBalance(Money balance) {
         this.balance = balance;
     }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
+    public void setCreationDate() {
+        this.creationDate = LocalDate.now();
+    }
 }
+
