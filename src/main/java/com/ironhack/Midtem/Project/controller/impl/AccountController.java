@@ -37,11 +37,11 @@ public class AccountController {
      * Get Methods
      */
 //    I coment this one coz i think it doesn't work
-//    @GetMapping("/accounts")
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<Account> getAllAccounts(){
-//        return accountRepository.findAll();
-//    }
+    @GetMapping("/accounts")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Account> getAllAccounts(){
+        return accountRepository.findAll();
+    }
 
     @GetMapping("/account/id/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -70,6 +70,7 @@ public class AccountController {
     public void createCheckingAccount(@RequestBody Checking checking){
 
        int age = LocalDateTime.now().getYear() - checking.getPrimaryOwner().getBirth().getYear();
+        System.out.println(age);
 
        if(age < 18) {
            if(Optional.of(checking.getSecondaryOwner()).isEmpty()){
@@ -78,17 +79,19 @@ public class AccountController {
 
                studentCheckingRepository.save(studentChecking);
                //TODO: make student abstrac and delete those repositories
-               accountRepository.save(studentChecking);
+               //accountRepository.save(studentChecking);
            }else{
                StudentChecking studentChecking = new StudentChecking(checking.getBalance(),checking.getPrimaryOwner(),
                                 checking.getSecondaryOwner(), checking.getSecretKey(), checking.getStatus());
+               studentCheckingRepository.save(studentChecking);
+               //TODO: make student abstrac and delete those repositories
+               //accountRepository.save(studentChecking);
            }
        }else{
            checkingRepository.save(checking);
-           accountRepository.save(checking);
+
        }
 
-        accountRepository.save(checking);
     }
 
     //TODO: i have to create the rest of accounts, but first i will finish with this one
