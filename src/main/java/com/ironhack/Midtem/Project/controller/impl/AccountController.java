@@ -122,7 +122,6 @@ public class AccountController {
     public void updateBalance (@PathVariable String id, @RequestBody balanceDTO balanceDTO){
 
         Money balance = new Money(balanceDTO.getAmount(), balanceDTO.getCurrency());
-        System.out.println(balance + "----------------------------------------------------------------------------------------------");
         Optional<Account> account = accountRepository.findById(Long.valueOf(id));
 
         if(account.isPresent()){
