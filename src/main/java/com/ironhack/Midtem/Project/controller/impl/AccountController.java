@@ -2,6 +2,7 @@ package com.ironhack.Midtem.Project.controller.impl;
 
 import com.ironhack.Midtem.Project.Repository.*;
 import com.ironhack.Midtem.Project.Utils.Money;
+import com.ironhack.Midtem.Project.controller.dto.balanceDTO;
 import com.ironhack.Midtem.Project.model.*;
 import com.ironhack.Midtem.Project.service.impl.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
@@ -60,7 +63,7 @@ public class AccountController {
         return accountService.getAccountsByName(primaryOwner,secondaryOwner);
     }
 
-    @GetMapping("/account/balance/{id}")
+    @GetMapping("/account/{id}/balance")
     @ResponseStatus(HttpStatus.OK)
     public Money getBalanceById(@PathVariable String id){
         return accountRepository.findById(Long.valueOf(id)).get().getBalance();
@@ -108,6 +111,30 @@ public class AccountController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createCreditCardAccount(@RequestBody CreditCard creditCard){
         creditCardRepository.save(creditCard);
+    }
+
+    /**
+     * Patch Methods
+     */
+
+    @PatchMapping("/account/balance/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateBalance (@PathVariable String id, @RequestBody balanceDTO balanceDTO){
+
+        Money balance = new Money(balanceDTO.getAmount(), balanceDTO.getCurrency());
+        System.out.println(balance + "----------------------------------------------------------------------------------------------");
+        Optional<Account> account = accountRepository.findById(Long.valueOf(id));
+
+        if(account.isPresent()){
+            try{
+                account.get().setBalance(balance);
+                accountRepository.save(account.get());
+            } catch (IllegalArgumentException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Select a correct balance");
+            }
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
+        }
     }
 
 }

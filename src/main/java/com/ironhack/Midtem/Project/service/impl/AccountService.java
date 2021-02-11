@@ -16,7 +16,7 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
-
+    //TODO: esto en realidad no vale pa na
     public List<Account> getAccountsByName (Optional<String> primaryOwner, Optional<String> secondaryOwner) {
         if(primaryOwner.isPresent() && secondaryOwner.isPresent()){
             return getAccountsByPrimaryOwnerAndSecondaryOwner(primaryOwner.get(), secondaryOwner.get());
