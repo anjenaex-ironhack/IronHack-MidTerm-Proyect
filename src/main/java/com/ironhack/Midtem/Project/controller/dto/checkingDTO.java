@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Currency;
 
-public class CheckingDTO extends AccountDTO{
+public class checkingDTO extends AccountDTO{
 
     private String secretKey;
     private BigDecimal balanceAmount;
@@ -16,10 +16,10 @@ public class CheckingDTO extends AccountDTO{
     private BigDecimal minimumBalanceAmount;
     private Currency minimumBalanceCurrency;
     private BigDecimal monthlyMaintenanceFeeAmount;
-    private Currency monthyMaintenanceFeeAmount;
+    private Currency monthlyMaintenanceFeeCurrency;
     private Status status;
 
-    public CheckingDTO(AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+    public checkingDTO(AccountHolder primaryOwner, AccountHolder secondaryOwner) {
         super(primaryOwner, secondaryOwner);
     }
 
@@ -71,12 +71,12 @@ public class CheckingDTO extends AccountDTO{
         this.monthlyMaintenanceFeeAmount = monthlyMaintenanceFeeAmount;
     }
 
-    public Currency getMonthyMaintenanceFeeAmount() {
-        return monthyMaintenanceFeeAmount;
+    public Currency getMonthlyMaintenanceFeeCurrency() {
+        return monthlyMaintenanceFeeCurrency;
     }
 
-    public void setMonthyMaintenanceFeeAmount(Currency monthyMaintenanceFeeAmount) {
-        this.monthyMaintenanceFeeAmount = monthyMaintenanceFeeAmount;
+    public void setMonthlyMaintenanceFeeCurrency(Currency monthlyMaintenanceFeeCurrency) {
+        this.monthlyMaintenanceFeeCurrency = monthlyMaintenanceFeeCurrency;
     }
 
     public Status getStatus() {

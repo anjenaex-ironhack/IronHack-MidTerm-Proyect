@@ -18,6 +18,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private LocalDate creationDate;
+    private LocalDate updateDate;
     @Embedded
     @AttributeOverrides({@AttributeOverride(name = "amount", column = @Column(name = "balance_amount")),
             @AttributeOverride(name = "currency", column = @Column (name = "balance_currency"))})
@@ -42,6 +43,7 @@ public class Account {
 
     public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
         setCreationDate();
+        setUpdateDate(this.creationDate);
         this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
@@ -106,6 +108,14 @@ public class Account {
 
     public void setSecondaryOwner(AccountHolder secondaryOwner) {
         this.secondaryOwner = secondaryOwner;
+    }
+
+    public LocalDate getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(LocalDate creationDate) {
+        this.updateDate = creationDate.plusYears(1L);
     }
 }
 
