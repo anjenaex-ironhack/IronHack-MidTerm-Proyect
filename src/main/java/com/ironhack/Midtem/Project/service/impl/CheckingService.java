@@ -22,6 +22,8 @@ public class CheckingService {
     private CheckingRepository checkingRepository;
     @Autowired
     private StudentCheckingRepository studentCheckingRepository;
+    @Autowired
+    private StudentCheckingService studentCheckingService;
 
     //================================================
     //Post Methods
@@ -33,28 +35,17 @@ public class CheckingService {
         AccountHolder primaryOwner = checkingDTO.getPrimaryOwner();
         AccountHolder secondaryOwner = checkingDTO.getSecondaryOwner();
         String secretKey = checkingDTO.getSecretKey();
-        Status status = checkingDTO.getStatus();
+        String statusString = checkingDTO.getStatus().toString().toUpperCase();
+        Status status = Status.valueOf(statusString);
 
         Period period = Period.between(checkingDTO.getPrimaryOwner().getBirth(), LocalDate.now());
         int age = period.getYears();
 
         if(age < 18) {
 
-            if(Optional.of(checkingDTO.getSecondaryOwner()).isEmpty()){
+            studentCheckingService.createStudentCheckingAccount
+                    (balance, primaryOwner, secondaryOwner, secretKey, status);
 
-                StudentChecking studentChecking = new StudentChecking(balance,primaryOwner,
-                        secretKey, status);
-
-                studentCheckingRepository.save(studentChecking);
-
-            }else{
-
-                StudentChecking studentChecking =
-                        new StudentChecking(balance,primaryOwner, secondaryOwner, secretKey, status);
-
-                studentCheckingRepository.save(studentChecking);
-
-            }
         }else{
 
             Money minimumBalance = new Money(checkingDTO.getMinimumBalanceAmount(), checkingDTO.getMinimumBalanceCurrency());

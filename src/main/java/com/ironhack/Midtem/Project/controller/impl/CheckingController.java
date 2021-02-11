@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 public class CheckingController {
 
@@ -24,7 +26,7 @@ public class CheckingController {
 
     @PostMapping("/create/checkingAccount")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createCheckingAccount(@RequestBody checkingDTO checkingDTO) {
+    public void createCheckingAccount(@RequestBody @Valid checkingDTO checkingDTO) {
         checkingService.createCheckingAccount(checkingDTO);
     }
 
