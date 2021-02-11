@@ -14,7 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,8 +71,9 @@ public class AccountController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createCheckingAccount(@RequestBody Checking checking){
 
-       int age = LocalDateTime.now().getYear() - checking.getPrimaryOwner().getBirth().getYear();
-        System.out.println(age);
+       Period period = Period.between(checking.getPrimaryOwner().getBirth(), LocalDate.now());
+       int age = period.getYears();
+        System.out.println(age + "===========================================================================================");
 
        if(age < 18) {
            if(Optional.of(checking.getSecondaryOwner()).isEmpty()){

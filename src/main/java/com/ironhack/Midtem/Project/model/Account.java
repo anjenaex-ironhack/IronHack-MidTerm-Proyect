@@ -47,18 +47,18 @@ public class Account {
         this.secondaryOwner = secondaryOwner;
     }
 
-    public Account(LocalDate creationDate, Money balance, AccountHolder primaryOwner) {
-        this.creationDate = creationDate;
-        this.balance = balance;
-        this.primaryOwner = primaryOwner;
-    }
-
-    public Account(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
-        this.creationDate = creationDate;
-        this.balance = balance;
-        this.primaryOwner = primaryOwner;
-        this.secondaryOwner = secondaryOwner;
-    }
+//    public Account(LocalDate creationDate, Money balance, AccountHolder primaryOwner) {
+//        this.creationDate = creationDate;
+//        this.balance = balance;
+//        this.primaryOwner = primaryOwner;
+//    }
+//
+//    public Account(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+//        this.creationDate = creationDate;
+//        this.balance = balance;
+//        this.primaryOwner = primaryOwner;
+//        this.secondaryOwner = secondaryOwner;
+//    }
 
     public static Money getPenaltyFee() {
         return PENALTY_FEE;
