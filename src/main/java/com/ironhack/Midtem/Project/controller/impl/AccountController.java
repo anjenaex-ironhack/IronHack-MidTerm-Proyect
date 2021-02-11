@@ -1,13 +1,8 @@
 package com.ironhack.Midtem.Project.controller.impl;
 
-import com.ironhack.Midtem.Project.Repository.AccountRepository;
-import com.ironhack.Midtem.Project.Repository.CheckingRepository;
-import com.ironhack.Midtem.Project.Repository.StudentCheckingRepository;
+import com.ironhack.Midtem.Project.Repository.*;
 import com.ironhack.Midtem.Project.Utils.Money;
-import com.ironhack.Midtem.Project.model.Account;
-import com.ironhack.Midtem.Project.model.Checking;
-import com.ironhack.Midtem.Project.model.Saving;
-import com.ironhack.Midtem.Project.model.StudentChecking;
+import com.ironhack.Midtem.Project.model.*;
 import com.ironhack.Midtem.Project.service.impl.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +30,12 @@ public class AccountController {
     @Autowired
     private StudentCheckingRepository studentCheckingRepository;
 
+    @Autowired
+    private SavingRepository savingRepository;
+
+    @Autowired
+    private CreditCardRepository creditCardRepository;
+
     /**
      * Get Methods
      */
@@ -51,6 +52,8 @@ public class AccountController {
         return accountRepository.findById(Long.valueOf(id)).get();
     }
 
+    //TODO: Add a getAccountsByDNI and valid with a not null and a @regex dni pattern
+
     @GetMapping("/accounts/name")
     @ResponseStatus(HttpStatus.OK)
     public List<Account> getAccountByName(@RequestParam Optional<String> primaryOwner, @RequestParam Optional<String> secondaryOwner){
@@ -66,7 +69,7 @@ public class AccountController {
     /**
      * Post Methods
      */
-
+    //TODO move all this methods to the correct controller, for example. createCheckingAccount to checking
     @PostMapping("/account/create/checking")
     @ResponseStatus(HttpStatus.CREATED)
     public void createCheckingAccount(@RequestBody Checking checking){
@@ -81,14 +84,12 @@ public class AccountController {
                                 checking.getSecretKey(), checking.getStatus());
 
                studentCheckingRepository.save(studentChecking);
-               //TODO: make student abstrac and delete those repositories
-               //accountRepository.save(studentChecking);
+
            }else{
                StudentChecking studentChecking = new StudentChecking(checking.getBalance(),checking.getPrimaryOwner(),
                                 checking.getSecondaryOwner(), checking.getSecretKey(), checking.getStatus());
+
                studentCheckingRepository.save(studentChecking);
-               //TODO: make student abstrac and delete those repositories
-               //accountRepository.save(studentChecking);
            }
        }else{
            checkingRepository.save(checking);
@@ -97,11 +98,16 @@ public class AccountController {
 
     }
 
-    //TODO: i have to create the rest of accounts, but first i will finish with this one
-//    @PostMapping("/account/create/saving")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public void createSavingAccount(@RequestBody Saving saving){
-//        accountRepository.save(saving);
-//    }
+    @PostMapping("/account/create/saving")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createSavingAccount(@RequestBody Saving saving){
+        savingRepository.save(saving);
+    }
+
+    @PostMapping("/account/create/credit-card")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createCreditCardAccount(@RequestBody CreditCard creditCard){
+        creditCardRepository.save(creditCard);
+    }
 
 }
