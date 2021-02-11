@@ -11,17 +11,18 @@ public class AccountHolder extends User {
     private LocalDate birth;
 
     @OneToOne
-    @JoinColumn (name = "mailing_address")
-    private Address mailingAddress;
-
-    @OneToOne
     @JoinColumn(name = "address")
     private Address address;
 
-//    @OneToOne(mappedBy = "primaryOwner")
+    @OneToOne
+    @JoinColumn (name = "mailing_address")
+    private Address mailingAddress;
+
+
+//    @OneToMany(mappedBy = "primaryOwner")
 //    private Account primaryAccount;
 //
-//    @OneToOne(mappedBy = "secondaryOwner")
+//    @OneToMany(mappedBy = "secondaryOwner")
 //    private Account secondaryAccount;
 
     public AccountHolder() {

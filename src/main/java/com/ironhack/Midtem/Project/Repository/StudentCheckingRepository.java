@@ -1,4 +1,4 @@
-package com.ironhack.Midtem.Project.repository;
+package com.ironhack.Midtem.Project.Repository;
 
 import com.ironhack.Midtem.Project.model.StudentChecking;
 import org.springframework.data.jpa.repository.JpaRepository;

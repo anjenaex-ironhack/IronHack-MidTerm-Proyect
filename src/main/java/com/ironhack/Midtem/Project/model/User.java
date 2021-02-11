@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User {
+public abstract class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +44,7 @@ public class User {
         return roleList;
     }
 
+    //TODO: Check this
     @JsonIgnore
     public void setRoleList(List<Role> roleList) {
         this.roleList = roleList;

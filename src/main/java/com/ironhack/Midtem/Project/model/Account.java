@@ -30,16 +30,21 @@ public class Account {
 //  Many accounts for a user
     @ManyToOne
     @JoinColumn(name = "secondary_owner")
-    private AccountHolder secondaryOwner = null;
-
-
+    private AccountHolder secondaryOwner;
 
     public Account() {
     }
 
-    public Account( Money balance, AccountHolder primaryOwner) {
+    public Account(Money balance, AccountHolder primaryOwner) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;
+    }
+
+    public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+        setCreationDate();
+        this.balance = balance;
+        this.primaryOwner = primaryOwner;
+        this.secondaryOwner = secondaryOwner;
     }
 
     public Account(LocalDate creationDate, Money balance, AccountHolder primaryOwner) {
@@ -50,12 +55,6 @@ public class Account {
 
     public Account(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
         this.creationDate = creationDate;
-        this.balance = balance;
-        this.primaryOwner = primaryOwner;
-        this.secondaryOwner = secondaryOwner;
-    }
-
-    public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
@@ -73,6 +72,26 @@ public class Account {
         this.id = id;
     }
 
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate() {
+        this.creationDate = LocalDate.now();
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Money getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Money balance) {
+        this.balance = balance;
+    }
+
     public AccountHolder getPrimaryOwner() {
         return primaryOwner;
     }
@@ -87,25 +106,6 @@ public class Account {
 
     public void setSecondaryOwner(AccountHolder secondaryOwner) {
         this.secondaryOwner = secondaryOwner;
-    }
-
-    public Money getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Money balance) {
-        this.balance = balance;
-    }
-
-    public LocalDate getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
-    }
-    public void setCreationDate() {
-        this.creationDate = LocalDate.now();
     }
 }
 

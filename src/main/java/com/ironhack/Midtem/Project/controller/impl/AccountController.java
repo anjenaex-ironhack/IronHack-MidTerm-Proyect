@@ -1,24 +1,20 @@
 package com.ironhack.Midtem.Project.controller.impl;
 
-import com.ironhack.Midtem.Project.controller.dto.AccountDTO;
-import com.ironhack.Midtem.Project.controller.dto.AccountHolderDTO;
-import com.ironhack.Midtem.Project.controller.interfaces.IAccountControler;
-import com.ironhack.Midtem.Project.model.Account;
-import com.ironhack.Midtem.Project.model.AccountHolder;
-import com.ironhack.Midtem.Project.model.Address;
-import com.ironhack.Midtem.Project.model.Role;
-
+import com.ironhack.Midtem.Project.Repository.AccountRepository;
+import com.ironhack.Midtem.Project.Repository.CheckingRepository;
+import com.ironhack.Midtem.Project.Repository.StudentCheckingRepository;
 import com.ironhack.Midtem.Project.Utils.Money;
-import com.ironhack.Midtem.Project.repository.AccountHolderRepository;
-import com.ironhack.Midtem.Project.repository.AccountRepository;
-import com.ironhack.Midtem.Project.repository.AddressRepository;
-import com.ironhack.Midtem.Project.repository.RoleRepository;
+import com.ironhack.Midtem.Project.model.Account;
+import com.ironhack.Midtem.Project.model.Checking;
+import com.ironhack.Midtem.Project.model.Saving;
+import com.ironhack.Midtem.Project.model.StudentChecking;
 import com.ironhack.Midtem.Project.service.impl.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,84 +23,79 @@ public class AccountController {
 
     @Autowired
     private AccountRepository accountRepository;
-
-    @Autowired
-    private AccountHolderRepository accountHolderRepository;
-
-    @Autowired
-    private AddressRepository addressRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-
     @Autowired
     private AccountService accountService;
 
-    //=============================================================
-    //========================GetMethods===========================
-    //=============================================================
+
+    @Autowired
+    private CheckingRepository checkingRepository;
+
+    @Autowired
+    private StudentCheckingRepository studentCheckingRepository;
 
     /**
-     * get All the Accounts
-     * @return
+     * Get Methods
      */
-    @GetMapping("/accounts")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Account> getAllAccounts(){
-        return accountRepository.findAll();
-    }
+//    I coment this one coz i think it doesn't work
+//    @GetMapping("/accounts")
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<Account> getAllAccounts(){
+//        return accountRepository.findAll();
+//    }
 
-    /**
-     * get an Account by Account id
-     * @param id
-     * @return
-     */
     @GetMapping("/account/id/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Account getAccountById(@PathVariable String id) {
-
-            return accountService.getAccountById(id);
-
+    public Account getAccountById(@PathVariable String id){
+        return accountRepository.findById(Long.valueOf(id)).get();
     }
 
-    /**
-     * get an Account by the primaryOwner, secondaryOwner or both
-     * @param primaryOwner
-     * @param secondaryOwner
-     * @return
-     */
-    @GetMapping("/accounts/search")
+    @GetMapping("/accounts/name")
     @ResponseStatus(HttpStatus.OK)
-    public List<Account> getAccountsByName(@RequestParam Optional<String> primaryOwner, @RequestParam Optional<String> secondaryOwner) {
-
-        return accountService.getAccountsByName(primaryOwner, secondaryOwner);
-
+    public List<Account> getAccountByName(@RequestParam Optional<String> primaryOwner, @RequestParam Optional<String> secondaryOwner){
+        return accountService.getAccountsByName(primaryOwner,secondaryOwner);
     }
 
-    /**
-     * Get the balance of an Account found by id
-     * @param id
-     * @return
-     */
     @GetMapping("/account/balance/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Money getBalanceById(@PathVariable String id) {
-        return accountService.getBalanceById(id);
+    public Money getBalanceById(@PathVariable String id){
+        return accountRepository.findById(Long.valueOf(id)).get().getBalance();
     }
 
-    //===============================================================
-    //========================Post Methods===========================
-    //===============================================================
+    /**
+     * Post Methods
+     */
 
-    @PostMapping("/account/create/account")
+    @PostMapping("/account/create/checking")
     @ResponseStatus(HttpStatus.CREATED)
-    public AccountHolder createAccountHolder (@RequestBody AccountHolderDTO accountHolderDTO){
+    public void createCheckingAccount(@RequestBody Checking checking){
 
-        AccountHolder accountHolder = new AccountHolder(accountHolderDTO.getName(), accountHolderDTO.getBirth(),
-                accountHolderDTO.getAddress(), accountHolderDTO.getMailingAddress());
+       int age = LocalDateTime.now().getYear() - checking.getPrimaryOwner().getBirth().getYear();
 
-        return accountHolderRepository.save(accountHolder);
+       if(age < 18) {
+           if(Optional.of(checking.getSecondaryOwner()).isEmpty()){
+               StudentChecking studentChecking = new StudentChecking(checking.getBalance(),checking.getPrimaryOwner(),
+                                checking.getSecretKey(), checking.getStatus());
 
+               studentCheckingRepository.save(studentChecking);
+               //TODO: make student abstrac and delete those repositories
+               accountRepository.save(studentChecking);
+           }else{
+               StudentChecking studentChecking = new StudentChecking(checking.getBalance(),checking.getPrimaryOwner(),
+                                checking.getSecondaryOwner(), checking.getSecretKey(), checking.getStatus());
+           }
+       }else{
+           checkingRepository.save(checking);
+           accountRepository.save(checking);
+       }
+
+        accountRepository.save(checking);
     }
 
+    //TODO: i have to create the rest of accounts, but first i will finish with this one
+//    @PostMapping("/account/create/saving")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public void createSavingAccount(@RequestBody Saving saving){
+//        accountRepository.save(saving);
+//    }
 
 }
