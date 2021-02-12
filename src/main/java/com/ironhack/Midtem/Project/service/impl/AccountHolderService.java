@@ -48,9 +48,9 @@ public class AccountHolderService{
 
         if(accountHolderDTO.getMailingAddressId().isPresent()){
             Address mailingAddress = addressRepository.findById(accountHolderDTO.getMailingAddressId().get()).get();
-            accountHolder = new AccountHolder(dni, name, birth, address, mailingAddress);
+            accountHolder = new AccountHolder(name,dni, birth, address, mailingAddress);
         }else {
-            accountHolder = new AccountHolder(dni, name, birth, address);
+            accountHolder = new AccountHolder(name, dni, birth, address);
         }
 
         accountHolderRepository.save(accountHolder);

@@ -13,7 +13,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String dni;
     private String name;
     @OneToMany(mappedBy = "user")
     private List<Role> roleList;
@@ -21,8 +20,7 @@ public class User {
     public User() {
     }
 
-    public User(String dni, String name) {
-        this.dni = dni;
+    public User( String name) {
         this.name = name;
     }
 
@@ -32,14 +30,6 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
     }
 
     public String getName() {

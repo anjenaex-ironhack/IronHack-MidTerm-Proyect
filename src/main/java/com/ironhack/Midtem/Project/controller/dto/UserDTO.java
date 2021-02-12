@@ -5,9 +5,7 @@ import javax.validation.constraints.NotNull;
 
 public class UserDTO {
 
-    @NotNull
-    @NotEmpty
-    private String dni;
+
     @NotNull
     @NotEmpty
     private String name;
@@ -15,12 +13,8 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
+    public UserDTO( @NotNull @NotEmpty String name) {
+        this.name = name;
     }
 
     public String getName() {

@@ -1,6 +1,8 @@
 package com.ironhack.Midtem.Project.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "id")
 public class AccountHolder extends User {
 
+    private String dni;
     private LocalDate birth;
 
     @OneToOne
@@ -28,17 +31,27 @@ public class AccountHolder extends User {
     public AccountHolder() {
     }
 
-    public AccountHolder(String dni, String name, LocalDate birth, Address address, Address mailingAddress) {
-        super(dni, name);
+    public AccountHolder(String name, String dni, LocalDate birth, Address address) {
+        super(name);
+        this.dni = dni;
+        this.birth = birth;
+        this.address = address;
+    }
+
+    public AccountHolder(String name, String dni, LocalDate birth, Address address, Address mailingAddress) {
+        super(name);
+        this.dni = dni;
         this.birth = birth;
         this.address = address;
         this.mailingAddress = mailingAddress;
     }
 
-    public AccountHolder(String dni, String name, LocalDate birth, Address address) {
-        super(dni, name);
-        this.birth = birth;
-        this.address = address;
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public LocalDate getBirth() {
