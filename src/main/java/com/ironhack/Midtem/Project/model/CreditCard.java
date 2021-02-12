@@ -57,4 +57,8 @@ public class CreditCard extends Account {
     public void setUpdateDate(LocalDate updateDate) {
         this.updateDate = updateDate.plusMonths(1L);
     }
+
+    public LocalDate getUpdateDate() {
+        return updateDate;
+    }
 }

@@ -7,11 +7,15 @@ import com.ironhack.Midtem.Project.controller.dto.SavingDTO;
 import com.ironhack.Midtem.Project.enums.Status;
 import com.ironhack.Midtem.Project.model.AccountHolder;
 import com.ironhack.Midtem.Project.model.Checking;
+import com.ironhack.Midtem.Project.model.CreditCard;
 import com.ironhack.Midtem.Project.model.Saving;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -51,6 +55,19 @@ public class SavingService {
 
     }
 
+    //================================================
+    //Automatic account management
+    //================================================
 
+    public void updateSavingInterest (String id, LocalDate updateDate) {
 
+                    BigDecimal newBalanceAmount =
+                            savingRepository.findById(Long.valueOf(id)).get().getBalance().getAmount()
+                                    .multiply(savingRepository.findById(Long.valueOf(id)).get().getInterestRate());
+                    Money newBalance = new Money(newBalanceAmount);
+
+                    savingRepository.findById(Long.valueOf(id)).get().setBalance(newBalance);
+                    savingRepository.findById(Long.valueOf(id)).get().setUpdateDate(updateDate);
+
+    }
 }

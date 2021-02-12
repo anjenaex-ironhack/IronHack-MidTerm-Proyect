@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -41,6 +42,22 @@ public class CreditCardService {
         }
 
         creditCardRepository.save(creditCard);
+    }
+
+    //================================================
+    //Automatic account management
+    //================================================
+
+    public void updateCreditCardInterest (String id, LocalDate updateDate) {
+
+        BigDecimal newBalanceAmount =
+                creditCardRepository.findById(Long.valueOf(id)).get().getBalance().getAmount()
+                        .multiply(creditCardRepository.findById(Long.valueOf(id)).get().getInterestRate());
+        Money newBalance = new Money(newBalanceAmount);
+
+        creditCardRepository.findById(Long.valueOf(id)).get().setBalance(newBalance);
+        creditCardRepository.findById(Long.valueOf(id)).get().setUpdateDate(updateDate);
+
     }
 
 }
