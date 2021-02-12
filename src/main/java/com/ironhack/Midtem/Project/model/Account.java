@@ -42,9 +42,7 @@ public class Account {
     }
 
     public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
-        setCreationDate();
-        this.updateDate = this.creationDate;
-        setUpdateDate(this.updateDate);
+
         this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
@@ -111,12 +109,6 @@ public class Account {
         this.secondaryOwner = secondaryOwner;
     }
 
-    public LocalDate getUpdateDate() {
-        return updateDate;
-    }
 
-    public void setUpdateDate(LocalDate updateDate) {
-        this.updateDate = updateDate.plusYears(1L);
-    }
 }
 

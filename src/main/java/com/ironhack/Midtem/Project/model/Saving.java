@@ -13,6 +13,7 @@ import java.util.Optional;
 public class Saving extends Account {
 
     private String secretKey;
+    private LocalDate updateDate;
     private BigDecimal interestRate;
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -23,6 +24,8 @@ public class Saving extends Account {
 
     public Saving(Money balance, AccountHolder primaryOwner, String secretKey, BigDecimal interestRate, Status status) {
         super(balance, primaryOwner);
+        this.updateDate = getCreationDate();
+        setUpdateDate(this.updateDate);
         this.secretKey = secretKey;
         this.interestRate = interestRate;
         this.status = status;
@@ -30,6 +33,8 @@ public class Saving extends Account {
 
     public Saving(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, String secretKey, BigDecimal interestRate, Status status) {
         super(balance, primaryOwner, secondaryOwner);
+        this.updateDate = getCreationDate();
+        setUpdateDate(this.updateDate);
         this.secretKey = secretKey;
         this.interestRate = interestRate;
         this.status = status;
@@ -57,5 +62,13 @@ public class Saving extends Account {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public LocalDate getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(LocalDate updateDate) {
+        this.updateDate = updateDate.plusYears(1L);
     }
 }
