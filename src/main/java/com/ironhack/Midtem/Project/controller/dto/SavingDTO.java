@@ -5,8 +5,10 @@ import com.ironhack.Midtem.Project.model.AccountHolder;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Currency;
 
 public class SavingDTO extends AccountDTO{
