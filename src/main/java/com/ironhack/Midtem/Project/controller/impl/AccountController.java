@@ -40,11 +40,23 @@ public class AccountController {
     /**
      * Get Methods
      */
-//    I coment this one coz i think it doesn't work
+
     @GetMapping("/accounts")
     @ResponseStatus(HttpStatus.OK)
     public List<Account> getAllAccounts(){
         return accountRepository.findAll();
+    }
+
+    @GetMapping("/accounts/name/{name}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Account> getAccountByName(@PathVariable Optional<String> name){
+        return accountService.getAccountsByName(name);
+    }
+
+    @GetMapping("/accounts/dni/{dni}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Account> getAccountByDni(@PathVariable Optional<String> dni){
+        return accountService.getAccountsByDni(dni);
     }
 
     @GetMapping("/account/id/{id}")
@@ -52,15 +64,6 @@ public class AccountController {
     public Account getAccountById(@PathVariable String id){
         return accountRepository.findById(Long.valueOf(id)).get();
     }
-
-    //TODO: Add a getAccountsByDNI and valid with a not null and a @regex dni pattern
-
-    @GetMapping("/accounts/name")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Account> getAccountByName(@RequestParam Optional<String> primaryOwner, @RequestParam Optional<String> secondaryOwner){
-        return accountService.getAccountsByName(primaryOwner,secondaryOwner);
-    }
-
     @GetMapping("/account/{id}/balance")
     @ResponseStatus(HttpStatus.OK)
     public Money getBalanceById(@PathVariable String id){

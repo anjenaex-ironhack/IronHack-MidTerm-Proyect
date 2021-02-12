@@ -16,46 +16,62 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
-    //TODO: esto en realidad no vale pa na
-    public List<Account> getAccountsByName (Optional<String> primaryOwner, Optional<String> secondaryOwner) {
-        if(primaryOwner.isPresent() && secondaryOwner.isPresent()){
-            return getAccountsByPrimaryOwnerAndSecondaryOwner(primaryOwner.get(), secondaryOwner.get());
-        }else if (primaryOwner.isPresent()) {
-            return getAccountsByPrimaryOwner(primaryOwner.get());
-        }else if (secondaryOwner.isPresent()){
-            return getAccountsBySecondaryOwner(secondaryOwner.get());
+    public List<Account> getAccountsByPrimaryOwnerOrSecondaryOwner(String name) {
+
+        if(accountRepository.findByPrimaryOwnerNameOrSecondaryOwnerName(name, name).isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
+        } else{
+            return accountRepository.findByPrimaryOwnerNameOrSecondaryOwnerName(name, name);
+        }
+
+    }
+
+    public List<Account> getAccountsByName (Optional<String> name) {
+        if(name.isPresent()){
+
+            return getAccountsByPrimaryOwnerOrSecondaryOwner(name.get());
+
         }else {
-            throw new IllegalArgumentException("yo need at least one param");
+
+            throw new IllegalArgumentException("yo need at least one name");
+
+        }
+    }
+    //TODO: porque no me pilla los optionales
+    public List<Account> getAccountsByDni (Optional<String> dni) {
+        if(dni.isPresent()){
+
+            return getAccountsByPrimaryOwnerDniOrSecondaryOwnerDni(dni.get());
+
+        }else {
+
+            throw new IllegalArgumentException("yo need at least one DNI");
+
         }
     }
 
+    public List<Account> getAccountsByPrimaryOwnerDniOrSecondaryOwnerDni(String dniLowerCase) {
 
-    public List<Account> getAccountsByPrimaryOwnerAndSecondaryOwner(String primaryOwner, String secondaryOwner) {
+        String dni = dniLowerCase.toUpperCase();
 
-        if(accountRepository.findByPrimaryOwnerNameAndSecondaryOwnerName(primaryOwner, secondaryOwner).isEmpty()){
+        if(accountRepository.findByPrimaryOwnerDniOrSecondaryOwnerDni(dni, dni).isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
         } else{
-            return accountRepository.findByPrimaryOwnerNameAndSecondaryOwnerName(primaryOwner, secondaryOwner);
+            return accountRepository.findByPrimaryOwnerDniOrSecondaryOwnerDni(dni, dni);
         }
 
     }
 
-    public List<Account> getAccountsByPrimaryOwner(String primaryOwner) {
-
-        if(accountRepository.findByPrimaryOwnerName(primaryOwner).isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
-        } else{
-            return accountRepository.findByPrimaryOwnerName(primaryOwner);
-        }
-    }
-
-    public List<Account> getAccountsBySecondaryOwner(String secondaryOwner) {
-        if(accountRepository.findBySecondaryOwnerName(secondaryOwner).isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
-        } else{
-            return accountRepository.findBySecondaryOwnerName(secondaryOwner);
-        }
-    }
 
 
+
+
+
+
+
+    //================================================
+    //Post Methods
+    //================================================
+
+//    public
 }
