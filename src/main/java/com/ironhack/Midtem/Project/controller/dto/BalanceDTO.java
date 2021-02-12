@@ -6,19 +6,19 @@ import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.util.Currency;
 
-public class balanceDTO {
+public class BalanceDTO {
 
     private BigDecimal amount;
     private Currency currency;
 
-    public balanceDTO() {
+    public BalanceDTO() {
     }
 
-    public balanceDTO(BigDecimal amount) {
+    public BalanceDTO(BigDecimal amount) {
         this.amount = amount;
     }
 
-    public balanceDTO(BigDecimal amount, Currency currency) {
+    public BalanceDTO(BigDecimal amount, Currency currency) {
         this.amount = amount;
         this.currency = currency;
     }

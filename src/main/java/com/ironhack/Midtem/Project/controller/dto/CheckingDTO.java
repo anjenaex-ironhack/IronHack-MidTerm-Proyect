@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.util.Currency;
 
-public class checkingDTO extends AccountDTO{
+public class CheckingDTO extends AccountDTO{
 
     @NotEmpty
     private String secretKey;
@@ -28,7 +28,7 @@ public class checkingDTO extends AccountDTO{
     private Currency monthlyMaintenanceFeeCurrency;
     private Status status = Status.ACTIVE;
 
-    public checkingDTO(AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+    public CheckingDTO(AccountHolder primaryOwner, AccountHolder secondaryOwner) {
         super(primaryOwner, secondaryOwner);
     }
 

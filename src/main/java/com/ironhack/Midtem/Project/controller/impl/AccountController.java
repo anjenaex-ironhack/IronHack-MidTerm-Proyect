@@ -2,7 +2,7 @@ package com.ironhack.Midtem.Project.controller.impl;
 
 import com.ironhack.Midtem.Project.Repository.*;
 import com.ironhack.Midtem.Project.Utils.Money;
-import com.ironhack.Midtem.Project.controller.dto.balanceDTO;
+import com.ironhack.Midtem.Project.controller.dto.BalanceDTO;
 import com.ironhack.Midtem.Project.model.*;
 import com.ironhack.Midtem.Project.service.impl.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 
-import javax.validation.Valid;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
 import java.util.Optional;
@@ -119,7 +117,7 @@ public class AccountController {
 
     @PatchMapping("/account/balance/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateBalance (@PathVariable String id, @RequestBody balanceDTO balanceDTO){
+    public void updateBalance (@PathVariable String id, @RequestBody BalanceDTO balanceDTO){
 
         Money balance = new Money(balanceDTO.getAmount(), balanceDTO.getCurrency());
         Optional<Account> account = accountRepository.findById(Long.valueOf(id));

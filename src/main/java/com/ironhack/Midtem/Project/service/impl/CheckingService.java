@@ -3,11 +3,10 @@ package com.ironhack.Midtem.Project.service.impl;
 import com.ironhack.Midtem.Project.Repository.CheckingRepository;
 import com.ironhack.Midtem.Project.Repository.StudentCheckingRepository;
 import com.ironhack.Midtem.Project.Utils.Money;
-import com.ironhack.Midtem.Project.controller.dto.checkingDTO;
+import com.ironhack.Midtem.Project.controller.dto.CheckingDTO;
 import com.ironhack.Midtem.Project.enums.Status;
 import com.ironhack.Midtem.Project.model.AccountHolder;
 import com.ironhack.Midtem.Project.model.Checking;
-import com.ironhack.Midtem.Project.model.StudentChecking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +28,7 @@ public class CheckingService {
     //Post Methods
     //================================================
 
-    public void createCheckingAccount(checkingDTO checkingDTO) {
+    public void createCheckingAccount(CheckingDTO checkingDTO) {
 
         Money balance = new Money(checkingDTO.getBalanceAmount(), checkingDTO.getBalanceCurrency());
         AccountHolder primaryOwner = checkingDTO.getPrimaryOwner();

@@ -1,7 +1,7 @@
 package com.ironhack.Midtem.Project.controller.impl;
 
 import com.ironhack.Midtem.Project.Repository.CheckingRepository;
-import com.ironhack.Midtem.Project.controller.dto.checkingDTO;
+import com.ironhack.Midtem.Project.controller.dto.CheckingDTO;
 import com.ironhack.Midtem.Project.service.impl.CheckingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +26,7 @@ public class CheckingController {
 
     @PostMapping("/create/checkingAccount")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createCheckingAccount(@RequestBody @Valid checkingDTO checkingDTO) {
+    public void createCheckingAccount(@RequestBody @Valid CheckingDTO checkingDTO) {
         checkingService.createCheckingAccount(checkingDTO);
     }
 
