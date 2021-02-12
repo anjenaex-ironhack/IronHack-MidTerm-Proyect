@@ -8,7 +8,9 @@ import com.ironhack.Midtem.Project.enums.Status;
 import com.ironhack.Midtem.Project.model.AccountHolder;
 import com.ironhack.Midtem.Project.model.Checking;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -34,8 +36,10 @@ public class CheckingService {
         AccountHolder primaryOwner = checkingDTO.getPrimaryOwner();
         AccountHolder secondaryOwner = checkingDTO.getSecondaryOwner();
         String secretKey = checkingDTO.getSecretKey();
+        Status status;
         String statusString = checkingDTO.getStatus().toString().toUpperCase();
-        Status status = Status.valueOf(statusString);
+        status = Status.valueOf(statusString);
+
 
         Period period = Period.between(checkingDTO.getPrimaryOwner().getBirth(), LocalDate.now());
         int age = period.getYears();
