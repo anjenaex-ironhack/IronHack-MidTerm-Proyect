@@ -14,6 +14,7 @@ public class Saving extends Account {
 
     private String secretKey;
     private LocalDate updateDate;
+    private Money minimumBalance;
     private BigDecimal interestRate;
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -22,19 +23,21 @@ public class Saving extends Account {
     public Saving() {
     }
 
-    public Saving(Money balance, AccountHolder primaryOwner, String secretKey, BigDecimal interestRate, Status status) {
+    public Saving(Money balance, AccountHolder primaryOwner, String secretKey, Money minimumBalance, BigDecimal interestRate, Status status) {
         super(balance, primaryOwner);
         this.updateDate = LocalDate.now();
         setUpdateDate(this.updateDate);
         this.secretKey = secretKey;
+        this.minimumBalance = minimumBalance;
         this.interestRate = interestRate;
         this.status = status;
     }
 
-    public Saving(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, String secretKey, BigDecimal interestRate, Status status) {
+    public Saving(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, String secretKey, Money minimumBalance, BigDecimal interestRate, Status status) {
         super(balance, primaryOwner, secondaryOwner);
         setUpdateDate(LocalDate.now());
         this.secretKey = secretKey;
+        this.minimumBalance = minimumBalance;
         this.interestRate = interestRate;
         this.status = status;
     }
@@ -69,5 +72,13 @@ public class Saving extends Account {
 
     public void setUpdateDate(LocalDate updateDate) {
         this.updateDate = updateDate.plusYears(1L);
+    }
+
+    public Money getMinimumBalance() {
+        return minimumBalance;
+    }
+
+    public void setMinimumBalance(Money minimumBalance) {
+        this.minimumBalance = minimumBalance;
     }
 }
