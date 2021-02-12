@@ -4,6 +4,7 @@ import com.ironhack.Midtem.Project.Repository.AccountHolderRepository;
 import com.ironhack.Midtem.Project.Repository.AccountRepository;
 import com.ironhack.Midtem.Project.Repository.TransactionRepository;
 import com.ironhack.Midtem.Project.Utils.Money;
+import com.ironhack.Midtem.Project.controller.dto.AccountHolderDTO;
 import com.ironhack.Midtem.Project.model.Account;
 import com.ironhack.Midtem.Project.model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,20 @@ public class AccountHolderService{
     @Autowired
     private TransactionRepository transactionRepository;
 
-    //TODO: check with king of propierties do i need
+
+    //================================================
+    //Post Methods
+    //================================================
+
+    public void createAccountHolder (AccountHolderDTO accountHolderDTO){
+
+    }
+
+
+
+
+
+    //TODO: check with king of propierties do i need, this should go int a Transaction service
     public Transaction createTransaction(Long senderAccountId, Long beneficiaryAccountId, Money amount) {
 
         if(accountRepository.findById(senderAccountId).isPresent() && accountRepository.findById(beneficiaryAccountId).isPresent()){

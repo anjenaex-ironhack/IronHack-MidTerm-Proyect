@@ -42,7 +42,7 @@ public class Account {
     }
 
     public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
-
+        setCreationDate(LocalDate.now());
         this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
@@ -75,10 +75,6 @@ public class Account {
 
     public LocalDate getCreationDate() {
         return creationDate;
-    }
-
-    public void setCreationDate() {
-        this.creationDate = LocalDate.now();
     }
 
     public void setCreationDate(LocalDate creationDate) {

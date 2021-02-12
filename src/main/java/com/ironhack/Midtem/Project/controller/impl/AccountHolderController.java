@@ -32,15 +32,11 @@ public class AccountHolderController {
     @ResponseStatus(HttpStatus.OK)
     public AccountHolder getAccountHolderById (@PathVariable String id) {
 
-        try {
             if (accountHolderRepository.findById(Long.valueOf(id)).isPresent()) {
                     return accountHolderRepository.findById(Long.valueOf(id)).get();
                 }else{
                     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "AccountHolder not found");
                 }
-        } catch (IllegalArgumentException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "select a correct id");
-        }
 
     }
 

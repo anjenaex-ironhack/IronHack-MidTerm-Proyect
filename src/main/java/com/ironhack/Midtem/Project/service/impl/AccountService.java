@@ -16,6 +16,11 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+
+    //================================================
+    //Get Methods
+    //================================================
+
     public List<Account> getAccountsByPrimaryOwnerOrSecondaryOwner(String name) {
 
         if(accountRepository.findByPrimaryOwnerNameOrSecondaryOwnerName(name, name).isEmpty()){

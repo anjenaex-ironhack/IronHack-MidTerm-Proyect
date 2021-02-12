@@ -21,9 +21,9 @@ public class StudentCheckingService {
     //Post Methods
     //================================================
     public void createStudentCheckingAccount
-            (Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, String secretKey, Status status){
+            (Money balance, AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner, String secretKey, Status status){
 
-        if(Optional.of(secondaryOwner).isEmpty()){
+        if(secondaryOwner.isEmpty()){
 
             StudentChecking studentChecking =
                         new StudentChecking(balance,primaryOwner,secretKey, status);
@@ -33,7 +33,7 @@ public class StudentCheckingService {
         }else{
 
             StudentChecking studentChecking =
-                    new StudentChecking(balance,primaryOwner, secondaryOwner, secretKey, status);
+                    new StudentChecking(balance,primaryOwner, secondaryOwner.get(), secretKey, status);
 
             studentCheckingRepository.save(studentChecking);
 
