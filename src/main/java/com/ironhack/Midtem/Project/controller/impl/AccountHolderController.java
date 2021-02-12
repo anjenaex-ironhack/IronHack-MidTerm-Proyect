@@ -1,12 +1,15 @@
 package com.ironhack.Midtem.Project.controller.impl;
 
 import com.ironhack.Midtem.Project.Repository.AccountHolderRepository;
+import com.ironhack.Midtem.Project.controller.dto.AccountHolderDTO;
 import com.ironhack.Midtem.Project.model.AccountHolder;
+import com.ironhack.Midtem.Project.service.impl.AccountHolderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -14,6 +17,8 @@ public class AccountHolderController {
 
     @Autowired
     private AccountHolderRepository accountHolderRepository;
+    @Autowired
+    private AccountHolderService accountHolderService;
 
 
     /**
@@ -46,8 +51,8 @@ public class AccountHolderController {
 
     @PostMapping("user/create/account-holder")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createAccountHolder (@RequestBody AccountHolder accountHolder) {
-        accountHolderRepository.save(accountHolder);
+    public void createAccountHolder (@RequestBody @Valid AccountHolderDTO accountHolderDTO) {
+       accountHolderService.createAccountHolder(accountHolderDTO);
     }
 
 }

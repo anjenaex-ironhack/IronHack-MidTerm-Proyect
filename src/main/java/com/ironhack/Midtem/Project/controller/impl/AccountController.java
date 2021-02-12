@@ -70,49 +70,6 @@ public class AccountController {
         return accountRepository.findById(Long.valueOf(id)).get().getBalance();
     }
 
-    /**
-     * Post Methods
-     */
-    //TODO move all this methods to the correct controller, for example. createCheckingAccount to checking
-    @PostMapping("/account/create/checking")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createCheckingAccount(@RequestBody Checking checking){
-
-       Period period = Period.between(checking.getPrimaryOwner().getBirth(), LocalDate.now());
-       int age = period.getYears();
-        System.out.println(age + "===========================================================================================");
-
-       if(age < 18) {
-           if(Optional.of(checking.getSecondaryOwner()).isEmpty()){
-               StudentChecking studentChecking = new StudentChecking(checking.getBalance(),checking.getPrimaryOwner(),
-                                checking.getSecretKey(), checking.getStatus());
-
-               studentCheckingRepository.save(studentChecking);
-
-           }else{
-               StudentChecking studentChecking = new StudentChecking(checking.getBalance(),checking.getPrimaryOwner(),
-                                checking.getSecondaryOwner(), checking.getSecretKey(), checking.getStatus());
-
-               studentCheckingRepository.save(studentChecking);
-           }
-       }else{
-           checkingRepository.save(checking);
-
-       }
-
-    }
-
-    @PostMapping("/account/create/saving")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createSavingAccount(@RequestBody Saving saving){
-        savingRepository.save(saving);
-    }
-
-    @PostMapping("/account/create/credit-card")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createCreditCardAccount(@RequestBody CreditCard creditCard){
-        creditCardRepository.save(creditCard);
-    }
 
     /**
      * Patch Methods

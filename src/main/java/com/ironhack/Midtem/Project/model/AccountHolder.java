@@ -35,6 +35,11 @@ public class AccountHolder extends User {
         this.mailingAddress = mailingAddress;
     }
 
+    public AccountHolder(String dni, String name, LocalDate birth, Address address) {
+        super(dni, name);
+        this.birth = birth;
+        this.address = address;
+    }
 
     public LocalDate getBirth() {
         return birth;
