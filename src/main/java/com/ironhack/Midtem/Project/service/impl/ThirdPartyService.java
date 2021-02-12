@@ -16,7 +16,11 @@ public class ThirdPartyService {
     //Post Methods
     //================================================
     public void createThirdParty(ThirdPartyDTO ThirdPartyDTO){
+        String name = ThirdPartyDTO.getName();
+        String hashedKey = ThirdPartyDTO.getHashedKey();
 
+        ThirdParty thirdParty = new ThirdParty(name, hashedKey);
+        thirdPartyRepository.save(thirdParty);
     }
 
 }

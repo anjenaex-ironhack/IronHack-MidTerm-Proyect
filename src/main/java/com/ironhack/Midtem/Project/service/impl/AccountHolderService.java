@@ -33,7 +33,23 @@ public class AccountHolderService{
     //================================================
     //Get Methods
     //================================================
+    public AccountHolder getAccountHolderByDni(String dni){
 
+        if(accountHolderRepository.findByDni(dni).isPresent()){
+            return accountHolderRepository.findByDni(dni).get();
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "AccountHolder with DNI " + dni + "Not found");
+        }
+    }
+
+    public AccountHolder getAccountHolderById(String id){
+
+        if(accountHolderRepository.findById(Long.valueOf(id)).isPresent()){
+            return accountHolderRepository.findByDni(id).get();
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "AccountHolder with DNI " + id + "Not found");
+        }
+    }
     //================================================
     //Post Methods
     //================================================

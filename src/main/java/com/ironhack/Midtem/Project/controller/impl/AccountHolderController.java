@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class AccountHolderController {
@@ -33,17 +34,21 @@ public class AccountHolderController {
 
     }
 
-    @GetMapping("user/account-holder/{id}")
+    @GetMapping("user/account-holder")
     @ResponseStatus(HttpStatus.OK)
-    public AccountHolder getAccountHolderById (@PathVariable String id) {
+    public AccountHolder getAccountHolder (@RequestParam Optional<String> id, @RequestParam Optional<String> dni) {
 
-            if (accountHolderRepository.findById(Long.valueOf(id)).isPresent()) {
-                    return accountHolderRepository.findById(Long.valueOf(id)).get();
-                }else{
-                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "AccountHolder not found");
-                }
+        if(id.isPresent()){
+            return accountHolderService.getAccountHolderById(id.get());
+        }else if(dni.isPresent()){
+            return accountHolderService.getAccountHolderByDni(dni.get());
+        }else{
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insert a correct id or DNI");
+        }
+
 
     }
+    @GetMapping("user/account-holder/{}")
 
     /**
      * Post Methods

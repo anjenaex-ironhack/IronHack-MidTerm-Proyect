@@ -1,6 +1,8 @@
 package com.ironhack.Midtem.Project.service.impl;
 
 import com.ironhack.Midtem.Project.Repository.AccountRepository;
+import com.ironhack.Midtem.Project.Utils.Money;
+import com.ironhack.Midtem.Project.controller.dto.BalanceDTO;
 import com.ironhack.Midtem.Project.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,16 +69,34 @@ public class AccountService {
 
     }
 
+    public Money getBalanceById(String id){
 
+        if(accountRepository.findById(Long.valueOf(id)).isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account with id " + id + "not found");
+        } else{
+            return accountRepository.findById(Long.valueOf(id)).get().getBalance();
+        }
 
-
-
-
-
+    }
 
     //================================================
-    //Post Methods
+    //Patch Methods
     //================================================
 
-//    public
+    public void updateBalance (String id, BalanceDTO balanceDTO){
+
+        Money balance = new Money(balanceDTO.getAmount(), balanceDTO.getCurrency());
+        Optional<Account> account = accountRepository.findById(Long.valueOf(id));
+
+        if(account.isPresent()){
+            try{
+                account.get().setBalance(balance);
+                accountRepository.save(account.get());
+            } catch (IllegalArgumentException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Select a correct balance");
+            }
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account with id " + id + "not found");
+        }
+    }
 }

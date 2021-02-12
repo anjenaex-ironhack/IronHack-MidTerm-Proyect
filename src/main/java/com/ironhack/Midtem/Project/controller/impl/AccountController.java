@@ -68,7 +68,7 @@ public class AccountController {
     @GetMapping("/account/{id}/balance")
     @ResponseStatus(HttpStatus.OK)
     public Money getBalanceById(@PathVariable String id){
-        return accountRepository.findById(Long.valueOf(id)).get().getBalance();
+        return accountService.getBalanceById(id);
     }
 
 
@@ -80,19 +80,7 @@ public class AccountController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateBalance (@PathVariable String id, @RequestBody @Valid BalanceDTO balanceDTO){
 
-        Money balance = new Money(balanceDTO.getAmount(), balanceDTO.getCurrency());
-        Optional<Account> account = accountRepository.findById(Long.valueOf(id));
-
-        if(account.isPresent()){
-            try{
-                account.get().setBalance(balance);
-                accountRepository.save(account.get());
-            } catch (IllegalArgumentException e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Select a correct balance");
-            }
-        }else{
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
-        }
+            accountService.updateBalance(id, balanceDTO);
     }
 
 }
