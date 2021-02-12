@@ -33,8 +33,7 @@ public class CreditCard extends Account {
 
     public CreditCard(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money creditLimit, BigDecimal interestRate) {
         super(balance, primaryOwner, secondaryOwner);
-        this.updateDate = getCreationDate();
-        setUpdateDate(this.updateDate);
+        setUpdateDate(LocalDate.now());
         this.creditLimit = creditLimit;
         this.interestRate = interestRate;
     }

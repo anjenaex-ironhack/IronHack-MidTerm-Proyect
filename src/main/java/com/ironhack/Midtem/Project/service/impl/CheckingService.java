@@ -34,7 +34,7 @@ public class CheckingService {
 
         Money balance = new Money(checkingDTO.getBalanceAmount(), checkingDTO.getBalanceCurrency());
         AccountHolder primaryOwner = checkingDTO.getPrimaryOwner();
-        AccountHolder secondaryOwner = checkingDTO.getSecondaryOwner();
+        Optional<AccountHolder> secondaryOwner = Optional.of(checkingDTO.getSecondaryOwner());
         String secretKey = checkingDTO.getSecretKey();
         Status status;
         String statusString = checkingDTO.getStatus().toString().toUpperCase();
@@ -57,10 +57,10 @@ public class CheckingService {
 
             if(Optional.of(checkingDTO.getSecondaryOwner()).isEmpty()) {
                 checking =
-                        new Checking(balance, primaryOwner, secondaryOwner,secretKey, minimumBalance, monthlyMaintenanceFee, status);
+                        new Checking(balance, primaryOwner, secondaryOwner.get(),secretKey, minimumBalance, monthlyMaintenanceFee, status);
             }else{
                 checking =
-                        new Checking(balance, primaryOwner, secondaryOwner,secretKey, minimumBalance, monthlyMaintenanceFee, status);
+                        new Checking(balance, primaryOwner, secondaryOwner.get(),secretKey, minimumBalance, monthlyMaintenanceFee, status);
             }
 
             checkingRepository.save(checking);

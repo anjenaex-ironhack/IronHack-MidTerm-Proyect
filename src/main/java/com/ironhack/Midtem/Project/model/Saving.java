@@ -24,7 +24,7 @@ public class Saving extends Account {
 
     public Saving(Money balance, AccountHolder primaryOwner, String secretKey, BigDecimal interestRate, Status status) {
         super(balance, primaryOwner);
-        this.updateDate = getCreationDate();
+        this.updateDate = LocalDate.now();
         setUpdateDate(this.updateDate);
         this.secretKey = secretKey;
         this.interestRate = interestRate;
@@ -33,8 +33,7 @@ public class Saving extends Account {
 
     public Saving(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, String secretKey, BigDecimal interestRate, Status status) {
         super(balance, primaryOwner, secondaryOwner);
-        this.updateDate = getCreationDate();
-        setUpdateDate(this.updateDate);
+        setUpdateDate(LocalDate.now());
         this.secretKey = secretKey;
         this.interestRate = interestRate;
         this.status = status;
