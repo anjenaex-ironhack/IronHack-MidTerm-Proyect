@@ -4,17 +4,21 @@ import com.ironhack.Midtem.Project.Utils.Money;
 import com.ironhack.Midtem.Project.model.AccountHolder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class AccountDTO {
 
     private long id;
-    private AccountHolder primaryOwner;
-    private AccountHolder secondaryOwner;
+    @NotNull
+    private long primaryOwnerId;
+    private Optional<Long> secondaryOwnerId;
 
-    public AccountDTO(AccountHolder primaryOwner, AccountHolder secondaryOwner) {
-        this.primaryOwner = primaryOwner;
-        this.secondaryOwner = secondaryOwner;
+    public AccountDTO(@NotNull @NotEmpty long primaryOwnerId, Optional<Long> secondaryOwnerId) {
+        this.primaryOwnerId = primaryOwnerId;
+        this.secondaryOwnerId = secondaryOwnerId;
     }
 
     public long getId() {
@@ -25,19 +29,19 @@ public class AccountDTO {
         this.id = id;
     }
 
-    public AccountHolder getPrimaryOwner() {
-        return primaryOwner;
+    public long getPrimaryOwnerId() {
+        return primaryOwnerId;
     }
 
-    public void setPrimaryOwner(AccountHolder primaryOwner) {
-        this.primaryOwner = primaryOwner;
+    public void setPrimaryOwnerId(long primaryOwnerId) {
+        this.primaryOwnerId = primaryOwnerId;
     }
 
-    public AccountHolder getSecondaryOwner() {
-        return secondaryOwner;
+    public Optional<Long> getSecondaryOwnerId() {
+        return secondaryOwnerId;
     }
 
-    public void setSecondaryOwner(AccountHolder secondaryOwner) {
-        this.secondaryOwner = secondaryOwner;
+    public void setSecondaryOwnerId(Optional<Long> secondaryOwnerId) {
+        this.secondaryOwnerId = secondaryOwnerId;
     }
 }

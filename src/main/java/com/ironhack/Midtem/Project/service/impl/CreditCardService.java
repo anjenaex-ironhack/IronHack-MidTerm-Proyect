@@ -1,5 +1,6 @@
 package com.ironhack.Midtem.Project.service.impl;
 
+import com.ironhack.Midtem.Project.Repository.AccountHolderRepository;
 import com.ironhack.Midtem.Project.Repository.CreditCardRepository;
 import com.ironhack.Midtem.Project.Utils.Money;
 import com.ironhack.Midtem.Project.controller.dto.CreditCardDTO;
@@ -16,6 +17,8 @@ public class CreditCardService {
 
     @Autowired
     private CreditCardRepository creditCardRepository;
+    @Autowired
+    private AccountHolderRepository accountHolderRepository;
 
     //================================================
     //Post Methods
@@ -24,18 +27,18 @@ public class CreditCardService {
     public void createCreditCard(CreditCardDTO creditCardDTO) {
 
         Money balance = new Money(creditCardDTO.getBalanceAmount(), creditCardDTO.getBalanceCurrency());
-        AccountHolder primaryOwner = creditCardDTO.getPrimaryOwner();
-        AccountHolder secondaryOwner = creditCardDTO.getSecondaryOwner();
+        AccountHolder primaryOwner = accountHolderRepository.findById(creditCardDTO.getPrimaryOwnerId()).get();
         Money creditLimit = new Money(creditCardDTO.getCreditLimitAmount(),creditCardDTO.getCreditLimitCurrency());
         BigDecimal interestRate = creditCardDTO.getInterestRate();
 
         CreditCard creditCard;
 
         //TODO: preguntar a xabi porque no funciona esto
-        if(Optional.of(secondaryOwner).isEmpty()){
-            creditCard = new CreditCard (balance, primaryOwner, creditLimit,interestRate);
+        if(accountHolderRepository.findById(creditCardDTO.getSecondaryOwnerId().get()).isPresent()){
+            AccountHolder secondaryOwner = accountHolderRepository.findById(creditCardDTO.getSecondaryOwnerId().get()).get();
+            creditCard = new CreditCard (balance, primaryOwner, secondaryOwner, creditLimit,interestRate);
         }else{
-            creditCard = new CreditCard(balance, primaryOwner, secondaryOwner, creditLimit,interestRate);
+            creditCard = new CreditCard(balance, primaryOwner, creditLimit,interestRate);
         }
 
         creditCardRepository.save(creditCard);

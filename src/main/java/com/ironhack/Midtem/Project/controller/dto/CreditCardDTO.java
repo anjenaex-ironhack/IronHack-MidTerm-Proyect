@@ -9,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.Optional;
 
 public class CreditCardDTO extends AccountDTO{
 
@@ -23,9 +24,8 @@ public class CreditCardDTO extends AccountDTO{
     @DecimalMin(value = "0.1", message = "the minimum interestRate is 0.1")
     private BigDecimal interestRate = new BigDecimal("0.2");
 
-
-    public CreditCardDTO(AccountHolder primaryOwner, AccountHolder secondaryOwner) {
-        super(primaryOwner, secondaryOwner);
+    public CreditCardDTO(long primaryOwnerId, Optional<Long> secondaryOwnerId) {
+        super(primaryOwnerId, secondaryOwnerId);
     }
 
     public BigDecimal getBalanceAmount() {

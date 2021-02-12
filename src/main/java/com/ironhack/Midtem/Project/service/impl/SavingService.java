@@ -1,5 +1,6 @@
 package com.ironhack.Midtem.Project.service.impl;
 
+import com.ironhack.Midtem.Project.Repository.AccountHolderRepository;
 import com.ironhack.Midtem.Project.Repository.SavingRepository;
 import com.ironhack.Midtem.Project.Utils.Money;
 import com.ironhack.Midtem.Project.controller.dto.SavingDTO;
@@ -18,6 +19,8 @@ public class SavingService {
 
     @Autowired
     private SavingRepository savingRepository;
+    @Autowired
+    private AccountHolderRepository accountHolderRepository;
 
     //================================================
     //Post Methods
@@ -26,8 +29,8 @@ public class SavingService {
     public void createSavingAccount(SavingDTO savingDTO) {
 
         Money balance = new Money(savingDTO.getBalanceAmount(), savingDTO.getBalanceCurrency());
-        AccountHolder primaryOwner = savingDTO.getPrimaryOwner();
-        AccountHolder secondaryOwner = savingDTO.getSecondaryOwner();
+        AccountHolder primaryOwner = accountHolderRepository.findById(savingDTO.getPrimaryOwnerId()).get();
+
         String secretKey = savingDTO.getSecretKey();
         BigDecimal interestRate = savingDTO.getInterestRate();
         String statusString = savingDTO.getStatus().toString().toUpperCase();
@@ -35,12 +38,13 @@ public class SavingService {
 
         Saving saving;
 
-        if(Optional.of(secondaryOwner).isEmpty()) {
+        if(accountHolderRepository.findById(savingDTO.getSecondaryOwnerId().get()).isPresent()) {
+            AccountHolder secondaryOwner = accountHolderRepository.findById(savingDTO.getSecondaryOwnerId().get()).get();
             saving =
                     new Saving(balance, primaryOwner, secondaryOwner,secretKey, interestRate, status);
         }else{
             saving =
-                    new Saving(balance, primaryOwner, secondaryOwner,secretKey, interestRate, status);
+                    new Saving(balance, primaryOwner, secretKey, interestRate, status);
         }
 
         savingRepository.save(saving);

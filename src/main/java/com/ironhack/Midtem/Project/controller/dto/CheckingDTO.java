@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.Optional;
 
 public class CheckingDTO extends AccountDTO{
 
@@ -27,8 +28,8 @@ public class CheckingDTO extends AccountDTO{
     private Currency monthlyMaintenanceFeeCurrency = Currency.getInstance("USD");
     private Status status = Status.ACTIVE;
 
-    public CheckingDTO(AccountHolder primaryOwner, AccountHolder secondaryOwner) {
-        super(primaryOwner, secondaryOwner);
+    public CheckingDTO(long primaryOwnerId, Optional<Long> secondaryOwnerId) {
+        super(primaryOwnerId, secondaryOwnerId);
     }
 
     public String getSecretKey() {

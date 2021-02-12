@@ -1,5 +1,6 @@
 package com.ironhack.Midtem.Project.service.impl;
 
+import com.ironhack.Midtem.Project.Repository.AccountHolderRepository;
 import com.ironhack.Midtem.Project.Repository.CheckingRepository;
 import com.ironhack.Midtem.Project.Repository.StudentCheckingRepository;
 import com.ironhack.Midtem.Project.Utils.Money;
@@ -25,6 +26,8 @@ public class CheckingService {
     private StudentCheckingRepository studentCheckingRepository;
     @Autowired
     private StudentCheckingService studentCheckingService;
+    @Autowired
+    private AccountHolderRepository accountHolderRepository;
 
     //================================================
     //Post Methods
@@ -32,35 +35,32 @@ public class CheckingService {
 
     public void createCheckingAccount(CheckingDTO checkingDTO) {
 
-        Money balance = new Money(checkingDTO.getBalanceAmount(), checkingDTO.getBalanceCurrency());
-        AccountHolder primaryOwner = checkingDTO.getPrimaryOwner();
-        Optional<AccountHolder> secondaryOwner = Optional.of(checkingDTO.getSecondaryOwner());
-        String secretKey = checkingDTO.getSecretKey();
-        Status status;
-        String statusString = checkingDTO.getStatus().toString().toUpperCase();
-        status = Status.valueOf(statusString);
-
-
-        Period period = Period.between(checkingDTO.getPrimaryOwner().getBirth(), LocalDate.now());
+        Period period = Period.between(accountHolderRepository.findById(checkingDTO.getPrimaryOwnerId()).get().getBirth(), LocalDate.now());
         int age = period.getYears();
 
         if(age < 18) {
 
-            studentCheckingService.createStudentCheckingAccount
-                    (balance, primaryOwner, secondaryOwner, secretKey, status);
+            studentCheckingService.createStudentCheckingAccount (checkingDTO);
 
         }else{
 
+            Money balance = new Money(checkingDTO.getBalanceAmount(), checkingDTO.getBalanceCurrency());
+            AccountHolder primaryOwner = accountHolderRepository.findById(checkingDTO.getPrimaryOwnerId()).get();
+            String secretKey = checkingDTO.getSecretKey();
+            Status status;
+            String statusString = checkingDTO.getStatus().toString().toUpperCase();
+            status = Status.valueOf(statusString);
             Money minimumBalance = new Money(checkingDTO.getMinimumBalanceAmount(), checkingDTO.getMinimumBalanceCurrency());
             Money monthlyMaintenanceFee = new Money(checkingDTO.getMonthlyMaintenanceFeeAmount(), checkingDTO.getMonthlyMaintenanceFeeCurrency());
             Checking checking;
 
-            if(Optional.of(checkingDTO.getSecondaryOwner()).isEmpty()) {
+            if(accountHolderRepository.findById(checkingDTO.getSecondaryOwnerId().get()).isPresent()) {
+                AccountHolder secondaryOwner = accountHolderRepository.findById(checkingDTO.getSecondaryOwnerId().get()).get();
                 checking =
-                        new Checking(balance, primaryOwner, secondaryOwner.get(),secretKey, minimumBalance, monthlyMaintenanceFee, status);
+                        new Checking(balance, primaryOwner, secondaryOwner,secretKey, minimumBalance, monthlyMaintenanceFee, status);
             }else{
                 checking =
-                        new Checking(balance, primaryOwner, secondaryOwner.get(),secretKey, minimumBalance, monthlyMaintenanceFee, status);
+                        new Checking(balance, primaryOwner, secretKey, minimumBalance, monthlyMaintenanceFee, status);
             }
 
             checkingRepository.save(checking);

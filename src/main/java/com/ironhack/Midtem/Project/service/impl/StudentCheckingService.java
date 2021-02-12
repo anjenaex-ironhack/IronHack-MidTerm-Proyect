@@ -1,7 +1,9 @@
 package com.ironhack.Midtem.Project.service.impl;
 
+import com.ironhack.Midtem.Project.Repository.AccountHolderRepository;
 import com.ironhack.Midtem.Project.Repository.StudentCheckingRepository;
 import com.ironhack.Midtem.Project.Utils.Money;
+import com.ironhack.Midtem.Project.controller.dto.CheckingDTO;
 import com.ironhack.Midtem.Project.enums.Status;
 import com.ironhack.Midtem.Project.model.Account;
 import com.ironhack.Midtem.Project.model.AccountHolder;
@@ -16,28 +18,34 @@ public class StudentCheckingService {
 
     @Autowired
     private StudentCheckingRepository studentCheckingRepository;
+    @Autowired
+    private AccountHolderRepository accountHolderRepository;
 
     //================================================
     //Post Methods
     //================================================
-    public void createStudentCheckingAccount
-            (Money balance, AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner, String secretKey, Status status){
+    public void createStudentCheckingAccount(CheckingDTO checkingDTO){
 
-        if(secondaryOwner.isEmpty()){
+        Money balance = new Money(checkingDTO.getBalanceAmount(), checkingDTO.getBalanceCurrency());
+        AccountHolder primaryOwner = accountHolderRepository.findById(checkingDTO.getPrimaryOwnerId()).get();
+        String secretKey = checkingDTO.getSecretKey();
+        Status status;
+        String statusString = checkingDTO.getStatus().toString().toUpperCase();
+        status = Status.valueOf(statusString);
 
-            StudentChecking studentChecking =
-                        new StudentChecking(balance,primaryOwner,secretKey, status);
+        StudentChecking studentChecking;
 
-            studentCheckingRepository.save(studentChecking);
+        if(accountHolderRepository.findById(checkingDTO.getSecondaryOwnerId().get()).isPresent()){
+            AccountHolder secondaryOwner = accountHolderRepository.findById(checkingDTO.getSecondaryOwnerId().get()).get();
+            studentChecking = new StudentChecking(balance,primaryOwner,secondaryOwner, secretKey, status);
 
         }else{
 
-            StudentChecking studentChecking =
-                    new StudentChecking(balance,primaryOwner, secondaryOwner.get(), secretKey, status);
-
-            studentCheckingRepository.save(studentChecking);
+            studentChecking =
+                    new StudentChecking(balance,primaryOwner, secretKey, status);
 
         }
+        studentCheckingRepository.save(studentChecking);
     }
 
 }
