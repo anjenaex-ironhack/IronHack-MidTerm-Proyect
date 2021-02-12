@@ -7,14 +7,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class AccountHolderDTO extends User {
 
     @NotNull
     private LocalDate birth;
     @NotNull
-    private Address address;
-    private Address mailingAddress;
+    private Long addressId;
+    private Optional<Long> mailingAddressId;
+
+    public AccountHolderDTO(String dni, String name, @NotNull LocalDate birth, @NotNull Long addressId, Optional<Long> mailingAddressId) {
+        super(dni, name);
+        this.birth = birth;
+        this.addressId = addressId;
+        this.mailingAddressId = mailingAddressId;
+    }
 
     public LocalDate getBirth() {
         return birth;
@@ -24,19 +32,19 @@ public class AccountHolderDTO extends User {
         this.birth = birth;
     }
 
-    public Address getAddress() {
-        return address;
+    public Long getAddressId() {
+        return addressId;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
     }
 
-    public Address getMailingAddress() {
-        return mailingAddress;
+    public Optional<Long> getMailingAddressId() {
+        return mailingAddressId;
     }
 
-    public void setMailingAddress(Address mailingAddress) {
-        this.mailingAddress = mailingAddress;
+    public void setMailingAddressId(Optional<Long> mailingAddressId) {
+        this.mailingAddressId = mailingAddressId;
     }
 }

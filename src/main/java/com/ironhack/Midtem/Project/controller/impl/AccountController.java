@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -75,9 +76,9 @@ public class AccountController {
      * Patch Methods
      */
 
-    @PatchMapping("/account/balance/{id}")
+    @PatchMapping("/account/{id}/balance/")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateBalance (@PathVariable String id, @RequestBody BalanceDTO balanceDTO){
+    public void updateBalance (@PathVariable String id, @RequestBody @Valid BalanceDTO balanceDTO){
 
         Money balance = new Money(balanceDTO.getAmount(), balanceDTO.getCurrency());
         Optional<Account> account = accountRepository.findById(Long.valueOf(id));

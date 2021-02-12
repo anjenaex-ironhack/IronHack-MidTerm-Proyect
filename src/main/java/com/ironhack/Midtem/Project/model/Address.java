@@ -1,7 +1,5 @@
 package com.ironhack.Midtem.Project.model;
 
-import com.ironhack.Midtem.Project.enums.City;
-import com.ironhack.Midtem.Project.enums.Country;
 
 import javax.persistence.*;
 import java.util.List;

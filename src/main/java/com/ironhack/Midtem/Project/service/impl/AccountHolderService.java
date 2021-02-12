@@ -2,6 +2,7 @@ package com.ironhack.Midtem.Project.service.impl;
 
 import com.ironhack.Midtem.Project.Repository.AccountHolderRepository;
 import com.ironhack.Midtem.Project.Repository.AccountRepository;
+import com.ironhack.Midtem.Project.Repository.AddressRepository;
 import com.ironhack.Midtem.Project.Repository.TransactionRepository;
 import com.ironhack.Midtem.Project.Utils.Money;
 import com.ironhack.Midtem.Project.controller.dto.AccountHolderDTO;
@@ -26,8 +27,12 @@ public class AccountHolderService{
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
-    private TransactionRepository transactionRepository;
+    private AddressRepository addressRepository;
 
+
+    //================================================
+    //Get Methods
+    //================================================
 
     //================================================
     //Post Methods
@@ -37,44 +42,23 @@ public class AccountHolderService{
         String dni = accountHolderDTO.getDni();
         String name = accountHolderDTO.getName();
         LocalDate birth = accountHolderDTO.getBirth();
-        Address address = accountHolderDTO.getAddress();
-        Address mailingAddress = accountHolderDTO.getMailingAddress();
+        Address address = addressRepository.findById(accountHolderDTO.getAddressId()).get();
 
         AccountHolder accountHolder;
 
-        if(Optional.of(mailingAddress).isPresent()){
+        if(accountHolderDTO.getMailingAddressId().isPresent()){
+            Address mailingAddress = addressRepository.findById(accountHolderDTO.getMailingAddressId().get()).get();
             accountHolder = new AccountHolder(dni, name, birth, address, mailingAddress);
-            accountHolderRepository.save(accountHolder);
         }else {
             accountHolder = new AccountHolder(dni, name, birth, address);
-            accountHolderRepository.save(accountHolder);
         }
+
+        accountHolderRepository.save(accountHolder);
     }
 
 
 
 
 
-    //TODO: check with king of propierties do i need, this should go int a Transaction service
-    public Transaction createTransaction(Long senderAccountId, Long beneficiaryAccountId, Money amount) {
 
-        if(accountRepository.findById(senderAccountId).isPresent() && accountRepository.findById(beneficiaryAccountId).isPresent()){
-            BigDecimal minimumBalance = accountRepository.findById(senderAccountId).get().getBalance().getAmount();
-            BigDecimal transactionAmount = amount.getAmount();
-            if(minimumBalance.subtract(transactionAmount).equals(new BigDecimal("0"))) {
-
-                Account senderAccount = accountRepository.findById(senderAccountId).get();
-                Account beneficiaryAccount = accountRepository.findById(beneficiaryAccountId).get();
-                Transaction transaction = new Transaction(senderAccount, beneficiaryAccount, amount);
-
-                return transaction;
-            }else {
-                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You can't send an amount bigger than your minimum balance");
-            }
-        }else{
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "senderAccount or beneficiaryAccount not found");
-        }
-
-
-    }
 }
