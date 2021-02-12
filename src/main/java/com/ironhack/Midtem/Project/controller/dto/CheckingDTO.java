@@ -5,27 +5,26 @@ import com.ironhack.Midtem.Project.enums.Status;
 import com.ironhack.Midtem.Project.model.AccountHolder;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Currency;
 
 public class CheckingDTO extends AccountDTO{
 
+    @NotNull
     @NotEmpty
     private String secretKey;
+    @NotNull
     @DecimalMin(value = "250", message = "The minimum balance when you create a checking account is 250")
     private BigDecimal balanceAmount;
-    private Currency balanceCurrency;
+    private Currency balanceCurrency = Currency.getInstance("USD");
     @DecimalMin(value = "250", message = "The minimum balance when you create a checking account is 250")
     private BigDecimal minimumBalanceAmount;
-    private Currency minimumBalanceCurrency;
+    private Currency minimumBalanceCurrency = Currency.getInstance("USD");
     @DecimalMin(value = "12", message = "the monthly maintenance fee has to be 12")
     @DecimalMax(value = "12", message = "the monthly maintenance fee has to be 12")
     private BigDecimal monthlyMaintenanceFeeAmount = new BigDecimal("12");
-    private Currency monthlyMaintenanceFeeCurrency;
+    private Currency monthlyMaintenanceFeeCurrency = Currency.getInstance("USD");
     private Status status = Status.ACTIVE;
 
     public CheckingDTO(AccountHolder primaryOwner, AccountHolder secondaryOwner) {

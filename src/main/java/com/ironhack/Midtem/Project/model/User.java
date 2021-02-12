@@ -8,11 +8,12 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private String dni;
     private String name;
     @OneToMany(mappedBy = "user")
     private List<Role> roleList;
@@ -20,7 +21,8 @@ public abstract class User {
     public User() {
     }
 
-    public User(String name) {
+    public User(String dni, String name) {
+        this.dni = dni;
         this.name = name;
     }
 
@@ -32,6 +34,14 @@ public abstract class User {
         this.id = id;
     }
 
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
     public String getName() {
         return name;
     }
@@ -40,12 +50,12 @@ public abstract class User {
         this.name = name;
     }
 
+    //TODO: Check this
+    @JsonIgnore
     public List<Role> getRoleList() {
         return roleList;
     }
 
-    //TODO: Check this
-    @JsonIgnore
     public void setRoleList(List<Role> roleList) {
         this.roleList = roleList;
     }

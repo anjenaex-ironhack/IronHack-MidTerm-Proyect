@@ -12,8 +12,7 @@ insert into user (name) values
 insert into role (name, user_id) values
 ('ADMIN', 1),
 ('ACCOUNT_HOLDER', 2),
-('THIRD_PARTY', 1),
-('ACCOUNT_HOLDER', 3);
+('THIRD_PARTY', 1);
 
 insert into account_holder (id,birth,address, mailing_address) values
 (1,'1988-12-14',1, 1),

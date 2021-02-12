@@ -22,13 +22,13 @@ public class CreditCard extends Account {
     public CreditCard() {
     }
 
-    public CreditCard(LocalDate creationDate, Money balance, AccountHolder primaryOwner, Money creditLimit, BigDecimal interestRate) {
+    public CreditCard(Money balance, AccountHolder primaryOwner, Money creditLimit, BigDecimal interestRate) {
         super(balance, primaryOwner);
         this.creditLimit = creditLimit;
         this.interestRate = interestRate;
     }
 
-    public CreditCard(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money creditLimit, BigDecimal interestRate) {
+    public CreditCard(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money creditLimit, BigDecimal interestRate) {
         super(balance, primaryOwner, secondaryOwner);
         this.creditLimit = creditLimit;
         this.interestRate = interestRate;

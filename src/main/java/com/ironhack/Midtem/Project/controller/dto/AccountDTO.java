@@ -10,7 +10,7 @@ public class AccountDTO {
 
     private long id;
     private AccountHolder primaryOwner;
-    private AccountHolder secondaryOwner;
+    private AccountHolder secondaryOwner = null;
 
     public AccountDTO(AccountHolder primaryOwner, AccountHolder secondaryOwner) {
         this.primaryOwner = primaryOwner;

@@ -3,10 +3,7 @@ package com.ironhack.Midtem.Project.controller.dto;
 import com.ironhack.Midtem.Project.enums.Status;
 import com.ironhack.Midtem.Project.model.AccountHolder;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
@@ -14,14 +11,16 @@ import java.util.Currency;
 public class SavingDTO extends AccountDTO{
 
     @NotEmpty
+    @NotNull
     private String secretKey;
     @DecimalMin(value = "100", message = "The minimum balance when you create a saving account is 100")
+    @NotNull
     private BigDecimal balanceAmount;
-    private Currency balanceCurrency;
+    private Currency balanceCurrency = Currency.getInstance("USD");
     @DecimalMax(value = "1000", message = "The maximum balance when you create a saving account is 1000")
     @DecimalMin(value = "100", message = "The minimum balance when you create a saving account is 100")
     private BigDecimal minimumBalanceAmount = new BigDecimal("1000");
-    private Currency minimumBalanceCurrency;
+    private Currency minimumBalanceCurrency = Currency.getInstance("USD");
     @DecimalMax(value = "0.5", message = "The maximum interest rate when you create a saving account is 0.5")
     private BigDecimal interestRate = new BigDecimal("0.0025");
     private Status status = Status.ACTIVE;

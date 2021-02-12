@@ -35,7 +35,7 @@ public class SavingService {
 
         Saving saving;
 
-        if(Optional.of(savingDTO.getSecondaryOwner()).isEmpty()) {
+        if(Optional.of(secondaryOwner).isEmpty()) {
             saving =
                     new Saving(balance, primaryOwner, secondaryOwner,secretKey, interestRate, status);
         }else{

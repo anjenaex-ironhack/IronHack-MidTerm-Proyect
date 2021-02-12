@@ -4,12 +4,18 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "role")
 public class Role {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JoinColumn(name = "id")
+    private Long id;
+    @JoinColumn(name = "name")
     private String name;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Role() {
