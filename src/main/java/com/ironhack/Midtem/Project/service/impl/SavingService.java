@@ -66,8 +66,10 @@ public class SavingService {
                                     .multiply(savingRepository.findById(Long.valueOf(id)).get().getInterestRate());
                     Money newBalance = new Money(newBalanceAmount);
 
-                    savingRepository.findById(Long.valueOf(id)).get().setBalance(newBalance);
-                    savingRepository.findById(Long.valueOf(id)).get().setUpdateDate(updateDate);
+                    Saving saving = savingRepository.findById(Long.valueOf(id)).get();
+                    saving.setBalance(newBalance);
+                    saving.setUpdateDate(updateDate);
+                    savingRepository.save(saving);
 
     }
 }

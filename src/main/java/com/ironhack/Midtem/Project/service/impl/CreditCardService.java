@@ -6,6 +6,7 @@ import com.ironhack.Midtem.Project.Utils.Money;
 import com.ironhack.Midtem.Project.controller.dto.CreditCardDTO;
 import com.ironhack.Midtem.Project.model.AccountHolder;
 import com.ironhack.Midtem.Project.model.CreditCard;
+import com.ironhack.Midtem.Project.model.Saving;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,10 +54,13 @@ public class CreditCardService {
         BigDecimal newBalanceAmount =
                 creditCardRepository.findById(Long.valueOf(id)).get().getBalance().getAmount()
                         .multiply(creditCardRepository.findById(Long.valueOf(id)).get().getInterestRate());
+
         Money newBalance = new Money(newBalanceAmount);
 
-        creditCardRepository.findById(Long.valueOf(id)).get().setBalance(newBalance);
-        creditCardRepository.findById(Long.valueOf(id)).get().setUpdateDate(updateDate);
+        CreditCard creditCard = creditCardRepository.findById(Long.valueOf(id)).get();
+        creditCard.setBalance(newBalance);
+        creditCard.setUpdateDate(updateDate);
+        creditCardRepository.save(creditCard);
 
     }
 
