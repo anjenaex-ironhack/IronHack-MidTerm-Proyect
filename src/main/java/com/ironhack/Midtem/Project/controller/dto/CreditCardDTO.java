@@ -28,6 +28,7 @@ public class CreditCardDTO extends AccountDTO{
         super(primaryOwnerId, secondaryOwnerId);
     }
 
+
     public BigDecimal getBalanceAmount() {
         return balanceAmount;
     }

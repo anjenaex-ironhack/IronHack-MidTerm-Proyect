@@ -33,8 +33,7 @@ public class CreditCardService {
 
         CreditCard creditCard;
 
-        //TODO: preguntar a xabi porque no funciona esto
-        if(accountHolderRepository.findById(creditCardDTO.getSecondaryOwnerId().get()).isPresent()){
+        if(creditCardDTO.getSecondaryOwnerId().isPresent()){
             AccountHolder secondaryOwner = accountHolderRepository.findById(creditCardDTO.getSecondaryOwnerId().get()).get();
             creditCard = new CreditCard (balance, primaryOwner, secondaryOwner, creditLimit,interestRate);
         }else{

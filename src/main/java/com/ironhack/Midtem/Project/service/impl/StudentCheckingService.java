@@ -35,7 +35,7 @@ public class StudentCheckingService {
 
         StudentChecking studentChecking;
 
-        if(accountHolderRepository.findById(checkingDTO.getSecondaryOwnerId().get()).isPresent()){
+        if(checkingDTO.getSecondaryOwnerId().isPresent()){
             AccountHolder secondaryOwner = accountHolderRepository.findById(checkingDTO.getSecondaryOwnerId().get()).get();
             studentChecking = new StudentChecking(balance,primaryOwner,secondaryOwner, secretKey, status);
 

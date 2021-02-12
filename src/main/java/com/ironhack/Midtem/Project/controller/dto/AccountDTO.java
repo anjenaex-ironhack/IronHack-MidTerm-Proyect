@@ -16,7 +16,7 @@ public class AccountDTO {
     private long primaryOwnerId;
     private Optional<Long> secondaryOwnerId;
 
-    public AccountDTO(@NotNull @NotEmpty long primaryOwnerId, Optional<Long> secondaryOwnerId) {
+    public AccountDTO(@NotNull long primaryOwnerId, Optional<Long> secondaryOwnerId) {
         this.primaryOwnerId = primaryOwnerId;
         this.secondaryOwnerId = secondaryOwnerId;
     }

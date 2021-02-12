@@ -38,7 +38,7 @@ public class SavingService {
 
         Saving saving;
 
-        if(accountHolderRepository.findById(savingDTO.getSecondaryOwnerId().get()).isPresent()) {
+        if(savingDTO.getSecondaryOwnerId().isPresent()) {
             AccountHolder secondaryOwner = accountHolderRepository.findById(savingDTO.getSecondaryOwnerId().get()).get();
             saving =
                     new Saving(balance, primaryOwner, secondaryOwner,secretKey, interestRate, status);

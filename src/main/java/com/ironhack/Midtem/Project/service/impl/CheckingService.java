@@ -54,7 +54,7 @@ public class CheckingService {
             Money monthlyMaintenanceFee = new Money(checkingDTO.getMonthlyMaintenanceFeeAmount(), checkingDTO.getMonthlyMaintenanceFeeCurrency());
             Checking checking;
 
-            if(accountHolderRepository.findById(checkingDTO.getSecondaryOwnerId().get()).isPresent()) {
+            if(checkingDTO.getSecondaryOwnerId().isPresent()) {
                 AccountHolder secondaryOwner = accountHolderRepository.findById(checkingDTO.getSecondaryOwnerId().get()).get();
                 checking =
                         new Checking(balance, primaryOwner, secondaryOwner,secretKey, minimumBalance, monthlyMaintenanceFee, status);
