@@ -48,7 +48,7 @@ public class AccountHolderController {
 
 
     }
-    @GetMapping("user/account-holder/{}")
+
 
     /**
      * Post Methods

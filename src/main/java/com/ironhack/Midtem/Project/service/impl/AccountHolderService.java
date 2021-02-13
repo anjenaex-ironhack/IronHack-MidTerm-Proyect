@@ -56,6 +56,7 @@ public class AccountHolderService{
 
     public void createAccountHolder (AccountHolderDTO accountHolderDTO){
         String dni = accountHolderDTO.getDni();
+        String password = accountHolderDTO.getPassword();
         String name = accountHolderDTO.getName();
         LocalDate birth = accountHolderDTO.getBirth();
         Address address = addressRepository.findById(accountHolderDTO.getAddressId()).get();
@@ -64,9 +65,9 @@ public class AccountHolderService{
 
         if(accountHolderDTO.getMailingAddressId().isPresent()){
             Address mailingAddress = addressRepository.findById(accountHolderDTO.getMailingAddressId().get()).get();
-            accountHolder = new AccountHolder(name,dni, birth, address, mailingAddress);
+            accountHolder = new AccountHolder(name,password, dni, birth, address, mailingAddress);
         }else {
-            accountHolder = new AccountHolder(name, dni, birth, address);
+            accountHolder = new AccountHolder(name, password, dni, birth, address);
         }
 
         accountHolderRepository.save(accountHolder);

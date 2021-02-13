@@ -14,14 +14,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+    @JsonIgnore
+    private String password;
     @OneToMany(mappedBy = "user")
     private List<Role> roleList;
 
     public User() {
     }
 
-    public User( String name) {
+    public User(String name, String password) {
         this.name = name;
+        this.password = password;
     }
 
     public long getId() {
@@ -38,6 +41,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     //TODO: Check this

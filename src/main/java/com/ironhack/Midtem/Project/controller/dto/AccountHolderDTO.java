@@ -21,8 +21,8 @@ public class AccountHolderDTO extends User {
     private Long addressId;
     private Optional<Long> mailingAddressId;
 
-    public AccountHolderDTO( String name, @NotNull LocalDate birth, @NotNull Long addressId, Optional<Long> mailingAddressId) {
-        super( name);
+    public AccountHolderDTO( String name, String password, @NotNull LocalDate birth, @NotNull Long addressId, Optional<Long> mailingAddressId) {
+        super( name, password);
         this.birth = birth;
         this.addressId = addressId;
         this.mailingAddressId = mailingAddressId;

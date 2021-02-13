@@ -31,15 +31,15 @@ public class AccountHolder extends User {
     public AccountHolder() {
     }
 
-    public AccountHolder(String name, String dni, LocalDate birth, Address address) {
-        super(name);
+    public AccountHolder(String name, String password, String dni, LocalDate birth, Address address) {
+        super(name,password);
         this.dni = dni;
         this.birth = birth;
         this.address = address;
     }
 
-    public AccountHolder(String name, String dni, LocalDate birth, Address address, Address mailingAddress) {
-        super(name);
+    public AccountHolder(String name, String password, String  dni, LocalDate birth, Address address, Address mailingAddress) {
+        super(name, password);
         this.dni = dni;
         this.birth = birth;
         this.address = address;

@@ -34,8 +34,51 @@ public class TransactionService {
     private TransactionRepository transactionRepository;
 
     //================================================
-    //Automatic account management
+    //Transaction management
     //================================================
+
+    //The main class in the service, here we call the method with the logic in transactions account to account
+    public void makeATransactionBetweenAccounts(String senderAccountId, String beneficiaryAccountId, Money transactionBalance) {
+
+        //Saving the account of the sender and beneficiary into variables
+        Optional<Account> sender = accountRepository.findById(Long.valueOf(senderAccountId));
+        Optional<Account> beneficiary = accountRepository.findById(Long.valueOf(beneficiaryAccountId));
+
+        //Check that both accounts exist
+        if(sender.isPresent() && beneficiary.isPresent()){
+
+            //Check if the account is active
+            checkActive(sender,beneficiary);
+
+            //check if the account is a credit card and check the credit limit
+            checkCreditLimit(sender, transactionBalance);
+
+            //Get the minimum balance into checkings and saving accounts, to apply the penalty fee when necessary
+            BigDecimal minimumBalanceAmount = getMinimumBalance(sender);
+
+            //next method are use to control the time flow into the creation of a transaction
+            checkCorrectTransactionTime(sender);
+
+            //Check the maximum total daily amount an account can send in a day
+            checkHighestDailyTotal(sender.get(), transactionBalance);
+
+            //Get the sender balance amount and transaction amount value
+            checkEnoughBalance(sender, transactionBalance);
+
+            //adding new values into the repository of the beneficiary
+            addBeneficiaryAmount(beneficiary, transactionBalance);
+
+            //Exchange of the Money Amount, sender lose
+            subtractSenderAmount(sender, transactionBalance);
+
+            Transaction transaction = createTransaction(sender, beneficiary, transactionBalance);
+            transactionRepository.save(transaction);
+
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "senderAccount or beneficiaryAccount not found");
+        }
+
+    }
 
     public Transaction createTransaction(Optional<Account> sender, Optional<Account> beneficiary, Money amount) {
         if(sender.isPresent() && beneficiary.isPresent()){
@@ -207,47 +250,7 @@ public class TransactionService {
         }
     }
 
-    public void makeATransactionBetweenAccounts(String senderAccountId, String beneficiaryAccountId, Money transactionBalance) {
 
-        //Saving the account of the sender and beneficiary into variables
-        Optional<Account> sender = accountRepository.findById(Long.valueOf(senderAccountId));
-        Optional<Account> beneficiary = accountRepository.findById(Long.valueOf(beneficiaryAccountId));
-
-        //Check that both accounts exist
-        if(sender.isPresent() && beneficiary.isPresent()){
-
-            //Check if the account is active
-            checkActive(sender,beneficiary);
-
-            //check if the account is a credit card and check the credit limit
-            checkCreditLimit(sender, transactionBalance);
-
-            //Get the minimum balance into checkings and saving accounts, to apply the penalty fee when necessary
-            BigDecimal minimumBalanceAmount = getMinimumBalance(sender);
-
-            //next method are use to control the time flow into the creation of a transaction
-            checkCorrectTransactionTime(sender);
-
-            //Check the maximum total daily amount an account can send in a day
-            checkHighestDailyTotal(sender.get(), transactionBalance);
-
-            //Get the sender balance amount and transaction amount value
-            checkEnoughBalance(sender, transactionBalance);
-
-            //adding new values into the repository of the beneficiary
-            addBeneficiaryAmount(beneficiary, transactionBalance);
-
-            //Exchange of the Money Amount, sender lose
-            subtractSenderAmount(sender, transactionBalance);
-
-            Transaction transaction = createTransaction(sender, beneficiary, transactionBalance);
-            transactionRepository.save(transaction);
-
-        }else{
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "senderAccount or beneficiaryAccount not found");
-        }
-
-    }
 
     public void checkHighestDailyTotal (Account sender, Money transactionBalance){
 

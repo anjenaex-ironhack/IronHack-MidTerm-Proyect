@@ -9,12 +9,16 @@ public class UserDTO {
     @NotNull
     @NotEmpty
     private String name;
+    @NotNull
+    @NotEmpty
+    private String password;
 
     public UserDTO() {
     }
 
-    public UserDTO( @NotNull @NotEmpty String name) {
+    public UserDTO( @NotNull @NotEmpty String name, @NotNull @NotEmpty String password) {
         this.name = name;
+        this.password = password;
     }
 
     public String getName() {
@@ -23,5 +27,13 @@ public class UserDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
