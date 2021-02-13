@@ -5,14 +5,17 @@ import com.ironhack.Midtem.Project.model.AccountHolder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class AccountDTO {
 
     private long id;
+    //private Long primaryOwnerId
+    //private Long secondaryOwnerId
     private AccountHolder primaryOwner;
-    private AccountHolder secondaryOwner = null;
+    private Optional<AccountHolder> secondaryOwner;
 
-    public AccountDTO(AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+    public AccountDTO(AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner) {
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
     }
@@ -33,11 +36,11 @@ public class AccountDTO {
         this.primaryOwner = primaryOwner;
     }
 
-    public AccountHolder getSecondaryOwner() {
+    public Optional<AccountHolder> getSecondaryOwner() {
         return secondaryOwner;
     }
 
-    public void setSecondaryOwner(AccountHolder secondaryOwner) {
+    public void setSecondaryOwner(Optional<AccountHolder> secondaryOwner) {
         this.secondaryOwner = secondaryOwner;
     }
 }

@@ -44,13 +44,16 @@ public class AccountService {
     }
     //TODO: porque no me pilla los optionales
     public List<Account> getAccountsByDni (Optional<String> dni) {
+
+        System.out.println(dni + "----------------------------------------------------------------------------------");
+
         if(dni.isPresent()){
 
             return getAccountsByPrimaryOwnerDniOrSecondaryOwnerDni(dni.get());
 
         }else {
 
-            throw new IllegalArgumentException("yo need at least one DNI");
+            throw new IllegalArgumentException("you need at least one DNI");
 
         }
     }

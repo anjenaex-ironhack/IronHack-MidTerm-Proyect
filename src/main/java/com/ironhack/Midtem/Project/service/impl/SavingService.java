@@ -27,7 +27,6 @@ public class SavingService {
 
         Money balance = new Money(savingDTO.getBalanceAmount(), savingDTO.getBalanceCurrency());
         AccountHolder primaryOwner = savingDTO.getPrimaryOwner();
-        AccountHolder secondaryOwner = savingDTO.getSecondaryOwner();
         String secretKey = savingDTO.getSecretKey();
         BigDecimal interestRate = savingDTO.getInterestRate();
         String statusString = savingDTO.getStatus().toString().toUpperCase();
@@ -35,12 +34,12 @@ public class SavingService {
 
         Saving saving;
 
-        if(Optional.of(secondaryOwner).isEmpty()) {
+        if(savingDTO.getSecondaryOwner().isEmpty()) {
             saving =
-                    new Saving(balance, primaryOwner, secondaryOwner,secretKey, interestRate, status);
+                    new Saving(balance, primaryOwner, secretKey, interestRate, status);
         }else{
             saving =
-                    new Saving(balance, primaryOwner, secondaryOwner,secretKey, interestRate, status);
+                    new Saving(balance, primaryOwner, savingDTO.getSecondaryOwner().get(),secretKey, interestRate, status);
         }
 
         savingRepository.save(saving);

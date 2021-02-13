@@ -7,6 +7,7 @@ import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
+import java.util.Optional;
 
 public class SavingDTO extends AccountDTO{
 
@@ -26,7 +27,7 @@ public class SavingDTO extends AccountDTO{
     private Status status = Status.ACTIVE;
 
 
-    public SavingDTO(AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+    public SavingDTO(AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner) {
         super(primaryOwner, secondaryOwner);
     }
 

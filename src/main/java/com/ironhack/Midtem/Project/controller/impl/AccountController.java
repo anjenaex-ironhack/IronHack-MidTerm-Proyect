@@ -55,7 +55,7 @@ public class AccountController {
 
     @GetMapping("/accounts/dni/{dni}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Account> getAccountByDni(@PathVariable Optional<String> dni){
+    public List<Account> getAccountByDni(@PathVariable(required = false) Optional<String> dni){
         return accountService.getAccountsByDni(dni);
     }
 
