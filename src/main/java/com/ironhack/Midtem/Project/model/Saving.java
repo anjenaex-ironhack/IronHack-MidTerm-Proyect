@@ -19,7 +19,6 @@ public class Saving extends Account {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-
     public Saving() {
     }
 

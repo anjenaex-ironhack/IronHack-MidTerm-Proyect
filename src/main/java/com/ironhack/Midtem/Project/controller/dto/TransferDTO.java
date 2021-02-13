@@ -8,7 +8,7 @@ import java.util.Currency;
 public class TransferDTO {
 
     @NotNull
-    private Long BeneficiaryId;
+    private Long beneficiaryId;
     @NotNull
     @NotEmpty
     private String name;
@@ -17,11 +17,11 @@ public class TransferDTO {
     private Currency transferCurrency;
 
     public Long getBeneficiaryId() {
-        return BeneficiaryId;
+        return beneficiaryId;
     }
 
     public void setBeneficiaryId(Long beneficiaryId) {
-        BeneficiaryId = beneficiaryId;
+        this.beneficiaryId = beneficiaryId;
     }
 
     public String getName() {

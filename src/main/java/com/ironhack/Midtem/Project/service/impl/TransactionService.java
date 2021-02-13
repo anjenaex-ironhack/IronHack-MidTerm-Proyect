@@ -2,9 +2,11 @@ package com.ironhack.Midtem.Project.service.impl;
 
 import com.ironhack.Midtem.Project.Repository.*;
 import com.ironhack.Midtem.Project.Utils.Money;
+import com.ironhack.Midtem.Project.enums.Status;
 import com.ironhack.Midtem.Project.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
@@ -15,6 +17,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class TransactionService {
 
     @Autowired
@@ -89,7 +92,58 @@ public class TransactionService {
         long timeBetweenTransactions = LocalDateTime.from(lastTransactionTime).until(now, ChronoUnit.SECONDS );
 
         if(timeBetweenTransactions < 1L){
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "can not create 2 transaction in less than a second");
+
+            if(sender.get() instanceof Saving){
+                ((Saving) sender.get()).setStatus(Status.FROZEN);
+                savingRepository.save((Saving)sender.get());
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "can not create 2 transaction in less than a second " +
+                        "the saving account with id " + sender.get().getId() + " will be FROZEN, contact with an admin to reopen it");
+            }else if( sender.get() instanceof Checking){
+                ((Checking) sender.get()).setStatus(Status.FROZEN);
+                checkingRepository.save(((Checking) sender.get()));
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "can not create 2 transaction in less than a second " +
+                        "the checking account with id " + sender.get().getId() + " will be FROZEN, contact with an admin to reopen it");
+            }else if(sender.get() instanceof StudentChecking){
+                ((StudentChecking) sender.get()).setStatus(Status.FROZEN);
+                studentCheckingRepository.save(((StudentChecking) sender.get()));
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "can not create 2 transaction in less than a second " +
+                        "the student checking account with id " + sender.get().getId() + " will be FROZEN, contact with an admin to reopen it");
+            }else{
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "can not create 2 transaction in less than a second");
+            }
+
+        }
+    }
+
+    public void checkActive(Optional<Account> sender, Optional<Account> beneficiary){
+        if(sender.isEmpty() || beneficiary.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "sender or beneficiary fail, before checking the status");
+        }else{
+            if(sender.get() instanceof Checking){
+                if(((Checking) sender.get()).getStatus().equals(Status.FROZEN)){
+                    throw new ResponseStatusException(HttpStatus.LOCKED, "the account is FROZEN");
+                }
+            }else if( sender.get() instanceof StudentChecking) {
+                if(((StudentChecking) sender.get()).getStatus().equals(Status.FROZEN)){
+                    throw new ResponseStatusException(HttpStatus.LOCKED, "the account is FROZEN");
+                }
+            }else if (sender.get() instanceof Saving ){
+                if(((Saving) sender.get()).getStatus().equals(Status.FROZEN)){
+                    throw new ResponseStatusException(HttpStatus.LOCKED, "the account is FROZEN");
+                }
+            }else if(beneficiary.get() instanceof Checking){
+                if(((Checking) beneficiary.get()).getStatus().equals(Status.FROZEN)){
+                    throw new ResponseStatusException(HttpStatus.LOCKED, "the account is FROZEN");
+                }
+            }else if (beneficiary.get() instanceof StudentChecking){
+                if(((StudentChecking) beneficiary.get()).getStatus().equals(Status.FROZEN)){
+                    throw new ResponseStatusException(HttpStatus.LOCKED, "the account is FROZEN");
+                }
+            }else if (beneficiary.get() instanceof Saving) {
+                if(((Saving)beneficiary.get()).getStatus().equals(Status.FROZEN)){
+                    throw new ResponseStatusException(HttpStatus.LOCKED, "the account is FROZEN");
+                }
+            }
         }
     }
 
@@ -122,15 +176,21 @@ public class TransactionService {
     }
 
     public void subtractSenderAmount(Optional<Account> sender, Money transactionBalance){
+
         BigDecimal transactionAmount = transactionBalance.getAmount();
         sender.get().getBalance(). decreaseAmount(transactionAmount);
+
         //If the account is a checking or saving account, we apply the penalty fee when necessary
-        if (sender.get() instanceof Checking || sender.get() instanceof Saving) {
+        if (sender.get() instanceof Checking || sender.get() instanceof Saving){
+
             if(sender.get().getBalance().getAmount().compareTo(getMinimumBalance(sender)) < 0){
-                sender.get().getBalance().decreaseAmount(Account.getPenaltyFee());
-            }else{
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "penalty fee could not be correctly added");
+                try{
+                    sender.get().getBalance().decreaseAmount(Account.getPenaltyFee());
+                }catch (Exception e){
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "penalty fee could not be correctly added");
+                }
             }
+
         }
 
         //adding new values into the repository of the sender
@@ -155,6 +215,9 @@ public class TransactionService {
 
         //Check that both accounts exist
         if(sender.isPresent() && beneficiary.isPresent()){
+
+            //Check if the account is active
+            checkActive(sender,beneficiary);
 
             //check if the account is a credit card and check the credit limit
             checkCreditLimit(sender, transactionBalance);

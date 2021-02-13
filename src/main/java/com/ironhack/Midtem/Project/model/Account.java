@@ -1,5 +1,6 @@
 package com.ironhack.Midtem.Project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ironhack.Midtem.Project.Utils.Money;
 
 import javax.persistence.*;
@@ -34,7 +35,8 @@ public class Account {
     private AccountHolder secondaryOwner;
 
     //  Many accounts for a user
-    @OneToMany
+    @OneToMany(mappedBy ="payer", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Transaction> transactionList;
 
     public Account() {

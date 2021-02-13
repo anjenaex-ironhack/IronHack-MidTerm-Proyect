@@ -43,18 +43,27 @@ public class TransactionController {
 
         Optional<Account> account = accountRepository.findById(Long.valueOf(id));
         if(account.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Sender account with id " + id + "doesn't exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Sender account with id " + id + " doesn't exist");
         }else{
+
             Optional<Account> beneficiaryAccount = accountRepository.findById(transferDTO.getBeneficiaryId());
+
             if(beneficiaryAccount.isEmpty()){
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Beneficiary account with id " + id + "doesn't exist");
-            }else {
-                if(beneficiaryAccount.get().getPrimaryOwner().getName().equals(transferDTO.getName()) ||
-                        beneficiaryAccount.get().getSecondaryOwner().getName().equals(transferDTO.getName())) {
-                    Money money = new Money(transferDTO.getTransferAmount(), transferDTO.getTransferCurrency());
-                    transactionService.makeATransactionBetweenAccounts(id,transferDTO.getBeneficiaryId().toString(), money);
-                }
             }
+
+            if(account.equals(beneficiaryAccount)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "unable to make a transaction to the own account");
+            }
+
+            if(beneficiaryAccount.get().getPrimaryOwner().getName().equals(transferDTO.getName()) ||
+                        beneficiaryAccount.get().getSecondaryOwner().getName().equals(transferDTO.getName())) {
+                Money money = new Money(transferDTO.getTransferAmount(), transferDTO.getTransferCurrency());
+                transactionService.makeATransactionBetweenAccounts(id,transferDTO.getBeneficiaryId().toString(), money);
+            }else{
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The account with id " + id + " doesn't have any user with the name " + transferDTO.getName());
+            }
+
 
         }
 
