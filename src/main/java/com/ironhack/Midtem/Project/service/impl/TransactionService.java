@@ -72,6 +72,81 @@ public class TransactionService {
         return minimumBalanceAmount;
     }
 
+    public void checkCorrectTransactionTime(Optional<Account> sender){
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime lastTransactionTime;
+
+        List<Transaction> transactionList = accountRepository.findById(sender.get().getId()).get().getTransactionList();
+
+        if (transactionList.size() > 0){
+            lastTransactionTime = transactionList.get(transactionList.size() - 1).getTransactionTime();
+        }else{
+            LocalDate date = LocalDate.of(1988, 3,19);
+            LocalTime time = LocalTime.MIDNIGHT;
+            lastTransactionTime = LocalDateTime.of(date, time);
+        }
+
+        long timeBetweenTransactions = LocalDateTime.from(lastTransactionTime).until(now, ChronoUnit.SECONDS );
+
+        if(timeBetweenTransactions < 1L){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "can not create 2 transaction in less than a second");
+        }
+    }
+
+    public void checkEnoughBalance(Optional<Account> sender, Money transactionBalance){
+        BigDecimal senderTotalAmount = sender.get().getBalance().getAmount();
+        BigDecimal transactionAmount = transactionBalance.getAmount();
+
+        //Checking that the sender have enough money to make the transfer
+        if(senderTotalAmount.subtract(transactionAmount).compareTo(new BigDecimal("0")) < 0){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "the transaction amount can't be bigger than the total Account Amount");
+        }
+    }
+
+    public void addBeneficiaryAmount(Optional<Account> beneficiary, Money transactionBalance){
+
+        BigDecimal transactionAmount = transactionBalance.getAmount();
+        beneficiary.get().getBalance().increaseAmount(transactionAmount);
+
+        if(beneficiary.get() instanceof CreditCard){
+            creditCardRepository.save((CreditCard) beneficiary.get());
+        }else if( beneficiary.get() instanceof Checking){
+            checkingRepository.save((Checking) beneficiary.get());
+        }else if(beneficiary.get() instanceof StudentChecking){
+            studentCheckingRepository.save((StudentChecking) beneficiary.get());
+        }else if (beneficiary.get() instanceof  Saving){
+            savingRepository.save((Saving) beneficiary.get());
+        }else{
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "wrong account type");
+        }
+    }
+
+    public void subtractSenderAmount(Optional<Account> sender, Money transactionBalance){
+        BigDecimal transactionAmount = transactionBalance.getAmount();
+        sender.get().getBalance(). decreaseAmount(transactionAmount);
+        //If the account is a checking or saving account, we apply the penalty fee when necessary
+        if (sender.get() instanceof Checking || sender.get() instanceof Saving) {
+            if(sender.get().getBalance().getAmount().compareTo(getMinimumBalance(sender)) < 0){
+                sender.get().getBalance().decreaseAmount(Account.getPenaltyFee());
+            }else{
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "penalty fee could not be correctly added");
+            }
+        }
+
+        //adding new values into the repository of the sender
+        if(sender.get() instanceof CreditCard){
+            creditCardRepository.save((CreditCard)sender.get());
+        }else if( sender.get() instanceof Checking){
+            checkingRepository.save((Checking) sender.get());
+        }else if(sender.get() instanceof StudentChecking){
+            studentCheckingRepository.save((StudentChecking) sender.get());
+        }else if (sender.get() instanceof  Saving){
+            savingRepository.save((Saving)sender.get());
+        }else{
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "wrong account type");
+        }
+    }
+
     public void makeATransactionBetweenAccounts(String senderAccountId, String beneficiaryAccountId, Money transactionBalance) {
 
         //Saving the account of the sender and beneficiary into variables
@@ -88,74 +163,16 @@ public class TransactionService {
             BigDecimal minimumBalanceAmount = getMinimumBalance(sender);
 
             //next methods are use to control the time flow into the creation of a transaction
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime lastTransactionTime;
-
-            List<Transaction> transactionList = accountRepository.findById(Long.valueOf(senderAccountId)).get().getTransactionList();
-
-            if (transactionList.size() > 0){
-                lastTransactionTime = transactionList.get(transactionList.size() - 1).getTransactionTime();
-            }else{
-                LocalDate date = LocalDate.of(1988, 3,19);
-                LocalTime time = LocalTime.MIDNIGHT;
-                lastTransactionTime = LocalDateTime.of(date, time);
-            }
-
-            long timeBetweenTransactions = LocalDateTime.from(lastTransactionTime).until(now, ChronoUnit.SECONDS );
-
-            if(timeBetweenTransactions < 1L){
-                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "can not create 2 transaction in less than a second");
-            }
+            checkCorrectTransactionTime(sender);
 
             //Get the sender balance amount and transaction amount value
-            BigDecimal senderTotalAmount = sender.get().getBalance().getAmount();
-            BigDecimal transactionAmount = transactionBalance.getAmount();
-
-            //Checking that the sender have enough money to make the transfer
-            if(senderTotalAmount.subtract(transactionAmount).compareTo(new BigDecimal("0")) < 0){
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "the transaction amount can't be bigger than the total Account Amount");
-            }
-
-            //Exchange of the Money Amount, beneficiary wins
-            beneficiary.get().getBalance().increaseAmount(transactionAmount);
-
+            checkEnoughBalance(sender, transactionBalance);
 
             //adding new values into the repository of the beneficiary
-            if(beneficiary.get() instanceof CreditCard){
-                creditCardRepository.save((CreditCard) beneficiary.get());
-            }else if( beneficiary.get() instanceof Checking){
-                checkingRepository.save((Checking) beneficiary.get());
-            }else if(beneficiary.get() instanceof StudentChecking){
-                studentCheckingRepository.save((StudentChecking) beneficiary.get());
-            }else if (beneficiary.get() instanceof  Saving){
-                savingRepository.save((Saving) beneficiary.get());
-            }else{
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "wrong account type");
-            }
+            addBeneficiaryAmount(beneficiary, transactionBalance);
 
             //Exchange of the Money Amount, sender lose
-            sender.get().getBalance(). decreaseAmount(transactionAmount);
-            //If the account is a checking or saving account, we apply the penalty fee when necessary
-            if (sender.get() instanceof Checking || sender.get() instanceof Saving) {
-                if(senderTotalAmount.compareTo(minimumBalanceAmount) < 0){
-                    sender.get().getBalance().decreaseAmount(minimumBalanceAmount);
-                }else{
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "penalty fee could not be correctly added");
-                }
-            }
-
-            //adding new values into the repository of the sender
-            if(sender.get() instanceof CreditCard){
-                creditCardRepository.save((CreditCard)sender.get());
-            }else if( sender.get() instanceof Checking){
-                checkingRepository.save((Checking) sender.get());
-            }else if(sender.get() instanceof StudentChecking){
-                studentCheckingRepository.save((StudentChecking) sender.get());
-            }else if (sender.get() instanceof  Saving){
-                savingRepository.save((Saving)sender.get());
-            }else{
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "wrong account type");
-            }
+            subtractSenderAmount(sender, transactionBalance);
 
             Transaction transaction = createTransaction(sender, beneficiary, transactionBalance);
             transactionRepository.save(transaction);
