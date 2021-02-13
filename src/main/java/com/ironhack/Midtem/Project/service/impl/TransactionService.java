@@ -30,6 +30,9 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
+    //================================================
+    //Automatic account management
+    //================================================
 
     public Transaction createTransaction(Optional<Account> sender, Optional<Account> beneficiary, Money amount) {
         if(sender.isPresent() && beneficiary.isPresent()){
@@ -39,10 +42,36 @@ public class TransactionService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "senderAccount or beneficiaryAccount not found");
         }
     }
+    public void checkCreditLimit (Optional<Account> sender, Money transactionBalance){
+        //if the account is a credit card, the transaction balance should be equal or lower than the credit limit
+        if(sender.get() instanceof CreditCard){
+            if(((CreditCard) sender.get()).getCreditLimit().getAmount().compareTo(transactionBalance.getAmount()) < 0){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "The transaction can't be higher than the credit limit");
+            }
+        }
+    }
 
-    //================================================
-    //Automatic account management
-    //================================================
+    public BigDecimal getMinimumBalance (Optional<Account> sender){
+        BigDecimal minimumBalanceAmount = null;
+        if(sender.get() instanceof Checking){
+            if (checkingRepository.findById(sender.get().getId()).isPresent()){
+                minimumBalanceAmount = checkingRepository.findById(sender.get().getId()).get().getMinimumBalance().getAmount();
+            }else{
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "checking account with id " + sender.get().getId() + " not found");
+            }
+        }
+
+        if(sender.get() instanceof Saving){
+            if(savingRepository.findById(sender.get().getId()).isPresent()){
+                minimumBalanceAmount = savingRepository.findById(sender.get().getId()).get().getMinimumBalance().getAmount();
+            }
+            else{
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "saving account with id " + sender.get().getId() + " not found");
+            }
+        }
+        return minimumBalanceAmount;
+    }
+
     public void makeATransactionBetweenAccounts(String senderAccountId, String beneficiaryAccountId, Money transactionBalance) {
 
         //Saving the account of the sender and beneficiary into variables
@@ -52,31 +81,11 @@ public class TransactionService {
         //Check that both accounts exist
         if(sender.isPresent() && beneficiary.isPresent()){
 
-            //if the account is a credit card, the transaction balance should be equal or lower than the credit limit
-            if(sender.get() instanceof CreditCard){
-                if(((CreditCard) sender.get()).getCreditLimit().getAmount().compareTo(transactionBalance.getAmount()) < 0){
-                    throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "The transaction can't be higher than the credit limit");
-                }
-            }
+            //check if the account is a credit card and check the credit limit
+            checkCreditLimit(sender, transactionBalance);
 
             //Get the minimum balance into checkings and saving accounts, to apply the penalty fee when necessary
-            BigDecimal minimumBalanceAmount = null;
-            if(sender.get() instanceof Checking){
-                if (checkingRepository.findById(Long.valueOf(senderAccountId)).isPresent()){
-                    minimumBalanceAmount = checkingRepository.findById(Long.valueOf(senderAccountId)).get().getMinimumBalance().getAmount();
-                }else{
-                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "checking account with id " + senderAccountId + " not found");
-                }
-            }
-
-            if(sender.get() instanceof Saving){
-                if(savingRepository.findById(Long.valueOf(senderAccountId)).isPresent()){
-                    minimumBalanceAmount = savingRepository.findById(Long.valueOf(senderAccountId)).get().getMinimumBalance().getAmount();
-                }
-                else{
-                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "saving account with id " + senderAccountId + " not found");
-                }
-            }
+            BigDecimal minimumBalanceAmount = getMinimumBalance(sender);
 
             //next methods are use to control the time flow into the creation of a transaction
             LocalDateTime now = LocalDateTime.now();
