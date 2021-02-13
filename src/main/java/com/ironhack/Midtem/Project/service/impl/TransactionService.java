@@ -38,7 +38,7 @@ public class TransactionService {
     //================================================
 
     //The main class in the service, here we call the method with the logic in transactions account to account
-    public void makeATransactionBetweenAccounts(String senderAccountId, String beneficiaryAccountId, Money transactionBalance) {
+    public void makeATransaction(String senderAccountId, String beneficiaryAccountId, Money transactionBalance) {
 
         //Saving the account of the sender and beneficiary into variables
         Optional<Account> sender = accountRepository.findById(Long.valueOf(senderAccountId));
@@ -80,6 +80,45 @@ public class TransactionService {
 
     }
 
+    //The main class in the service, here we call the method with the logic in transactions account to thirdParty
+    public void makeATransaction(String senderAccountId, Money transactionBalance) {
+
+        //Saving the account of the sender and beneficiary into variables
+        Optional<Account> sender = accountRepository.findById(Long.valueOf(senderAccountId));
+
+        //Check that both accounts exist
+        if(sender.isPresent()){
+
+            //Check if the account is active
+            checkActive(sender);
+
+            //check if the account is a credit card and check the credit limit
+            checkCreditLimit(sender, transactionBalance);
+
+            //Get the minimum balance into checking and saving accounts, to apply the penalty fee when necessary
+            BigDecimal minimumBalanceAmount = getMinimumBalance(sender);
+
+            //next method are use to control the time flow into the creation of a transaction
+            checkCorrectTransactionTime(sender);
+
+            //Check the maximum total daily amount an account can send in a day
+            checkHighestDailyTotal(sender.get(), transactionBalance);
+
+            //Get the sender balance amount and transaction amount value
+            checkEnoughBalance(sender, transactionBalance);
+
+            //Exchange of the Money Amount, sender lose
+            subtractSenderAmount(sender, transactionBalance);
+
+            Transaction transaction = createTransaction(sender, transactionBalance);
+            transactionRepository.save(transaction);
+
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "senderAccount or beneficiaryAccount not found");
+        }
+
+    }
+
     public Transaction createTransaction(Optional<Account> sender, Optional<Account> beneficiary, Money amount) {
         if(sender.isPresent() && beneficiary.isPresent()){
                 Transaction transaction = new Transaction(sender.get(), beneficiary.get(), amount);
@@ -88,6 +127,16 @@ public class TransactionService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "senderAccount or beneficiaryAccount not found");
         }
     }
+
+    public Transaction createTransaction(Optional<Account> sender, Money amount) {
+        if(sender.isPresent()){
+            Transaction transaction = new Transaction(sender.get(), amount);
+            return transaction;
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "senderAccount or beneficiaryAccount not found");
+        }
+    }
+
     public void checkCreditLimit (Optional<Account> sender, Money transactionBalance){
         //if the account is a credit card, the transaction balance should be equal or lower than the credit limit
         if(sender.get() instanceof CreditCard){
@@ -184,6 +233,25 @@ public class TransactionService {
                 }
             }else if (beneficiary.get() instanceof Saving) {
                 if(((Saving)beneficiary.get()).getStatus().equals(Status.FROZEN)){
+                    throw new ResponseStatusException(HttpStatus.LOCKED, "the account is FROZEN");
+                }
+            }
+        }
+    }
+    public void checkActive(Optional<Account> sender){
+        if(sender.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "sender fail, before checking the status");
+        }else{
+            if(sender.get() instanceof Checking){
+                if(((Checking) sender.get()).getStatus().equals(Status.FROZEN)){
+                    throw new ResponseStatusException(HttpStatus.LOCKED, "the account is FROZEN");
+                }
+            }else if( sender.get() instanceof StudentChecking) {
+                if(((StudentChecking) sender.get()).getStatus().equals(Status.FROZEN)){
+                    throw new ResponseStatusException(HttpStatus.LOCKED, "the account is FROZEN");
+                }
+            }else if (sender.get() instanceof Saving ){
+                if(((Saving) sender.get()).getStatus().equals(Status.FROZEN)) {
                     throw new ResponseStatusException(HttpStatus.LOCKED, "the account is FROZEN");
                 }
             }

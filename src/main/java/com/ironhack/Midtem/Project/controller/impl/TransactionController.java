@@ -59,7 +59,7 @@ public class TransactionController {
             if(beneficiaryAccount.get().getPrimaryOwner().getName().equals(transferDTO.getName()) ||
                         beneficiaryAccount.get().getSecondaryOwner().getName().equals(transferDTO.getName())) {
                 Money money = new Money(transferDTO.getTransferAmount(), transferDTO.getTransferCurrency());
-                transactionService.makeATransactionBetweenAccounts(id,transferDTO.getBeneficiaryId().toString(), money);
+                transactionService.makeATransaction(id,transferDTO.getBeneficiaryId().toString(), money);
             }else{
                     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The account with id " + id + " doesn't have any user with the name " + transferDTO.getName());
             }

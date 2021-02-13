@@ -24,6 +24,8 @@ public class ThirdPartyService {
     private ThirdPartyRepository thirdPartyRepository;
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private TransactionService transactionService;
 
     //================================================
     //Post Methods
@@ -52,6 +54,23 @@ public class ThirdPartyService {
             Money newBalance = new Money (newBalanceAmount, currency);
             account.setBalance(newBalance);
             accountRepository.save(account);
+        }
+
+    }
+
+    public void getMoney(Optional<AccountIdDTO> accountIdDTO, AmountDTO amountDTO){
+
+        if(accountIdDTO.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Beneficiary Account for ThirdParty sendMoney not found");
+        }else{
+            BigDecimal amount = amountDTO.getAmount();
+            Currency currency = amountDTO.getCurrency();
+            Account account = accountRepository.findById(accountIdDTO.get().getId()).get();
+            BigDecimal newBalanceAmount = account.getBalance().decreaseAmount(amount);
+            Money newBalance = new Money (newBalanceAmount, currency);
+            account.setBalance(newBalance);
+            accountRepository.save(account);
+            transactionService.createTransaction(Optional.of(account), new Money (amount, currency));
         }
 
     }

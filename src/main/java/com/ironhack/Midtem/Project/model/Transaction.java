@@ -28,6 +28,12 @@ public class Transaction {
     public Transaction() {
     }
 
+    public Transaction(Account payer, Money amount) {
+        this.payer = payer;
+        this.amount = amount;
+        setTransactionTime();
+    }
+
     public Transaction(Account payer, Account beneficiary, Money amount) {
         this.payer = payer;
         this.beneficiary = beneficiary;

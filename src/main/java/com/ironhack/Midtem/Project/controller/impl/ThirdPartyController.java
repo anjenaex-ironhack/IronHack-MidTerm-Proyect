@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 public class ThirdPartyController {
@@ -31,14 +32,25 @@ public class ThirdPartyController {
     //================================================
     //Post Methods
     //================================================
-    @PatchMapping("user/third-party/{id}")
+    @PatchMapping("user/third-party/{id}/send-money")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void sendMoney(@PathVariable String id, @RequestHeader @Valid HashedKeyDTO HashedKeyDTO, @RequestBody @Valid AccountIdDTO accountIdDTO, @RequestBody @Valid AmountDTO amountIdDTO) {
+    public void sendMoney(@PathVariable String id, @RequestHeader @Valid HashedKeyDTO HashedKeyDTO, @RequestBody @Valid Optional<AccountIdDTO> accountIdDTO, @RequestBody @Valid AmountDTO amountIdDTO) {
 
         if(thirdPartyRepository.findById(Long.valueOf(id)).isEmpty()) {
          throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty with id " + id + " not found");
         }else{
-            //thirdPartyService.sendMoney();
+            thirdPartyService.sendMoney(accountIdDTO, amountIdDTO);
+        }
+    }
+
+    @PatchMapping("user/third-party/{id}/receive-money")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void receiveMoney(@PathVariable String id, @RequestHeader @Valid HashedKeyDTO HashedKeyDTO, @RequestBody @Valid Optional<AccountIdDTO> accountIdDTO, @RequestBody @Valid AmountDTO amountIdDTO) {
+
+        if(thirdPartyRepository.findById(Long.valueOf(id)).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty with id " + id + " not found");
+        }else{
+            thirdPartyService.getMoney(accountIdDTO, amountIdDTO);
         }
     }
 
