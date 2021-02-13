@@ -225,8 +225,11 @@ public class TransactionService {
             //Get the minimum balance into checkings and saving accounts, to apply the penalty fee when necessary
             BigDecimal minimumBalanceAmount = getMinimumBalance(sender);
 
-            //next methods are use to control the time flow into the creation of a transaction
+            //next method are use to control the time flow into the creation of a transaction
             checkCorrectTransactionTime(sender);
+
+            //Check the maximum total daily amount an account can send in a day
+            checkHighestDailyTotal(sender.get(), transactionBalance);
 
             //Get the sender balance amount and transaction amount value
             checkEnoughBalance(sender, transactionBalance);
@@ -246,5 +249,73 @@ public class TransactionService {
 
     }
 
+    public void checkHighestDailyTotal (Account sender, Money transactionBalance){
+
+        //first, we tell the function. if there is no checkingDay, make one and start now
+        if(sender.getCheckingDay().isEmpty()) {
+            sender.setCheckingDay(Optional.of(LocalDateTime.now()));
+            accountRepository.save(sender);
+        }
+
+        //then we set the time limit
+        LocalDateTime timeDeadLine = sender.getCheckingDay().get().plusDays(1);
+        LocalDateTime now = LocalDateTime.now();
+
+        //if the time is lower than the limit time then we can continue in the same day
+        if(now.isBefore(timeDeadLine)){
+            //we tell the function, if there is no highestDailyTotal, make one with the first transaction amount
+            if(sender.getHighestDailyTotal().isEmpty()){
+                sender.getDailyTotal().increaseAmount(transactionBalance);
+                accountRepository.save(sender);
+            }else{
+
+                BigDecimal highestDailyTotalMultiplied = sender.getHighestDailyTotal().get().getAmount().multiply(new BigDecimal("1.5"));
+                BigDecimal dailyTotalAmount = sender.getDailyTotal().getAmount();
+
+                //if the highestDailyTotal * 1.5 is lower than all your others transfer today + this one
+                if(highestDailyTotalMultiplied.compareTo(dailyTotalAmount.add(transactionBalance.getAmount())) < 0) {
+                    sender.getDailyTotal().increaseAmount(transactionBalance);
+                    accountRepository.save(sender);
+                }else{
+                    if(sender instanceof Saving){
+                        ((Saving) sender).setStatus(Status.FROZEN);
+                        savingRepository.save((Saving)sender);
+                        throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "the dailyTotalAmount is bigger than the 150% of highestDailyTotal " +
+                                "the saving account with id " + sender.getId() + " will be FROZEN, contact with an admin to reopen it");
+                    }else if( sender instanceof Checking){
+                        ((Checking) sender).setStatus(Status.FROZEN);
+                        checkingRepository.save(((Checking) sender));
+                        throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "the dailyTotalAmount is bigger than the 150% of highestDailyTotal " +
+                                "the checking account with id " + sender.getId() + " will be FROZEN, contact with an admin to reopen it");
+                    }else if(sender instanceof StudentChecking){
+                        ((StudentChecking) sender).setStatus(Status.FROZEN);
+                        studentCheckingRepository.save(((StudentChecking) sender));
+                        throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "the dailyTotalAmount is bigger than the 150% of highestDailyTotal " +
+                                "the student checking account with id " + sender.getId() + " will be FROZEN, contact with an admin to reopen it");
+                    }else{
+                        throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "the dailyTotalAmount is bigger than the 150% of highestDailyTotal ");
+                    }
+                }
+            }
+        }else{
+            //update the date for next time
+            sender.setCheckingDay(Optional.of(now));
+            accountRepository.save(sender);
+
+            //create highestDailyTotal if there is no one
+            if(sender.getHighestDailyTotal().isEmpty()){
+                sender.setHighestDailyTotal(Optional.of(sender.getDailyTotal()));
+                accountRepository.save(sender);
+            }
+
+            //update highestDailyTotal if dailyTotal is bigger
+            if(sender.getHighestDailyTotal().get().getAmount().compareTo(sender.getDailyTotal().getAmount()) < 1){
+                sender.setHighestDailyTotal(Optional.of(sender.getDailyTotal()));
+                accountRepository.save(sender);
+            }
+
+        }
+
+    }
 
 }

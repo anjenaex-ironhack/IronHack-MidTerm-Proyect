@@ -6,12 +6,14 @@ import com.ironhack.Midtem.Project.Utils.Money;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Account {
+
 
     @Transient
     private static final Money PENALTY_FEE= new Money(new BigDecimal("40"));
@@ -38,6 +40,10 @@ public class Account {
     @OneToMany(mappedBy ="payer", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Transaction> transactionList;
+
+    private Optional<Money> highestDailyTotal;
+    private Money dailyTotal = new Money(new BigDecimal("0"));
+    private Optional<LocalDateTime> checkingDay;
 
     public Account() {
     }
@@ -117,6 +123,30 @@ public class Account {
 
     public void setTransactionList(List<Transaction> transactionList) {
         this.transactionList = transactionList;
+    }
+
+    public Optional<Money> getHighestDailyTotal() {
+        return highestDailyTotal;
+    }
+
+    public void setHighestDailyTotal(Optional<Money> highestDailyTotal) {
+        this.highestDailyTotal = highestDailyTotal;
+    }
+
+    public Money getDailyTotal() {
+        return dailyTotal;
+    }
+
+    public void setDailyTotal(Money dailyTotal) {
+        this.dailyTotal = dailyTotal;
+    }
+
+    public Optional<LocalDateTime> getCheckingDay() {
+        return checkingDay;
+    }
+
+    public void setCheckingDay(Optional<LocalDateTime> checkingDay) {
+        this.checkingDay = checkingDay;
     }
 }
 

@@ -74,4 +74,9 @@ public class Transaction {
     public void setTransactionTime() {
         this.transactionTime = LocalDateTime.now();
     }
+
+
+    public void setTransactionTime(LocalDateTime transactionTime) {
+        this.transactionTime = transactionTime;
+    }
 }
