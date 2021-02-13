@@ -252,7 +252,7 @@ public class TransactionService {
     public void checkHighestDailyTotal (Account sender, Money transactionBalance){
 
         //first, we tell the function. if there is no checkingDay, make one and start now
-        if(Optional.of(sender.getCheckingDay()).isEmpty()) {
+        if(Optional.ofNullable(sender.getCheckingDay()).isEmpty()) {
             sender.setCheckingDay(LocalDateTime.now());
             accountRepository.save(sender);
         }
@@ -264,7 +264,7 @@ public class TransactionService {
         //if the time is lower than the limit time then we can continue in the same day
         if(now.isBefore(timeDeadLine)){
             //we tell the function, if there is no highestDailyTotal, make one with the first transaction amount
-            if(Optional.of(sender.getHighestDailyTotal()).isEmpty()){
+            if(Optional.ofNullable(sender.getHighestDailyTotal()).isEmpty()){
                 sender.getDailyTotal().increaseAmount(transactionBalance);
                 accountRepository.save(sender);
             }else{
@@ -303,16 +303,21 @@ public class TransactionService {
             accountRepository.save(sender);
 
             //create highestDailyTotal if there is no one
-            if(Optional.of(sender.getHighestDailyTotal()).isEmpty()){
+//            if(Optional.ofNullable(sender.getHighestDailyTotal()).isEmpty()){
                 sender.setHighestDailyTotal(sender.getDailyTotal());
                 accountRepository.save(sender);
-            }
+//            }
 
             //update highestDailyTotal if dailyTotal is bigger
             if(sender.getHighestDailyTotal().getAmount().compareTo(sender.getDailyTotal().getAmount()) < 1){
                 sender.setHighestDailyTotal(sender.getDailyTotal());
                 accountRepository.save(sender);
             }
+
+            //reset daily total
+            sender.setDailyTotal(new Money(new BigDecimal("0")));
+            sender.setDailyTotal(transactionBalance);
+            accountRepository.save(sender);
 
         }
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -52,7 +53,7 @@ public class CreditCardService {
     public void updateCreditCardInterest (String id, LocalDate updateDate) {
 
         BigDecimal interestRateDivided = creditCardRepository.findById(Long.valueOf(id)).get().getInterestRate().
-                divide(new BigDecimal("12"));
+                divide(new BigDecimal("12"), RoundingMode.UNNECESSARY);
 
         BigDecimal interestRate = interestRateDivided.add(new BigDecimal("1"));
         BigDecimal newBalanceAmount =
