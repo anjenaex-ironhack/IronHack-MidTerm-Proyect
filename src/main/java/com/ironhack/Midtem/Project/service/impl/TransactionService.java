@@ -13,7 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 
 public class TransactionService {
@@ -68,10 +72,21 @@ public class TransactionService {
             BigDecimal senderTotalAmount = sender.get().getBalance().getAmount();
             BigDecimal transactionAmount = transactionbalance.getAmount();
             LocalDateTime now = LocalDateTime.now();
-            //TODO: implementar lastTransaction. para ello voya crear una lista de transacciones en una cuenta, y le metere el dato fecha de creacoin de esa cuenta en esta variable
-            LocalDateTime lastTransaction = null;
 
-            if(1>0){
+            List<Transaction> transactionList = accountRepository.findById(Long.valueOf(senderAccountId)).get().getTransactionList();
+            LocalDateTime lastTransactionTime;
+
+            if (transactionList.size() > 0){
+                lastTransactionTime = transactionList.get(transactionList.size() - 1).getTransactionTime();
+            }else{
+                LocalDate date = LocalDate.of(1988, 3,19);
+                LocalTime time = LocalTime.MIDNIGHT;
+                lastTransactionTime = LocalDateTime.of(date, time);
+            }
+
+            long timeBetweenTransactions = LocalDateTime.from(lastTransactionTime).until(now, ChronoUnit.SECONDS );
+
+            if(timeBetweenTransactions < 1L){
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "can not create 2 transaction in less than a second");
             }
 

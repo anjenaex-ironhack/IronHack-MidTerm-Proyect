@@ -19,7 +19,6 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private LocalDate creationDate;
-    private LocalDate updateDate;
     @Embedded
     @AttributeOverrides({@AttributeOverride(name = "amount", column = @Column(name = "balance_amount")),
             @AttributeOverride(name = "currency", column = @Column (name = "balance_currency"))})
@@ -110,6 +109,12 @@ public class Account {
         this.secondaryOwner = secondaryOwner;
     }
 
+    public List<Transaction> getTransactionList() {
+        return transactionList;
+    }
 
+    public void setTransactionList(List<Transaction> transactionList) {
+        this.transactionList = transactionList;
+    }
 }
 
