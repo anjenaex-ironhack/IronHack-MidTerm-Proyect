@@ -32,6 +32,7 @@ public class ThirdPartyController {
     //================================================
     //Post Methods
     //================================================
+
     @PatchMapping("user/third-party/{id}/send-money")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void sendMoney(@PathVariable String id, @RequestHeader @Valid HashedKeyDTO HashedKeyDTO, @RequestBody @Valid Optional<AccountIdDTO> accountIdDTO, @RequestBody @Valid AmountDTO amountIdDTO) {

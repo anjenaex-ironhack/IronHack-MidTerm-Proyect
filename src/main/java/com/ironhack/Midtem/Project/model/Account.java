@@ -26,17 +26,17 @@ public class Account {
     @AttributeOverrides({@AttributeOverride(name = "amount", column = @Column(name = "balance_amount")),
             @AttributeOverride(name = "currency", column = @Column (name = "balance_currency"))})
     private Money balance;
-//  Many accounts for an user
+    //Many accounts for an user
     @ManyToOne
     @JoinColumn(name = "primary_owner")
     private AccountHolder primaryOwner;
 
-//  Many accounts for a user
+    //Many accounts for a user
     @ManyToOne
     @JoinColumn(name = "secondary_owner")
     private AccountHolder secondaryOwner;
 
-    //  Many accounts for a user
+    //Many accounts for a user
     @OneToMany(mappedBy ="payer", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Transaction> transactionList;
@@ -54,30 +54,23 @@ public class Account {
     public Account() {
     }
 
+    /**
+     * Class constructor specifying only one owner.
+     **/
     public Account(Money balance, AccountHolder primaryOwner) {
-        this.balance = balance;
-        this.primaryOwner = primaryOwner;
+        setBalance(balance);
+        setPrimaryOwner(primaryOwner);
     }
 
+    /**
+     * Class constructor specifying two owners.
+     **/
     public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
         setCreationDate(LocalDate.now());
-        this.balance = balance;
-        this.primaryOwner = primaryOwner;
-        this.secondaryOwner = secondaryOwner;
+        setBalance(balance);
+        setPrimaryOwner(primaryOwner);
+        setSecondaryOwner(secondaryOwner);
     }
-
-//    public Account(LocalDate creationDate, Money balance, AccountHolder primaryOwner) {
-//        this.creationDate = creationDate;
-//        this.balance = balance;
-//        this.primaryOwner = primaryOwner;
-//    }
-//
-//    public Account(LocalDate creationDate, Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
-//        this.creationDate = creationDate;
-//        this.balance = balance;
-//        this.primaryOwner = primaryOwner;
-//        this.secondaryOwner = secondaryOwner;
-//    }
 
     public static Money getPenaltyFee() {
         return PENALTY_FEE;

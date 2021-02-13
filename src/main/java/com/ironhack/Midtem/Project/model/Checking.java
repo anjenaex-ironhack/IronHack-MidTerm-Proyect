@@ -29,21 +29,25 @@ public class Checking extends Account{
     public Checking() {
     }
 
-
+    /**
+     * Class constructor specifying a checking account without a secondaryOwner
+     **/
     public Checking( Money balance, AccountHolder primaryOwner, String secretKey, Money minimumBalance, Money monthlyMaintenanceFee, Status status) {
         super(balance, primaryOwner);
-        this.secretKey = secretKey;
-        this.minimumBalance = minimumBalance;
-        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
-        this.status = status;
+        setSecretKey(secretKey);
+        setMinimumBalance(minimumBalance);
+        setMonthlyMaintenanceFee(monthlyMaintenanceFee);
+        setStatus(status);
     }
-
+    /**
+     * Class constructor specifying a checking account with a secondaryOwner
+     **/
     public Checking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, String secretKey, Money minimumBalance, Money monthlyMaintenanceFee, Status status) {
         super( balance, primaryOwner, secondaryOwner);
-        this.secretKey = secretKey;
-        this.minimumBalance = minimumBalance;
-        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
-        this.status = status;
+        setSecretKey(secretKey);
+        setMinimumBalance(minimumBalance);
+        setMonthlyMaintenanceFee(monthlyMaintenanceFee);
+        setStatus(status);
     }
 
     public String getSecretKey() {

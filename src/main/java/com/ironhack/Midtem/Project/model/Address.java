@@ -1,6 +1,8 @@
 package com.ironhack.Midtem.Project.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,24 +16,23 @@ public class Address {
     private int postalCode;
     private String city;
     private String country;
-    //My idea here should be, in the frontend first choose a Country in a menu, and then get a new list of cities.
-//    @Enumerated(EnumType.STRING)
-//    private City city;
-//    @Enumerated(EnumType.STRING)
-//    private Country country;
 
-//    @OneToOne(mappedBy = "address")
-//    private AccountHolder accountHolder;
+    @JsonIgnore
+    @OneToOne(mappedBy = "address")
+    private AccountHolder accountHolder;
 
 
     public Address() {
     }
 
+    /**
+     * Class constructor for an address.
+     **/
     public Address(String address, int postalCode, String city, String country) {
-        this.address = address;
-        this.postalCode = postalCode;
-        this.city = city;
-        this.country = country;
+        setAddress(address);
+        setPostalCode(postalCode);
+        setCity(city);
+        setCountry(country);
     }
 
     public long getId() {

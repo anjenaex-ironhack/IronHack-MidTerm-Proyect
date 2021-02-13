@@ -18,24 +18,28 @@ public class CreditCard extends Account {
     private BigDecimal interestRate;
     private LocalDate updateDate;
 
-
-
     public CreditCard() {
     }
 
+    /**
+     * Class constructor specifying a credit card account without a secondaryOwner
+     **/
     public CreditCard(Money balance, AccountHolder primaryOwner, Money creditLimit, BigDecimal interestRate) {
         super(balance, primaryOwner);
-        this.updateDate = getCreationDate();
-        setUpdateDate(this.updateDate);
-        this.creditLimit = creditLimit;
-        this.interestRate = interestRate;
+        LocalDate creationDate = getCreationDate();
+        setUpdateDate(creationDate);
+        setCreditLimit(creditLimit);
+        setInterestRate(interestRate);
     }
 
+    /**
+     * Class constructor specifying a credit card account with a secondaryOwner
+     **/
     public CreditCard(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money creditLimit, BigDecimal interestRate) {
         super(balance, primaryOwner, secondaryOwner);
         setUpdateDate(LocalDate.now());
-        this.creditLimit = creditLimit;
-        this.interestRate = interestRate;
+        setCreditLimit(creditLimit);
+        setInterestRate(interestRate);
     }
 
     public Money getCreditLimit() {

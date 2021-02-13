@@ -21,9 +21,12 @@ public class Role {
     public Role() {
     }
 
+    /**
+     * Class constructor specifying a role
+     **/
     public Role(String name, User user) {
-        this.name = name;
-        this.user = user;
+        setName(name);
+        setUser(user);
     }
 
     public String getName() {

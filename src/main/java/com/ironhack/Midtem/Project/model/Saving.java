@@ -22,23 +22,28 @@ public class Saving extends Account {
     public Saving() {
     }
 
+    /**
+     * Class constructor specifying a saving account without secondaryOwner
+     **/
     public Saving(Money balance, AccountHolder primaryOwner, String secretKey, Money minimumBalance, BigDecimal interestRate, Status status) {
         super(balance, primaryOwner);
-        this.updateDate = LocalDate.now();
-        setUpdateDate(this.updateDate);
-        this.secretKey = secretKey;
-        this.minimumBalance = minimumBalance;
-        this.interestRate = interestRate;
-        this.status = status;
+        setUpdateDate(LocalDate.now());
+        setSecretKey(secretKey);
+        setMinimumBalance(minimumBalance);
+        setInterestRate(interestRate);
+        setStatus(status);
     }
 
+    /**
+     * Class constructor specifying a saving account with secondaryOwner
+     **/
     public Saving(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, String secretKey, Money minimumBalance, BigDecimal interestRate, Status status) {
         super(balance, primaryOwner, secondaryOwner);
         setUpdateDate(LocalDate.now());
-        this.secretKey = secretKey;
-        this.minimumBalance = minimumBalance;
-        this.interestRate = interestRate;
-        this.status = status;
+        setSecretKey(secretKey);
+        setMinimumBalance(minimumBalance);
+        setInterestRate(interestRate);
+        setStatus(status);
     }
 
     public String getSecretKey() {

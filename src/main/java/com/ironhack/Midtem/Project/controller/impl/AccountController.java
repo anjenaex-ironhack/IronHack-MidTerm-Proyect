@@ -24,23 +24,18 @@ public class AccountController {
     private AccountRepository accountRepository;
     @Autowired
     private AccountService accountService;
-
-
     @Autowired
     private CheckingRepository checkingRepository;
-
     @Autowired
     private StudentCheckingRepository studentCheckingRepository;
-
     @Autowired
     private SavingRepository savingRepository;
-
     @Autowired
     private CreditCardRepository creditCardRepository;
 
-    /**
-     * Get Methods
-     */
+    //================================================
+    //Get Methods
+    //================================================
 
     @GetMapping("/accounts")
     @ResponseStatus(HttpStatus.OK)
@@ -72,14 +67,13 @@ public class AccountController {
     }
 
 
-    /**
-     * Patch Methods
-     */
+    //================================================
+    //Patch Methods
+    //================================================
 
     @PatchMapping("/account/{id}/balance/")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateBalance (@PathVariable String id, @RequestBody @Valid BalanceDTO balanceDTO){
-
             accountService.updateBalance(id, balanceDTO);
     }
 

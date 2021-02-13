@@ -1,5 +1,7 @@
 package com.ironhack.Midtem.Project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -21,29 +23,36 @@ public class AccountHolder extends User {
     @JoinColumn(name = "mailing_address")
     private Address mailingAddress;
 
-
-//    @OneToMany(mappedBy = "primaryOwner")
-//    private Account primaryAccount;
-//
-//    @OneToMany(mappedBy = "secondaryOwner")
-//    private Account secondaryAccount;
+    //Ignores because of postman troubles
+    @JsonIgnore
+    @OneToMany(mappedBy = "primaryOwner")
+    private Account primaryAccount;
+    @JsonIgnore
+    @OneToMany(mappedBy = "secondaryOwner")
+    private Account secondaryAccount;
 
     public AccountHolder() {
     }
 
+    /**
+     * Class constructor specifying only address.
+     **/
     public AccountHolder(String name, String password, String dni, LocalDate birth, Address address) {
         super(name,password);
-        this.dni = dni;
-        this.birth = birth;
-        this.address = address;
+        setDni(dni);
+        setBirth(birth);
+        setAddress(address);
     }
 
+    /**
+     * Class constructor specifying an address and one mailing address.
+     **/
     public AccountHolder(String name, String password, String  dni, LocalDate birth, Address address, Address mailingAddress) {
         super(name, password);
-        this.dni = dni;
-        this.birth = birth;
-        this.address = address;
-        this.mailingAddress = mailingAddress;
+        setDni(dni);
+        setBirth(birth);
+        setAddress(address);
+        setMailingAddress(mailingAddress);
     }
 
     public String getDni() {

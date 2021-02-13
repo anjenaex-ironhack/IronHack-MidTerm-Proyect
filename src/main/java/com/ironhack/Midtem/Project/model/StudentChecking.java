@@ -24,16 +24,22 @@ public class StudentChecking extends Account{
         this.status = status;
     }
 
+    /**
+     * Class constructor specifying a saving account without secondaryOwner
+     **/
     public StudentChecking(Money balance, AccountHolder primaryOwner, String secretKey, Status status) {
         super(balance, primaryOwner);
-        this.secretKey = secretKey;
-        this.status = status;
+        setSecretKey(secretKey);
+        setStatus(status);
     }
 
+    /**
+     * Class constructor specifying a saving account with secondaryOwner
+     **/
     public StudentChecking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, String secretKey, Status status) {
         super(balance, primaryOwner, secondaryOwner);
-        this.secretKey = secretKey;
-        this.status = status;
+        setSecretKey(secretKey);
+        setStatus(status);
     }
 
     public String getSecretKey() {

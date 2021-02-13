@@ -22,16 +22,14 @@ public class AccountHolderController {
     private AccountHolderService accountHolderService;
 
 
-    /**
-     * Get Methods
-     */
+    ///================================================
+    //Get Methods
+    //=================================================
+
     @GetMapping("user/account-holders")
     @ResponseStatus(HttpStatus.OK)
     public List<AccountHolder> getAllAccountHolders (String id) {
-
         return accountHolderRepository.findAll();
-
-
     }
 
     @GetMapping("user/account-holder")
@@ -49,10 +47,9 @@ public class AccountHolderController {
 
     }
 
-
-    /**
-     * Post Methods
-     */
+    //================================================
+    //Get Methods
+    //================================================
 
     @PostMapping("user/create/account-holder")
     @ResponseStatus(HttpStatus.CREATED)

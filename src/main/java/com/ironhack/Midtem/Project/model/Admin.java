@@ -11,6 +11,9 @@ public class Admin extends User{
     public Admin() {
     }
 
+    /**
+     * Class constructor specifying an admin.
+     **/
     public Admin(String name, String password) {
         super(name, password);
     }

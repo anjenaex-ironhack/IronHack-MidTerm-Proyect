@@ -42,32 +42,38 @@ public class TransactionController {
     public void sendMoneyAccountToAccount(@PathVariable String id, @RequestBody @Valid TransferDTO transferDTO){
 
         Optional<Account> account = accountRepository.findById(Long.valueOf(id));
+        //Check sender account exist
         if(account.isEmpty()) {
+
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Sender account with id " + id + " doesn't exist");
+
         }else{
 
             Optional<Account> beneficiaryAccount = accountRepository.findById(transferDTO.getBeneficiaryId());
-
+            //Check beneficiary Account exist
             if(beneficiaryAccount.isEmpty()){
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Beneficiary account with id " + id + "doesn't exist");
             }
-
+            //Check both accounts are different
             if(account.equals(beneficiaryAccount)) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "unable to make a transaction to the own account");
             }
+            //Check the beneficiary account has the same id and name
+            Boolean checkIfPrimaryOwnerHasTheName = beneficiaryAccount.get().getPrimaryOwner().getName().equals(transferDTO.getName());
+            Boolean checkIfSecondaryOwnerHasTheName = beneficiaryAccount.get().getSecondaryOwner().getName().equals(transferDTO.getName());
 
-            if(beneficiaryAccount.get().getPrimaryOwner().getName().equals(transferDTO.getName()) ||
-                        beneficiaryAccount.get().getSecondaryOwner().getName().equals(transferDTO.getName())) {
+            if(checkIfPrimaryOwnerHasTheName || checkIfSecondaryOwnerHasTheName) {
+
                 Money money = new Money(transferDTO.getTransferAmount(), transferDTO.getTransferCurrency());
                 transactionService.makeATransaction(id,transferDTO.getBeneficiaryId().toString(), money);
+
             }else{
+
                     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The account with id " + id + " doesn't have any user with the name " + transferDTO.getName());
+
             }
 
-
         }
-
-
 
     }
 }
