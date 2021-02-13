@@ -13,7 +13,9 @@ public class ThirdParty extends User{
     public ThirdParty() {
     }
 
-
+    /**
+     * Class constructor specifying a thirdParty
+     **/
     public ThirdParty(String name, String password, String hashedKey) {
         super(name, password);
         this.hashedKey = hashedKey;

@@ -28,16 +28,22 @@ public class Transaction {
     public Transaction() {
     }
 
+    /**
+     * Class constructor specifying a transaction between AccountHolder and thirdParty
+     **/
     public Transaction(Account payer, Money amount) {
-        this.payer = payer;
-        this.amount = amount;
+        setPayer(payer);
+        setAmount(amount);
         setTransactionTime();
     }
 
+    /**
+     * Class constructor specifying a transaction between AccountHolder and AccountHolder
+     **/
     public Transaction(Account payer, Account beneficiary, Money amount) {
-        this.payer = payer;
-        this.beneficiary = beneficiary;
-        this.amount = amount;
+        setPayer(payer);
+        setBeneficiary(beneficiary);
+        setAmount(amount);
         setTransactionTime();
     }
 

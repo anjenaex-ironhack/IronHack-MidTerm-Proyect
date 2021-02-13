@@ -22,9 +22,12 @@ public class User {
     public User() {
     }
 
+    /**
+     * Class constructor specifying an user
+     **/
     public User(String name, String password) {
-        this.name = name;
-        this.password = password;
+        setName(name);
+        setPassword(password);
     }
 
     public long getId() {
