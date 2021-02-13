@@ -92,12 +92,11 @@ public class AccountService {
         } else {
             Account account = accountRepository.findById(Long.valueOf(id)).get();
             if (account instanceof Saving) {
-                //LocalDate updateDate = savingRepository.findById(Long.valueOf(id)).get().getUpdateDate();
-                LocalDate updateDate = LocalDate.now();
+                LocalDate updateDate = savingRepository.findById(Long.valueOf(id)).get().getUpdateDate();
                 updateInterest(id, updateDate);
             }else if (account instanceof CreditCard){
                 //LocalDate updateDate = creditCardRepository.findById(Long.valueOf(id)).get().getUpdateDate();
-                LocalDate updateDate = LocalDate.now();
+                LocalDate updateDate = savingRepository.findById(Long.valueOf(id)).get().getUpdateDate();;
                 updateInterest(id, updateDate);
             }
             return accountRepository.findById(Long.valueOf(id)).get().getBalance();

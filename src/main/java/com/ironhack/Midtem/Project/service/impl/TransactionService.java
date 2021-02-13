@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class TransactionService {
@@ -49,7 +50,7 @@ public class TransactionService {
     //================================================
     //Automatic account management
     //================================================
-    public void makeATransaction(String senderAccountId, String beneficiaryAccountId, Money transactionAmount) {
+    public void makeATransaction(String senderAccountId, String beneficiaryAccountId, Money transactionbalance) {
 
         Optional<Account> sender = accountRepository.findById(Long.valueOf(senderAccountId));
         Optional<Account> beneficiary = accountRepository.findById(Long.valueOf(beneficiaryAccountId));
@@ -57,7 +58,6 @@ public class TransactionService {
         if(sender.isPresent() && beneficiary.isPresent()){
 
             BigDecimal minimumBalance;
-
             if(sender.get() instanceof Checking){
                 minimumBalance = checkingRepository.findById(Long.valueOf(senderAccountId)).get().getMinimumBalance().getAmount();
             }else if(sender.get() instanceof Saving){
@@ -65,9 +65,19 @@ public class TransactionService {
             }else{
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "only Checking and Saving Accounts have a minimum balance");
             }
-
             BigDecimal senderTotalAmount = sender.get().getBalance().getAmount();
+            BigDecimal transactionAmount = transactionbalance.getAmount();
+            LocalDateTime now = LocalDateTime.now();
+            //TODO: implementar lastTransaction. para ello voya crear una lista de transacciones en una cuenta, y le metere el dato fecha de creacoin de esa cuenta en esta variable
+            LocalDateTime lastTransaction = null;
 
+            if(1>0){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "can not create 2 transaction in less than a second");
+            }
+
+            if(senderTotalAmount.subtract(transactionAmount).compareTo(new BigDecimal("0")) < 0){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "the transaction amount can't be bigger than the total Account Amount");
+            }
 //            if(minimumBalance.subtract(transactionAmount).) {
 //
 //                Account senderAccount = accountRepository.findById(senderAccountId).get();

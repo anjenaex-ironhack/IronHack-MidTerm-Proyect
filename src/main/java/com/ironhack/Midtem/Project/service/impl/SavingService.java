@@ -62,9 +62,11 @@ public class SavingService {
 
     public void updateSavingInterest (String id, LocalDate updateDate) {
 
+                    BigDecimal interestRate = savingRepository.findById(Long.valueOf(id)).get().getInterestRate().
+                            add(new BigDecimal("1"));
                     BigDecimal newBalanceAmount =
                             savingRepository.findById(Long.valueOf(id)).get().getBalance().getAmount()
-                                    .multiply(savingRepository.findById(Long.valueOf(id)).get().getInterestRate());
+                                    .multiply(interestRate);
                     Money newBalance = new Money(newBalanceAmount);
 
                     Saving saving = savingRepository.findById(Long.valueOf(id)).get();

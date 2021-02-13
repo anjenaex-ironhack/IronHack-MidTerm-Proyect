@@ -5,6 +5,7 @@ import com.ironhack.Midtem.Project.Utils.Money;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
@@ -32,6 +33,10 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "secondary_owner")
     private AccountHolder secondaryOwner;
+
+    //  Many accounts for a user
+    @OneToMany
+    private List<Transaction> transactionList;
 
     public Account() {
     }
