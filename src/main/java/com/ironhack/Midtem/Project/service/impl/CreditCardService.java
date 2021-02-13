@@ -51,8 +51,10 @@ public class CreditCardService {
 
     public void updateCreditCardInterest (String id, LocalDate updateDate) {
 
-        BigDecimal interestRate = creditCardRepository.findById(Long.valueOf(id)).get().getInterestRate().
-                add(new BigDecimal("1"));
+        BigDecimal interestRateDivided = creditCardRepository.findById(Long.valueOf(id)).get().getInterestRate().
+                divide(new BigDecimal("12"));
+
+        BigDecimal interestRate = interestRateDivided.add(new BigDecimal("1"));
         BigDecimal newBalanceAmount =
                 creditCardRepository.findById(Long.valueOf(id)).get().getBalance().getAmount()
                         .multiply(interestRate);
