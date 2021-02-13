@@ -41,9 +41,15 @@ public class Account {
     @JsonIgnore
     private List<Transaction> transactionList;
 
-    private Optional<Money> highestDailyTotal;
+    @Embedded
+    @AttributeOverrides({@AttributeOverride(name = "amount", column = @Column(name = "highest_daily_total_amount")),
+            @AttributeOverride(name = "currency", column = @Column (name = "highest_daily_total_currency"))})
+    private Money highestDailyTotal;
+    @Embedded
+    @AttributeOverrides({@AttributeOverride(name = "amount", column = @Column(name = "daily_total_amount")),
+            @AttributeOverride(name = "currency", column = @Column (name = "daily_total_currency"))})
     private Money dailyTotal = new Money(new BigDecimal("0"));
-    private Optional<LocalDateTime> checkingDay;
+    private LocalDateTime checkingDay;
 
     public Account() {
     }
@@ -125,14 +131,6 @@ public class Account {
         this.transactionList = transactionList;
     }
 
-    public Optional<Money> getHighestDailyTotal() {
-        return highestDailyTotal;
-    }
-
-    public void setHighestDailyTotal(Optional<Money> highestDailyTotal) {
-        this.highestDailyTotal = highestDailyTotal;
-    }
-
     public Money getDailyTotal() {
         return dailyTotal;
     }
@@ -141,11 +139,19 @@ public class Account {
         this.dailyTotal = dailyTotal;
     }
 
-    public Optional<LocalDateTime> getCheckingDay() {
+    public Money getHighestDailyTotal() {
+        return highestDailyTotal;
+    }
+
+    public void setHighestDailyTotal(Money highestDailyTotal) {
+        this.highestDailyTotal = highestDailyTotal;
+    }
+
+    public LocalDateTime getCheckingDay() {
         return checkingDay;
     }
 
-    public void setCheckingDay(Optional<LocalDateTime> checkingDay) {
+    public void setCheckingDay(LocalDateTime checkingDay) {
         this.checkingDay = checkingDay;
     }
 }

@@ -252,24 +252,24 @@ public class TransactionService {
     public void checkHighestDailyTotal (Account sender, Money transactionBalance){
 
         //first, we tell the function. if there is no checkingDay, make one and start now
-        if(sender.getCheckingDay().isEmpty()) {
-            sender.setCheckingDay(Optional.of(LocalDateTime.now()));
+        if(Optional.of(sender.getCheckingDay()).isEmpty()) {
+            sender.setCheckingDay(LocalDateTime.now());
             accountRepository.save(sender);
         }
 
         //then we set the time limit
-        LocalDateTime timeDeadLine = sender.getCheckingDay().get().plusDays(1);
+        LocalDateTime timeDeadLine = sender.getCheckingDay().plusDays(1);
         LocalDateTime now = LocalDateTime.now();
 
         //if the time is lower than the limit time then we can continue in the same day
         if(now.isBefore(timeDeadLine)){
             //we tell the function, if there is no highestDailyTotal, make one with the first transaction amount
-            if(sender.getHighestDailyTotal().isEmpty()){
+            if(Optional.of(sender.getHighestDailyTotal()).isEmpty()){
                 sender.getDailyTotal().increaseAmount(transactionBalance);
                 accountRepository.save(sender);
             }else{
 
-                BigDecimal highestDailyTotalMultiplied = sender.getHighestDailyTotal().get().getAmount().multiply(new BigDecimal("1.5"));
+                BigDecimal highestDailyTotalMultiplied = sender.getHighestDailyTotal().getAmount().multiply(new BigDecimal("1.5"));
                 BigDecimal dailyTotalAmount = sender.getDailyTotal().getAmount();
 
                 //if the highestDailyTotal * 1.5 is lower than all your others transfer today + this one
@@ -299,18 +299,18 @@ public class TransactionService {
             }
         }else{
             //update the date for next time
-            sender.setCheckingDay(Optional.of(now));
+            sender.setCheckingDay(now);
             accountRepository.save(sender);
 
             //create highestDailyTotal if there is no one
-            if(sender.getHighestDailyTotal().isEmpty()){
-                sender.setHighestDailyTotal(Optional.of(sender.getDailyTotal()));
+            if(Optional.of(sender.getHighestDailyTotal()).isEmpty()){
+                sender.setHighestDailyTotal(sender.getDailyTotal());
                 accountRepository.save(sender);
             }
 
             //update highestDailyTotal if dailyTotal is bigger
-            if(sender.getHighestDailyTotal().get().getAmount().compareTo(sender.getDailyTotal().getAmount()) < 1){
-                sender.setHighestDailyTotal(Optional.of(sender.getDailyTotal()));
+            if(sender.getHighestDailyTotal().getAmount().compareTo(sender.getDailyTotal().getAmount()) < 1){
+                sender.setHighestDailyTotal(sender.getDailyTotal());
                 accountRepository.save(sender);
             }
 
