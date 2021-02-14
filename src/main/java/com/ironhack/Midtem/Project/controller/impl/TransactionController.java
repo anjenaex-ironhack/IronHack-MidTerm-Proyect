@@ -6,6 +6,7 @@ import com.ironhack.Midtem.Project.Repository.TransactionRepository;
 import com.ironhack.Midtem.Project.Utils.Money;
 import com.ironhack.Midtem.Project.controller.dto.AccountHolderDTO;
 import com.ironhack.Midtem.Project.controller.dto.TransferDTO;
+import com.ironhack.Midtem.Project.controller.interfaces.ITransactionInterface;
 import com.ironhack.Midtem.Project.model.Account;
 import com.ironhack.Midtem.Project.model.Transaction;
 import com.ironhack.Midtem.Project.service.impl.AccountService;
@@ -20,7 +21,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-public class TransactionController {
+public class TransactionController implements ITransactionInterface {
 
     @Autowired
     private TransactionRepository transactionRepository;

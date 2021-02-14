@@ -23,13 +23,13 @@ public class AccountHolder extends User {
     @JoinColumn(name = "mailing_address")
     private Address mailingAddress;
 
-    //Ignores because of postman troubles
-    @JsonIgnore
-    @OneToMany(mappedBy = "primaryOwner")
-    private Account primaryAccount;
-    @JsonIgnore
-    @OneToMany(mappedBy = "secondaryOwner")
-    private Account secondaryAccount;
+//    //Ignores because of postman troubles
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "primaryOwner")
+//    private Account primaryAccount;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "secondaryOwner")
+//    private Account secondaryAccount;
 
     public AccountHolder() {
     }

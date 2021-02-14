@@ -1,6 +1,7 @@
 package com.ironhack.Midtem.Project.controller.impl;
 
 import com.ironhack.Midtem.Project.controller.dto.CreditCardDTO;
+import com.ironhack.Midtem.Project.controller.interfaces.ICreditCardInterface;
 import com.ironhack.Midtem.Project.service.impl.CreditCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-public class CreditCardController {
+public class CreditCardController implements ICreditCardInterface {
 
     @Autowired
     private CreditCardController creditCardController;

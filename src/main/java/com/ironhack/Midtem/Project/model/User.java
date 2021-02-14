@@ -14,7 +14,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    @JsonIgnore
+    //@JsonIgnore
     private String password;
     @OneToMany(mappedBy = "user")
     private List<Role> roleList;

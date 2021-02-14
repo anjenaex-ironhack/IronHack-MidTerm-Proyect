@@ -3,6 +3,7 @@ package com.ironhack.Midtem.Project.controller.impl;
 import com.ironhack.Midtem.Project.Repository.*;
 import com.ironhack.Midtem.Project.Utils.Money;
 import com.ironhack.Midtem.Project.controller.dto.BalanceDTO;
+import com.ironhack.Midtem.Project.controller.interfaces.IAccountInterface;
 import com.ironhack.Midtem.Project.model.*;
 import com.ironhack.Midtem.Project.service.impl.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class AccountController {
+public class AccountController implements IAccountInterface {
 
     @Autowired
     private AccountRepository accountRepository;
