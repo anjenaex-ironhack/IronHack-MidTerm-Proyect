@@ -1,0 +1,412 @@
+{
+	"info": {
+		"_postman_id": "49ed0c36-6c7b-48eb-b1bb-c568f152b3b3",
+		"name": "BankApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/accounts",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAccountById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/account/id/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"id",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAccountHolderById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/account-holder?id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"account-holder"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAccountHolders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/account-holders",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"account-holders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBalanceById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/account/3/balance",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"3",
+								"balance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAccountByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/accounts/name/Antonio",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts",
+								"name",
+								"Antonio"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAccountsByDni",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/accounts/dni/75115045N",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts",
+								"dni",
+								"75115045N"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAccountHolderByDNI",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/account-holder?dni=75115045N",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"account-holder"
+							],
+							"query": [
+								{
+									"key": "dni",
+									"value": "75115045N"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "localhost:8080/account/create/checking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"id\": 1,\n        \"creationDate\": null,\n        \"balance\": {\n            \"currency\": \"USD\",\n            \"amount\": 1000.00\n        },\n        \"primaryOwner\": {\n            \"id\": 1,\n            \"name\": \"Antonio\",\n            \"birth\": \"1988-12-14\",\n            \"address\": {\n                \"id\": 1,\n                \"address\": \"calle encina, 23\",\n                \"postalCode\": 23400,\n                \"city\": \"Ubeda\",\n                \"country\": \"Spain\"\n            },\n            \"mailingAddress\": {\n                \"id\": 1,\n                \"address\": \"calle encina, 23\",\n                \"postalCode\": 23400,\n                \"city\": \"Ubeda\",\n                \"country\": \"Spain\"\n            }\n        },\n        \"secondaryOwner\": {\n            \"id\": 2,\n            \"name\": \"Jesús\",\n            \"birth\": \"1987-07-12\",\n            \"address\": {\n                \"id\": 1,\n                \"address\": \"calle encina, 23\",\n                \"postalCode\": 23400,\n                \"city\": \"Ubeda\",\n                \"country\": \"Spain\"\n            },\n            \"mailingAddress\": {\n                \"id\": 1,\n                \"address\": \"calle encina, 23\",\n                \"postalCode\": 23400,\n                \"city\": \"Ubeda\",\n                \"country\": \"Spain\"\n            }\n        }\n    }\n        \n    \n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/account/create/checking",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"create",
+								"checking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createStudenCheckingAccount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"balanceCurrency\": \"USD\",\n        \"balanceAmount\": 2000.00,\n        \"primaryOwner\": {\n            \"id\": 2,\n            \"name\": \"Jesús\",\n            \"birth\": \"2005-07-12\",\n            \"address\": {\n                \"id\": 1,\n                \"address\": \"calle encina, 23\",\n                \"postalCode\": 23400,\n                \"city\": \"Ubeda\",\n                \"country\": \"Spain\"\n            },\n            \"mailingAddress\": {\n                \"id\": 1,\n                \"address\": \"calle encina, 23\",\n                \"postalCode\": 23400,\n                \"city\": \"Ubeda\",\n                \"country\": \"Spain\"\n            }\n        },\n        \"secondaryOwner\": {\n            \"id\": 1,\n            \"name\": \"Antonio\",\n            \"birth\": \"1988-12-14\",\n            \"address\": {\n                \"id\": 1,\n                \"address\": \"calle encina, 23\",\n                \"postalCode\": 23400,\n                \"city\": \"Ubeda\",\n                \"country\": \"Spain\"\n            },\n            \"mailingAddress\": {\n                \"id\": 1,\n                \"address\": \"calle encina, 23\",\n                \"postalCode\": 23400,\n                \"city\": \"Ubeda\",\n                \"country\": \"Spain\"\n            }\n        },\n        \"secretKey\": \"abc\",\n        \"minimumBalanceCurrency\": \"USD\",\n        \"minimumBalanceAmount\": 1000.00,\n        \"monthlyMaintenanceFeeCurrency\": \"USD\",\n        \"monthlyMaintenanceFeeAmount\": 12.00,\n        \"status\": \"FROZEN\"\n    }\n        \n    \n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/create/checking-account",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create",
+								"checking-account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCheckingAccount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"balanceCurrency\": \"USD\",\n        \"balanceAmount\": 8888888.00,\n        \"primaryOwnerId\": 1,\n        \"secondaryOwnerId\": 2,\n        \"secretKey\": \"abc\",\n        \"minimumBalanceCurrency\": \"USD\",\n        \"minimumBalanceAmount\": 1000.00,\n        \"monthlyMaintenanceFeeCurrency\": \"USD\",\n        \"monthlyMaintenanceFeeAmount\": 12.00,\n        \"status\": \"ACTIVE\"\n    }\n        \n    \n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/create/checking-account",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create",
+								"checking-account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createSavingAccount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"balanceCurrency\": \"USD\",\n        \"balanceAmount\": 100.00,\n        \"primaryOwnerId\": 1,\n        \"secondaryOwnerId\": 2,\n        \"secretKey\": \"abc\",\n        \"interestRate\": \"0.5\",\n        \"status\": \"ACTIVE\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/create/saving-account",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create",
+								"saving-account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createAccountHolder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n            \"dni\": \"75115045N\",\n            \"name\": \"Antonio\",\n            \"birth\": \"1988-12-14\",\n            \"address\": {\n                \"id\": 1\n            },\n            \"mailingAddress\":{\n                \"id\": 1\n            }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/user/create/account-holder",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"create",
+								"account-holder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCreditCard",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"balanceCurrency\": \"USD\",\n        \"balanceAmount\": 100.00,\n        \"primaryOwnerId\": 1,\n        \"secondaryOwnerId\": 2,\n        \"creditLimitAmount\": 50,\n        \"interestRate\": \"0.2\",\n        \"status\": \"FROZEN\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/create/credit-card",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create",
+								"credit-card"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transferMoneyAccountToAccount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"beneficiaryId\": 2,\n        \"name\": \"Antonio\",\n        \"transferAmount\":250,\n        \"transferCurrency\": \"USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/account/5/transfer-money",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"5",
+								"transfer-money"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Put",
+			"item": []
+		},
+		{
+			"name": "Patch",
+			"item": [
+				{
+					"name": "updateBalance",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "account/balance/1",
+							"host": [
+								"account"
+							],
+							"path": [
+								"balance",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

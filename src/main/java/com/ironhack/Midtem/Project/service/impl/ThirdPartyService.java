@@ -31,6 +31,7 @@ public class ThirdPartyService implements IThirdPartyService {
     //================================================
     //Post Methods
     //================================================
+
     public void createThirdParty(ThirdPartyDTO ThirdPartyDTO){
         String name = ThirdPartyDTO.getName();
         String password = ThirdPartyDTO.getPassword();
@@ -43,6 +44,7 @@ public class ThirdPartyService implements IThirdPartyService {
     //================================================
     //Patch Methods
     //================================================
+
     public void sendMoney(Optional<AccountIdDTO> accountIdDTO, AmountDTO amountDTO){
 
         if(accountIdDTO.isEmpty()){

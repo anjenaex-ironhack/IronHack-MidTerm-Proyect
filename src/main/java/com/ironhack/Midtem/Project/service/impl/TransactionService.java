@@ -239,6 +239,7 @@ public class TransactionService implements ITransactionService {
             }
         }
     }
+
     public void checkActive(Optional<Account> sender){
         if(sender.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "sender fail, before checking the status");
@@ -375,10 +376,10 @@ public class TransactionService implements ITransactionService {
             accountRepository.save(sender);
 
             //create highestDailyTotal if there is no one
-//            if(Optional.ofNullable(sender.getHighestDailyTotal()).isEmpty()){
+           if(Optional.ofNullable(sender.getHighestDailyTotal()).isEmpty()){
                 sender.setHighestDailyTotal(sender.getDailyTotal());
                 accountRepository.save(sender);
-//            }
+            }
 
             //update highestDailyTotal if dailyTotal is bigger
             if(sender.getHighestDailyTotal().getAmount().compareTo(sender.getDailyTotal().getAmount()) < 1){

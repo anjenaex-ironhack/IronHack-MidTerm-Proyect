@@ -45,11 +45,10 @@ public class AccountHolderController  implements IAccountHolderController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insert a correct id or DNI");
         }
 
-
     }
 
     //================================================
-    //Get Methods
+    //Post Methods
     //================================================
 
     @PostMapping("user/create/account-holder")

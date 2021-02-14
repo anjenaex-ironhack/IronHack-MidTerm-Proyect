@@ -25,6 +25,7 @@ public class StudentCheckingService implements IStudentCheckingService {
     //================================================
     //Post Methods
     //================================================
+
     public void createStudentCheckingAccount(CheckingDTO checkingDTO){
 
         Money balance = new Money(checkingDTO.getBalanceAmount(), checkingDTO.getBalanceCurrency());

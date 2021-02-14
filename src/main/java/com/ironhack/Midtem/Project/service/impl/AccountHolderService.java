@@ -34,6 +34,7 @@ public class AccountHolderService implements IAccountHolderService {
     //================================================
     //Get Methods
     //================================================
+
     public AccountHolder getAccountHolderByDni(String dni){
 
         if(accountHolderRepository.findByDni(dni).isPresent()){
@@ -51,6 +52,7 @@ public class AccountHolderService implements IAccountHolderService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "AccountHolder with DNI " + id + "Not found");
         }
     }
+
     //================================================
     //Post Methods
     //================================================
@@ -73,10 +75,5 @@ public class AccountHolderService implements IAccountHolderService {
 
         accountHolderRepository.save(accountHolder);
     }
-
-
-
-
-
 
 }

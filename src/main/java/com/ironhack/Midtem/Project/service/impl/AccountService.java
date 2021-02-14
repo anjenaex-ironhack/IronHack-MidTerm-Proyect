@@ -34,7 +34,6 @@ public class AccountService implements IAccountService {
     @Autowired
     private CreditCardService creditCardService;
 
-
     //================================================
     //Get Methods
     //================================================
@@ -61,7 +60,6 @@ public class AccountService implements IAccountService {
         }
     }
 
-    //TODO: porque no me pilla los optionales
     public List<Account> getAccountsByDni(Optional<String> dni) {
         if (dni.isPresent()) {
 

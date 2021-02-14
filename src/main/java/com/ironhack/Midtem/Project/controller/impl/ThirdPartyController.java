@@ -24,10 +24,25 @@ public class ThirdPartyController implements IThirdPartyController {
     //Post Methods
     //================================================
 
-    @PostMapping("/create/third-party")
+    @PostMapping("user/create/third-party")
     @ResponseStatus(HttpStatus.CREATED)
     public void createCreditCard(@RequestBody @Valid ThirdPartyDTO thirdPartyDTO) {
         thirdPartyService.createThirdParty(thirdPartyDTO);
+    }
+
+    //================================================
+    //Post Methods
+    //================================================
+
+    @PostMapping("user/third-party/{id}/receive-money")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void receiveMoney(@PathVariable String id, @RequestHeader @Valid HashedKeyDTO HashedKeyDTO, @RequestBody @Valid Optional<AccountIdDTO> accountIdDTO, @RequestBody @Valid AmountDTO amountIdDTO) {
+
+        if(thirdPartyRepository.findById(Long.valueOf(id)).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty with id " + id + " not found");
+        }else{
+            thirdPartyService.getMoney(accountIdDTO, amountIdDTO);
+        }
     }
 
     //================================================
@@ -39,22 +54,10 @@ public class ThirdPartyController implements IThirdPartyController {
     public void sendMoney(@PathVariable String id, @RequestHeader @Valid HashedKeyDTO HashedKeyDTO, @RequestBody @Valid Optional<AccountIdDTO> accountIdDTO, @RequestBody @Valid AmountDTO amountIdDTO) {
 
         if(thirdPartyRepository.findById(Long.valueOf(id)).isEmpty()) {
-         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty with id " + id + " not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty with id " + id + " not found");
         }else{
             thirdPartyService.sendMoney(accountIdDTO, amountIdDTO);
         }
     }
-
-    @PatchMapping("user/third-party/{id}/receive-money")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void receiveMoney(@PathVariable String id, @RequestHeader @Valid HashedKeyDTO HashedKeyDTO, @RequestBody @Valid Optional<AccountIdDTO> accountIdDTO, @RequestBody @Valid AmountDTO amountIdDTO) {
-
-        if(thirdPartyRepository.findById(Long.valueOf(id)).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty with id " + id + " not found");
-        }else{
-            thirdPartyService.getMoney(accountIdDTO, amountIdDTO);
-        }
-    }
-
 
 }
