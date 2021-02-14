@@ -7,6 +7,7 @@ import com.ironhack.Midtem.Project.controller.dto.CreditCardDTO;
 import com.ironhack.Midtem.Project.model.AccountHolder;
 import com.ironhack.Midtem.Project.model.CreditCard;
 import com.ironhack.Midtem.Project.model.Saving;
+import com.ironhack.Midtem.Project.service.interfaces.ICreditCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
-public class CreditCardService {
+public class CreditCardService implements ICreditCardService {
 
     @Autowired
     private CreditCardRepository creditCardRepository;

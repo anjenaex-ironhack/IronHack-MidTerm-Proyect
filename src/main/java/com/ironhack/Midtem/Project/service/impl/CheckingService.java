@@ -8,6 +8,7 @@ import com.ironhack.Midtem.Project.controller.dto.CheckingDTO;
 import com.ironhack.Midtem.Project.enums.Status;
 import com.ironhack.Midtem.Project.model.AccountHolder;
 import com.ironhack.Midtem.Project.model.Checking;
+import com.ironhack.Midtem.Project.service.interfaces.ICheckingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.time.Period;
 import java.util.Optional;
 
 @Service
-public class CheckingService {
+public class CheckingService implements ICheckingService {
 
     @Autowired
     private CheckingRepository checkingRepository;

@@ -8,13 +8,14 @@ import com.ironhack.Midtem.Project.enums.Status;
 import com.ironhack.Midtem.Project.model.Account;
 import com.ironhack.Midtem.Project.model.AccountHolder;
 import com.ironhack.Midtem.Project.model.StudentChecking;
+import com.ironhack.Midtem.Project.service.interfaces.IStudentCheckingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class StudentCheckingService {
+public class StudentCheckingService implements IStudentCheckingService {
 
     @Autowired
     private StudentCheckingRepository studentCheckingRepository;

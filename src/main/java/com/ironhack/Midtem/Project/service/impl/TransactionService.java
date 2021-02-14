@@ -4,6 +4,7 @@ import com.ironhack.Midtem.Project.Repository.*;
 import com.ironhack.Midtem.Project.Utils.Money;
 import com.ironhack.Midtem.Project.enums.Status;
 import com.ironhack.Midtem.Project.model.*;
+import com.ironhack.Midtem.Project.service.interfaces.ITransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TransactionService {
+public class TransactionService implements ITransactionService {
 
     @Autowired
     private AccountRepository accountRepository;

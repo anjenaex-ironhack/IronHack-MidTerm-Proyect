@@ -9,6 +9,7 @@ import com.ironhack.Midtem.Project.model.Account;
 import com.ironhack.Midtem.Project.model.CreditCard;
 import com.ironhack.Midtem.Project.model.Saving;
 import com.ironhack.Midtem.Project.model.StudentChecking;
+import com.ironhack.Midtem.Project.service.interfaces.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AccountService {
+public class AccountService implements IAccountService {
 
     @Autowired
     private AccountRepository accountRepository;

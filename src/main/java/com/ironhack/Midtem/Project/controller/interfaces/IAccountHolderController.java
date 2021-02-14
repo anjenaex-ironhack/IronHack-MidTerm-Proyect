@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-public interface IAccountHolderInterface {
+public interface IAccountHolderController {
 
     ///================================================
     //Get Methods

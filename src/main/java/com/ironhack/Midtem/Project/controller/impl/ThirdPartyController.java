@@ -2,7 +2,7 @@ package com.ironhack.Midtem.Project.controller.impl;
 
 import com.ironhack.Midtem.Project.Repository.ThirdPartyRepository;
 import com.ironhack.Midtem.Project.controller.dto.*;
-import com.ironhack.Midtem.Project.controller.interfaces.IThirdPartyInterface;
+import com.ironhack.Midtem.Project.controller.interfaces.IThirdPartyController;
 import com.ironhack.Midtem.Project.service.impl.ThirdPartyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-public class ThirdPartyController implements IThirdPartyInterface {
+public class ThirdPartyController implements IThirdPartyController {
 
     @Autowired
     private ThirdPartyRepository thirdPartyRepository;

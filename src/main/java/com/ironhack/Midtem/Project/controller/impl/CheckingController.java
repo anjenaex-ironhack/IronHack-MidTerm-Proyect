@@ -2,7 +2,7 @@ package com.ironhack.Midtem.Project.controller.impl;
 
 import com.ironhack.Midtem.Project.Repository.CheckingRepository;
 import com.ironhack.Midtem.Project.controller.dto.CheckingDTO;
-import com.ironhack.Midtem.Project.controller.interfaces.ICheckingInterface;
+import com.ironhack.Midtem.Project.controller.interfaces.ICheckingController;
 import com.ironhack.Midtem.Project.service.impl.CheckingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-public class CheckingController implements ICheckingInterface {
+public class CheckingController implements ICheckingController {
 
     @Autowired
     private CheckingRepository checkingRepository;

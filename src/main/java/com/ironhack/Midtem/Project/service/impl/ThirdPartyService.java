@@ -8,6 +8,7 @@ import com.ironhack.Midtem.Project.controller.dto.AmountDTO;
 import com.ironhack.Midtem.Project.controller.dto.ThirdPartyDTO;
 import com.ironhack.Midtem.Project.model.Account;
 import com.ironhack.Midtem.Project.model.ThirdParty;
+import com.ironhack.Midtem.Project.service.interfaces.IThirdPartyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.Currency;
 import java.util.Optional;
 
 @Service
-public class ThirdPartyService {
+public class ThirdPartyService implements IThirdPartyService {
 
     @Autowired
     private ThirdPartyRepository thirdPartyRepository;

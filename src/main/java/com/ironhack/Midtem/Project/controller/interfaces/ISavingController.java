@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.Valid;
 
-public interface ISavingInterface {
+public interface ISavingController {
     //================================================
     //Post Methods
     //================================================

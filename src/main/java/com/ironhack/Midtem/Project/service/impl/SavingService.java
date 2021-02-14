@@ -9,6 +9,7 @@ import com.ironhack.Midtem.Project.model.AccountHolder;
 import com.ironhack.Midtem.Project.model.Checking;
 import com.ironhack.Midtem.Project.model.CreditCard;
 import com.ironhack.Midtem.Project.model.Saving;
+import com.ironhack.Midtem.Project.service.interfaces.ISavingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
-public class SavingService {
+public class SavingService implements ISavingService {
 
     @Autowired
     private SavingRepository savingRepository;

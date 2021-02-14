@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.Valid;
 
-public interface ICheckingInterface {
+public interface ICheckingController {
 
     //================================================
     //Post Methods

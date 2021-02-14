@@ -2,7 +2,7 @@ package com.ironhack.Midtem.Project.controller.impl;
 
 import com.ironhack.Midtem.Project.Repository.AccountHolderRepository;
 import com.ironhack.Midtem.Project.controller.dto.AccountHolderDTO;
-import com.ironhack.Midtem.Project.controller.interfaces.IAccountHolderInterface;
+import com.ironhack.Midtem.Project.controller.interfaces.IAccountHolderController;
 import com.ironhack.Midtem.Project.model.AccountHolder;
 import com.ironhack.Midtem.Project.service.impl.AccountHolderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class AccountHolderController  implements IAccountHolderInterface {
+public class AccountHolderController  implements IAccountHolderController {
 
     @Autowired
     private AccountHolderRepository accountHolderRepository;
