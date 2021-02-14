@@ -68,7 +68,7 @@ public class TransactionController implements ITransactionController {
             if(checkIfPrimaryOwnerHasTheName || checkIfSecondaryOwnerHasTheName) {
 
                 Money money = new Money(transferDTO.getTransferAmount(), transferDTO.getTransferCurrency());
-                transactionService.makeATransaction(id,transferDTO.getBeneficiaryId().toString(), money);
+                transactionService.makeATransaction(id,transferDTO.getBeneficiaryId().toString(), money, userDetails);
 
             }else{
 

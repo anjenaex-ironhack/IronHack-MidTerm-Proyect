@@ -47,7 +47,7 @@ In this project, into the resources folder, there is a "queries.sql" and a AppBa
 - `/accounts` : get all the accounts, access admin.
 - `/accounts/name/{name}` : get all the accounts with a specific, access admin.
 - `/account/id/{id}` : get a specific account by id, access admin, AccountHolder (only if the AccountHolder owns the account).
-- `/account/{id}/balance` : get a specific balance by id, access admin, AccountHolder (only if the AccountHolder owns the account).
+- `/account/balance/{id}` : get a specific balance by id, access admin, AccountHolder (only if the AccountHolder owns the account).
 - `/user/account-holders` : get all the AccountsHolders, access admin.
 - `/user/account-holder` : get an AccountHolder by id or dni, access admin. This route has two optional params, id and dni.
 
@@ -58,14 +58,14 @@ In this project, into the resources folder, there is a "queries.sql" and a AppBa
 - `/create/checking-account` : create a checkingAccount (or a StudentCheckingAccount if the primaryAccountHolder is lower than 18 years old), access admin.
 - `/create/saving-account` : create an saving account, access admin.
 - `/create/credit-card` : create an credit card account, access admin.
-- `/account/{id}/transfer-money` : send money from an account to another account and create a transaction. accountHolder access. You need to send as params, the id of the beneficiary account, the id of one of the accountHolders and the amount you want to transfer.
-- `/user/third-party/{íd}/receive-money`: send money from an account to a thirdParty and create a transaction. accountHolder access. You need to send the hashed key of the thirdParty as header, and also the params id of the account who pais and the amount.
+- `/account/transfer-money/{id}` : send money from an account to another account and create a transaction. accountHolder access. You need to send as params, the id of the beneficiary account, the id of one of the accountHolders and the amount you want to transfer.
 
 
 - **PATCH**
 
 - `/account/{id}/balance` : update a balance, access admin.
-- `/user/third-party/{id}/send-money`: send money from a thirdParty to an account. thirdParty access. thirdParty access. You need to send the hashed key of the thirdParty as header, and also the params id of the account who get the money and the amount.
+- `/user/third-party/send-money/{id}`: send money from a thirdParty to an account. thirdParty access. thirdParty access. You need to send the hashed key of the thirdParty as header, and also the params id of the account who get the money and the amount.
+- `/user/third-party/receive-money/{id}`: send money from an account to a thirdParty and create a transaction. accountHolder access. You need to send the hashed key of the thirdParty as header, and also the params id of the account who pais and the amount.
 
 
 ## Authors

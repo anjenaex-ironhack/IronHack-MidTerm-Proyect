@@ -58,7 +58,7 @@ public class AccountController implements IAccountController {
     public Account getAccountById(@PathVariable String id){
         return accountRepository.findById(Long.valueOf(id)).get();
     }
-    @GetMapping("/account/{id}/balance")
+    @GetMapping("/account/balance/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Money getBalanceById(@PathVariable String id){
         return accountService.getBalanceById(id);
@@ -69,7 +69,7 @@ public class AccountController implements IAccountController {
     //Patch Methods
     //================================================
 
-    @PatchMapping("/account/{id}/balance/")
+    @PatchMapping("/account/balance//{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateBalance (@PathVariable String id, @RequestBody @Valid BalanceDTO balanceDTO){
             accountService.updateBalance(id, balanceDTO);

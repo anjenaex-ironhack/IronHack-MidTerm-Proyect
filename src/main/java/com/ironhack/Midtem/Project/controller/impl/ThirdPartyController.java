@@ -35,17 +35,6 @@ public class ThirdPartyController /*implements IThirdPartyController*/ {
         thirdPartyService.createThirdParty(thirdPartyDTO);
     }
 
-    @PostMapping("user/third-party/{id}/receive-money")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void receiveMoney(@PathVariable String id, @RequestBody @Valid AccountIdDTO accountIdDTO, @RequestBody @Valid AmountDTO amountIdDTO) {
-
-        if(thirdPartyRepository.findById(Long.valueOf(id)).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty with id " + id + " not found");
-        }else{
-            thirdPartyService.getMoney(accountIdDTO, amountIdDTO);
-        }
-    }
-
     //================================================
     //Patch Methods
     //================================================
@@ -62,6 +51,17 @@ public class ThirdPartyController /*implements IThirdPartyController*/ {
 //        }else{
 //            thirdPartyService.sendMoney(id, hashedKey, amountDTO, secretKey, userDetails);
 //        }
+    }
+
+    @PatchMapping("user/third-party/receive-money/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void receiveMoney(@PathVariable String id, @RequestBody @Valid AccountIdDTO accountIdDTO, @RequestBody @Valid AmountDTO amountIdDTO) {
+
+        if(thirdPartyRepository.findById(Long.valueOf(id)).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty with id " + id + " not found");
+        }else{
+            thirdPartyService.getMoney(accountIdDTO, amountIdDTO);
+        }
     }
 
 }
