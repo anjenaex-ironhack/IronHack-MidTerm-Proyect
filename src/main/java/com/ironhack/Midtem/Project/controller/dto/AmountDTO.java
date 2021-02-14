@@ -8,9 +8,8 @@ import java.util.Currency;
 public class AmountDTO {
 
     @NotNull
-    @Pattern(regexp = "[0,9]+")
     private BigDecimal amount;
-    private Currency currency;
+    private String currency;
 
     public BigDecimal getAmount() {
         return amount;
@@ -20,11 +19,11 @@ public class AmountDTO {
         this.amount = amount;
     }
 
-    public Currency getCurrency() {
+    public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
+    public void setCurrency(String currency) {
         this.currency = currency;
     }
 }

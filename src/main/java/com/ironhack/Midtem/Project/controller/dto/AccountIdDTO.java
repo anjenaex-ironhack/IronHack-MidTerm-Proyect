@@ -6,7 +6,6 @@ import javax.validation.constraints.Pattern;
 public class AccountIdDTO {
 
     @NotNull
-    @Pattern(regexp = "[0,9]+")
     private Long id;
 
     public Long getId() {

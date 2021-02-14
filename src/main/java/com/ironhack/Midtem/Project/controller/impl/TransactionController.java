@@ -11,6 +11,8 @@ import com.ironhack.Midtem.Project.service.impl.AccountService;
 import com.ironhack.Midtem.Project.service.impl.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -38,6 +40,9 @@ public class TransactionController implements ITransactionController {
     @PostMapping("/account/{id}/transfer-money")
     @ResponseStatus(HttpStatus.CREATED)
     public void sendMoneyAccountToAccount(@PathVariable String id, @RequestBody @Valid TransferDTO transferDTO){
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
 
         Optional<Account> account = accountRepository.findById(Long.valueOf(id));
         //Check sender account exist

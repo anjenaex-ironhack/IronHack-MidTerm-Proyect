@@ -29,6 +29,6 @@ public interface IThirdPartyService {
     //Patch Methods
     //================================================
 
-    public void sendMoney(Optional<AccountIdDTO> accountIdDTO, AmountDTO amountDTO);
-    public void getMoney(Optional<AccountIdDTO> accountIdDTO, AmountDTO amountDTO);
+    public void sendMoney(AccountIdDTO accountIdDTO, AmountDTO amountDTO);
+    public void getMoney(AccountIdDTO accountIdDTO, AmountDTO amountDTO);
 }

@@ -7,6 +7,7 @@ import com.ironhack.Midtem.Project.model.*;
 import com.ironhack.Midtem.Project.service.interfaces.ITransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TransactionService implements ITransactionService {
+public class TransactionService /*implements ITransactionService*/ {
 
     @Autowired
     private AccountRepository accountRepository;
@@ -39,14 +40,17 @@ public class TransactionService implements ITransactionService {
     //================================================
 
     //The main class in the service, here we call the method with the logic in transactions account to account
-    public void makeATransaction(String senderAccountId, String beneficiaryAccountId, Money transactionBalance) {
+    public void makeATransaction(String senderAccountId, String beneficiaryAccountId, Money transactionBalance, UserDetails userDetails) {
 
         //Saving the account of the sender and beneficiary into variables
         Optional<Account> sender = accountRepository.findById(Long.valueOf(senderAccountId));
         Optional<Account> beneficiary = accountRepository.findById(Long.valueOf(beneficiaryAccountId));
 
+
         //Check that both accounts exist
         if(sender.isPresent() && beneficiary.isPresent()){
+
+            //Comprobar si el usuario es el correcto
 
             //Check if the account is active
             checkActive(sender,beneficiary);

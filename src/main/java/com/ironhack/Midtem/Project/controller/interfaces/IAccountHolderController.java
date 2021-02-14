@@ -19,7 +19,7 @@ public interface IAccountHolderController {
     //Get Methods
     //=================================================
 
-    public List<AccountHolder> getAllAccountHolders (String id);
+    public List<AccountHolder> getAllAccountHolders ();
     public AccountHolder getAccountHolder (Optional<String> id, Optional<String> dni);
     //================================================
     //Get Methods

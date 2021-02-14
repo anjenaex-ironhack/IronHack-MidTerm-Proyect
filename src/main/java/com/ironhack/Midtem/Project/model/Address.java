@@ -17,9 +17,9 @@ public class Address {
     private String city;
     private String country;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "address")
-    private AccountHolder accountHolder;
+//    @JsonIgnore
+//    @OneToOne(mappedBy = "address")
+//    private AccountHolder accountHolder;
 
 
     public Address() {

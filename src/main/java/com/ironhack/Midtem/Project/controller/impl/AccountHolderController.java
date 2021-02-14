@@ -29,7 +29,7 @@ public class AccountHolderController  implements IAccountHolderController {
 
     @GetMapping("user/account-holders")
     @ResponseStatus(HttpStatus.OK)
-    public List<AccountHolder> getAllAccountHolders (String id) {
+    public List<AccountHolder> getAllAccountHolders () {
         return accountHolderRepository.findAll();
     }
 

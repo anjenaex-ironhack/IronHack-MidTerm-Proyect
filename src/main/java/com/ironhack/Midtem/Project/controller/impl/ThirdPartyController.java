@@ -1,11 +1,14 @@
 package com.ironhack.Midtem.Project.controller.impl;
 
+import com.ironhack.Midtem.Project.Repository.AccountRepository;
 import com.ironhack.Midtem.Project.Repository.ThirdPartyRepository;
 import com.ironhack.Midtem.Project.controller.dto.*;
 import com.ironhack.Midtem.Project.controller.interfaces.IThirdPartyController;
 import com.ironhack.Midtem.Project.service.impl.ThirdPartyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -13,12 +16,14 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-public class ThirdPartyController implements IThirdPartyController {
+public class ThirdPartyController /*implements IThirdPartyController*/ {
 
     @Autowired
     private ThirdPartyRepository thirdPartyRepository;
     @Autowired
     private ThirdPartyService thirdPartyService;
+    @Autowired
+    private AccountRepository accountRepository;
 
     //================================================
     //Post Methods
@@ -30,13 +35,9 @@ public class ThirdPartyController implements IThirdPartyController {
         thirdPartyService.createThirdParty(thirdPartyDTO);
     }
 
-    //================================================
-    //Post Methods
-    //================================================
-
     @PostMapping("user/third-party/{id}/receive-money")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void receiveMoney(@PathVariable String id, @RequestHeader @Valid HashedKeyDTO HashedKeyDTO, @RequestBody @Valid Optional<AccountIdDTO> accountIdDTO, @RequestBody @Valid AmountDTO amountIdDTO) {
+    public void receiveMoney(@PathVariable String id, @RequestBody @Valid AccountIdDTO accountIdDTO, @RequestBody @Valid AmountDTO amountIdDTO) {
 
         if(thirdPartyRepository.findById(Long.valueOf(id)).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty with id " + id + " not found");
@@ -46,18 +47,21 @@ public class ThirdPartyController implements IThirdPartyController {
     }
 
     //================================================
-    //Post Methods
+    //Patch Methods
     //================================================
 
-    @PatchMapping("user/third-party/{id}/send-money")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void sendMoney(@PathVariable String id, @RequestHeader @Valid HashedKeyDTO HashedKeyDTO, @RequestBody @Valid Optional<AccountIdDTO> accountIdDTO, @RequestBody @Valid AmountDTO amountIdDTO) {
+    @PatchMapping("user/third-party/send-money/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void sendMoney(@PathVariable Long id, @RequestHeader String hashedKey,  @RequestBody @Valid AmountDTO amountDTO, @RequestParam String secretKey) {
 
-        if(thirdPartyRepository.findById(Long.valueOf(id)).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty with id " + id + " not found");
-        }else{
-            thirdPartyService.sendMoney(accountIdDTO, amountIdDTO);
-        }
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+
+//        if(accountRepository.findById(id).isEmpty()) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account with id " + id + " not found");
+//        }else{
+//            thirdPartyService.sendMoney(id, hashedKey, amountDTO, secretKey, userDetails);
+//        }
     }
 
 }

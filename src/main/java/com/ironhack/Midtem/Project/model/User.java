@@ -5,6 +5,7 @@ import com.ironhack.Midtem.Project.model.Role;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -16,8 +17,10 @@ public class User {
     private String name;
     //@JsonIgnore
     private String password;
-    @OneToMany(mappedBy = "user")
-    private List<Role> roleList;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Role> roleList;
 
     public User() {
     }
@@ -54,13 +57,12 @@ public class User {
         this.password = password;
     }
 
-    //TODO: Check this
-    @JsonIgnore
-    public List<Role> getRoleList() {
+
+    public Set<Role> getRoleList() {
         return roleList;
     }
 
-    public void setRoleList(List<Role> roleList) {
+    public void setRoleList(Set<Role> roleList) {
         this.roleList = roleList;
     }
 }

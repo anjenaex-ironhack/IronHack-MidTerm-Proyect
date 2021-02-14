@@ -22,8 +22,8 @@ public interface IThirdPartyController {
     //Post Methods
     //================================================
 
-    public void sendMoney(String id, HashedKeyDTO HashedKeyDTO, Optional<AccountIdDTO> accountIdDTO,AmountDTO amountIdDTO);
+    public void sendMoney(String id, HashedKeyDTO HashedKeyDTO, AccountIdDTO accountIdDTO,AmountDTO amountIdDTO);
 
-    public void receiveMoney(String id, HashedKeyDTO HashedKeyDTO, Optional<AccountIdDTO> accountIdDTO, AmountDTO amountIdDTO);
+    public void receiveMoney(String id, HashedKeyDTO HashedKeyDTO, AccountIdDTO accountIdDTO, AmountDTO amountIdDTO);
 
 }
