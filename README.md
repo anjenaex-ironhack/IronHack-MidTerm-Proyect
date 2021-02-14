@@ -7,11 +7,8 @@ Each have different properties.
 
 There is there kind of user in the system: Admin, AccountHolder and ThirdParty
 
-An admin can create Add ThirdsPartys to the system, access to any account and modify balances.
-
-An AccountHolder can check his own accounts and send money.
-
-A ThirdParty can send or receive Money.
+At the moment the API is not finihed, so all tests, thirParties transactions (in process at the moment) and securities (is in process at the moment) fail.
+The last "working" version, where you can create different accounts, check info and make transactions is in the tag version: 0.5.
 
 The API also includes fraud detection, and automatic management of interestRate.
 
